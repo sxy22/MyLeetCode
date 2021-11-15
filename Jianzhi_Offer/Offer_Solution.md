@@ -1,0 +1,1656 @@
+# 剑指Offer
+
+## [剑指Offer 03. 数组中重复的数字](https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)
+
+找出数组中重复的数字。
+
+
+在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
+
+示例 1：
+
+输入：
+[2, 3, 1, 0, 2, 5, 3]
+输出：2 或 3 
+
+
+
+思路一
+
+使用hashset
+
+```java
+class Solution {
+    public int findRepeatNumber(int[] nums) {
+        HashSet set = new HashSet();
+
+        for (int num : nums) {
+            boolean b = set.add(num);
+            if (b == false){
+                return num;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+思路二
+
+所有数字都在 0～n-1 的范围内， 可用原数组作为hashset
+
+1. 检查nums[i] 是否等于i， 若是则i++
+2. 若不是，nums[i]的正确下标为nums[i]， 看是否相等，相等则找到了重复数字
+3. 交换 下标 i 和 nums[i]， 继续在i处检查
+
+```python
+class Solution:
+    def findRepeatNumber(self, nums: List[int]) -> int:
+        i = 0 
+        while i < len(nums):
+            value = nums[i]
+            if i == value:
+                i += 1
+                continue
+            idx_value = nums[value]
+            if value == idx_value:
+                return value 
+            nums[i], nums[value] = nums[value], nums[i]
+```
+
+
+
+## [剑指Offer 04. 二维数组中的查找](https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/)
+
+在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个高效的函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+
+ 
+
+示例:
+
+现有矩阵 matrix 如下：
+
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+
+给定 target = 5，返回 true。
+
+给定 target = 20，返回 false。
+
+
+
+**思路**
+
++ 从右上角元素开始查找
++ target < matrix\[i\]\[j\], j -= 1
++ target > matrix\[i\]\[j\], i += 1
+
+
+
+## [剑指 Offer 05. 替换空格](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)
+
+请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
+
+ 
+
+示例 1：
+
+输入：s = "We are happy."
+输出："We%20are%20happy."
+
+
+
++ 注意stringbuilder的使用
++ 可以先指定一个长度，避免扩容
+
+
+
+```java
+class Solution {
+    public String replaceSpace(String s) {
+        StringBuilder res = new StringBuilder(s.length() * 3);
+        for (int i = 0; i < s.length(); i++){
+            if (s.charAt(i) == ' '){
+                res.append("%20");
+            }else{
+                res.append(s.charAt(i));
+            }
+        }
+        return res.toString();
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+## [剑指Offer 07. 重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
+
+输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+
+ 
+
+例如，给出
+
+前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+
+返回如下的二叉树：
+
+ 3
+/ \
+
+9  20
+    /  \
+   15   7
+
+
+
+**思路**
+
++ 前序遍历的首元素 为 树的根节点 node 的值
+
++ 在中序遍历中搜索根节点 node 的索引 ，可将 中序遍历 划分为 [ 左子树 | 根节点 | 右子树 ] 
+
++ 根据中序遍历中的左 / 右子树的节点数量，可将 前序遍历 划分为 [ 根节点 | 左子树 | 右子树 ] 
+
++ 使用pre_left, pre_right, in_left, in_right 记录范围，并使用哈希表记录中序遍历中元素，可快速查找，避免切片操作
+
+  
+
+```java
+class Solution {
+    HashMap<Integer, Integer> map;
+    int[] preorder;
+    int[] inorder;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        this.preorder = preorder;
+        this.inorder = inorder;
+        // map 记录 in_order 中的元素下标
+        this.map = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        return this.recur(0, preorder.length - 1, 0 ,inorder.length - 1);
+    }
+
+    TreeNode recur(int pre_left, int pre_right, int in_left, int in_right) {
+        if (pre_left > pre_right) {
+            return null;
+        }
+        // 取出root
+        int head = preorder[pre_left];
+        // 找到root 在in_order中的下标
+        int in_mid = map.get(head);
+        // 左子树长度为 in_mid - in_left 
+        int pre_mid = pre_left + in_mid - in_left;
+        TreeNode root = new TreeNode(head);
+        root.left = this.recur(pre_left + 1, pre_mid, in_left, in_mid - 1);
+        root.right = this.recur(pre_mid + 1, pre_right, in_mid + 1, in_right);
+        return root;
+    }
+}
+```
+
+## [剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+
+示例 1：
+
+输入：
+["CQueue","appendTail","deleteHead","deleteHead"]
+[[],[3],[],[]]
+输出：[null,null,3,-1]
+
+```python
+class CQueue:
+
+    def __init__(self):
+        # stack1 接受新的值
+        # stack2 辅助pop操作
+        self.stack1 = []
+        self.stack2 = []
+
+    def appendTail(self, value: int) -> None:
+        self.stack1.append(value)
+
+    def deleteHead(self) -> int:
+        # stack2中有元素，直接pop
+        if len(self.stack2) != 0:
+            return self.stack2.pop()
+        if len(self.stack1) == 0:
+            return -1
+        # 将1中的元素换入2中，再pop
+        while len(self.stack1) != 0:
+            self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
+```
+
+
+
+## [剑指 Offer 11. 旋转数组的最小数字](https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/)
+
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。  
+
+示例 1：
+
+输入：[3,4,5,1,2]
+输出：1
+
++ 二分查找，有重复 数字
++ numbers[i] < numbers[j]， 则此段有序，i位置即为最小值，直接返回
++ numbers[mid] < numbers[j]， 右段有序，可能 范围 i - mid
++ numbers[mid] > numbers[j], 右段无序，可能范围mid+1 - j
++ numbers[mid] == numbers[j]， 无法判断， j -= 1, mid还在，不会错过答案
+
+```python
+class Solution:
+    def minArray(self, numbers: [int]) -> int:
+        i, j = 0, len(numbers)-1
+        while i < j:
+            if numbers[i] < numbers[j]:
+                return numbers[i]
+            mid = i + (j - i) // 2
+            if numbers[mid] < numbers[j]:
+                j = mid
+            elif numbers[mid] > numbers[j]:
+                i = mid + 1
+            else:
+                j -= 1
+        return numbers[i]
+```
+
+
+
+
+
+
+
+
+
+## [剑指 Offer 15. 二进制中1的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
+
+请实现一个函数，输入一个整数（以二进制串形式），输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
+
+ 
+
+示例 1：
+
+输入：00000000000000000000000000001011
+输出：3
+解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。
+
+
+
+**思路1**
+
++ 和1 与操作， 可以得到最后一位的情况
++ 右移
+
+```java
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int ans = 0;
+        while (n != 0) {
+            int last = n & 1;
+            if (last == 1) {
+                ans += 1;
+            }
+            n = n >>> 1;
+        }
+        return ans;
+    }
+}
+```
+
+
+
+**思路2**
+
++ n & n - 1 会使n最右边的1变成0
++ 记录多少次操作会使n变为0
+
+```java
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int ans = 0;
+        while (n != 0) {
+            ans += 1;
+            n = n & (n - 1);
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer 16. 数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)
+
+实现 pow(x, n) ，即计算 x 的 n 次幂函数（即，xn）。不得使用库函数，同时不需要考虑大数问题。
+
+ 
+
+示例 1：
+
+输入：x = 2.00000, n = 10
+输出：1024.00000
+
+
+
+**思路**
+
++ $x^n = x^{n / 2}x^{n / 2}$
++ n奇偶数
++ 递归
+
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1
+        sign = 0
+        if n < 0:
+            sign = 1
+            n = -1 * n 
+        res = self.helper(x, n)
+        if sign == 1:
+            return 1 / res 
+        return res 
+    def helper(self, x, n):
+        if n == 1:
+            return x 
+        temp = self.helper(x, n // 2)
+        if n & 1 == 0:
+            return temp * temp
+        else:
+            return x * temp * temp
+```
+
+
+
+## [剑指 Offer 18. 删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
+
+给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。
+
+返回删除后的链表的头节点。
+
+示例 1:
+
+输入: head = [4,5,1,9], val = 5
+输出: [4,1,9]
+解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9.
+
+**思路**
+
++ 建立dummy head
++ 找到需要删除节点的前一个节点
+
+```python
+class Solution:
+    def deleteNode(self, head: ListNode, val: int) -> ListNode:
+        pre_head = ListNode(-1)
+        pre_head.next = head 
+        node = pre_head
+        while node is not None:
+            if node.next.val == val:
+                node.next = node.next.next
+                return pre_head.next
+            node = node.next
+```
+
+
+
+## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
+
+输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位于数组的后半部分。
+
+示例：
+
+输入：nums = [1,2,3,4]
+输出：[1,3,2,4] 
+注：[3,1,2,4] 也是正确的答案之一。
+
+
+
+**思路**
+
++ 双指针，交换靠前的偶数和靠后的奇数
+
+```java
+class Solution {
+    public int[] exchange(int[] nums) {
+        int i = 0;
+        int j = nums.length - 1;
+
+        while (i < j) {
+            // 找到从i开始第一个偶数
+            while (i < nums.length && (nums[i] & 1) == 1) {
+                i++;
+            }
+            // 找到从j开始向前第一个奇数
+            while (j >= 0 && (nums[j] & 1) == 0) {
+                j--;
+            }
+            if (i >= j) {
+                break;
+            }
+            // 如 i < j 则交换
+            int temp = nums[j];
+            nums[j] = nums[i];
+            nums[i] = temp;
+            i++;
+            j--;
+        }
+        return nums;
+    }
+}
+```
+
+## [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
+
+输入一个链表，输出该链表中倒数第k个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。
+
+例如，一个链表有 6 个节点，从头节点开始，它们的值依次是 1、2、3、4、5、6。这个链表的倒数第 3 个节点是值为 4 的节点。
+
+ 
+
+示例：
+
+给定一个链表: 1->2->3->4->5, 和 k = 2.
+
+返回链表 4->5.
+
+
+
+**思路**
+
++ 让一个节点先走k步
++ 两个节点一起走
++ 快指针到none，则慢指针为倒数第k个节点
+
+```python
+class Solution:
+    def getKthFromEnd(self, head: ListNode, k: int) -> ListNode:
+        head1, head2 = head, head
+        while k > 0:
+            head2 = head2.next
+            k -= 1
+        while head2 is not None:
+            head1 = head1.next
+            head2 = head2.next
+        return head1
+```
+
+## [剑指 Offer 24. 反转链表](https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/)
+
+见 链表 206 题
+
+## [剑指 Offer 26. 树的子结构](https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/)
+
+输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)
+
+B是A的子结构， 即 A中有出现和B相同的结构和节点值。
+
+例如:给定的树 A:
+
+例如:
+给定的树 A:
+
+​     3
+​    / \
+
+   4   5
+  / \
+ 1   2
+
+给定的树 B：
+
+   4 
+  /
+ 1
+返回 true，因为 B 与 A 的一个子树拥有相同的结构和节点值。
+
+
+
+**思路**
+
++ 每个节点判断，是否包含B
++ 注意判断条件
+
+```python
+class Solution:
+    def isSubStructure(self, A: TreeNode, B: TreeNode) -> bool:
+        if A is None or B is None:
+            return False 
+        if A.val == B.val:
+            if self.twosame(A, B) is True:
+                return True 
+        # 深度优先遍历A, 对A的每一个节点进行判断
+        return self.isSubStructure(A.left, B) or self.isSubStructure(A.right, B)
+
+
+    def twosame(self, node1, node2):
+        # node2是None, 无需考虑node1
+        if node2 is None:
+            return True
+        # node1到底了，node2还没，肯定不是子结构
+        elif node1 is None:
+            return False
+        # 节点值判断
+        if node1.val != node2.val:
+            return False
+        # 向下递归
+        return self.twosame(node1.left, node2.left) and self.twosame(node1.right, node2.right)
+```
+
+
+
+## [剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
+
+请完成一个函数，输入一个二叉树，该函数输出它的镜像。
+
+**递归**
+
+```python
+class Solution:
+    def mirrorTree(self, root: TreeNode) -> TreeNode:
+        if root is None:
+            return None
+        leftnode = root.left 
+        root.left = self.mirrorTree(root.right)
+        root.right = self.mirrorTree(leftnode)
+        return root
+```
+
+
+
+**迭代**
+
++ 利用类似广度优先遍历，遍历每一个节点，并交换左右节点
+
+```python
+class Solution:
+    def mirrorTree(self, root: TreeNode) -> TreeNode:
+        if root is None:
+            return None
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node.left is not None:
+                stack.append(node.left)
+            if node.right is not None:
+                stack.append(node.right)
+            # 交换pop出来的节点的左右
+            node.left, node.right = node.right, node.left
+        return root
+```
+
+
+
+## [剑指 Offer 28. 对称的二叉树](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/)
+
+请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
+
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+
+​    1
+
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+
+```python
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        if root is None:
+            return True
+        else:
+            return self.twosym(root.left, root.right)
+
+
+    def twosym(self, node1, node2):
+        if node1 is None and node2 is None:
+            return True
+        if node1 is None or node2 is None:
+            return False
+        if node1.val != node2.val:
+            return False
+        return self.twosym(node1.left, node2.right) and self.twosym(node1.right, node2.left)
+```
+
+
+
+## [剑指 Offer 29. 顺时针打印矩阵](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
+
+```java
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new LinkedList<>();
+        int left = 0, top = 0;
+        int right = matrix[0].length - 1, bottom = matrix.length - 1;
+
+        while (left <= right && top <= bottom) {
+            // top, left -> top, right
+            for (int i = left; i <= right; i++) {
+                res.add(matrix[top][i]);
+            }
+            if (top == bottom) break;
+            // top + 1, right -> bottom, right
+            for (int i = top + 1; i <= bottom; i++) {
+                res.add(matrix[i][right]);
+            }
+            if (left == right) break;
+            // bottom, right - 1 -> bottom, left
+            for (int i = right - 1; i >= left; i--) {
+                res.add(matrix[bottom][i]);
+            }
+            // bottom - 1, left -> top + 1, left
+            for (int i = bottom - 1; i >= top + 1; i--) {
+                res.add(matrix[i][left]);
+            }
+            left++;
+            top++;
+            right--;
+            bottom--;
+        }
+        return res;
+    }
+}
+```
+
+
+
+## [剑指 Offer 31. 栈的压入、弹出序列](https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/)
+
+输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如，序列 {1,2,3,4,5} 是某栈的压栈序列，序列 {4,5,3,2,1} 是该压栈序列对应的一个弹出序列，但 {4,3,5,1,2} 就不可能是该压栈序列的弹出序列。
+
+ 
+
+示例 1：
+
+输入：pushed = [1,2,3,4,5], popped = [4,5,3,2,1]
+输出：true
+解释：我们可以按以下顺序执行：
+push(1), push(2), push(3), push(4), pop() -> 4,
+push(5), pop() -> 5, pop() -> 3, pop() -> 2, pop() -> 1
+
+
+
+**思路**
+
++ 模拟一个栈
++ 每加入一个数字后，判断能否pop
+
+```python
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        stack = []
+        idx = 0
+        for num in pushed:
+            stack.append(num)
+            while stack and stack[-1] == popped[idx]:
+                stack.pop()
+                idx += 1
+        return len(stack) == 0
+```
+
+
+
+## [剑指 Offer 32 - I. 从上到下打印二叉树](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)
+
+从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
+
+ 
+
+例如:
+给定二叉树: [3,9,20,null,null,15,7],
+
+​    3
+
+   / \
+  9  20
+    /  \
+   15   7
+
+返回：
+
+[3,9,20,15,7]
+
+
+
++ 广度优先遍历
++ 不需要考虑层数
+
+```python
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[int]:
+        queue = collections.deque()
+        queue.append(root)
+        res = []
+        while queue:
+            top = queue.popleft()
+            # None 可以进栈，但不输出
+            if top is not None:
+                res.append(top.val)
+                queue.append(top.left)
+                queue.append(top.right)
+        return res
+```
+
+
+
+## [剑指 Offer 32 - II. 从上到下打印二叉树 II](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
+
+从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+
+ 
+
+例如:
+给定二叉树: [3,9,20,null,null,15,7],
+
+​    3
+
+   / \
+  9  20
+    /  \
+   15   7
+
+返回其层次遍历结果：
+
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+
+
+
++ 广度优先遍历
++ 需要考虑层数，每一层需要单独一个循环
+
+
+
+```python
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if root is None:
+            return []
+
+        queue = collections.deque()
+        queue.append(root)
+        res = []
+        while len(queue) > 0:
+            # 记录当前层
+            cur_layer = []
+            # 此时queue中为所有当前层的节点，共循环len(queue)次
+            for _ in range(len(queue)):
+                top = queue.popleft()
+                cur_layer.append(top.val)
+                if top.left:
+                    queue.append(top.left)
+                if top.right:
+                    queue.append(top.right)
+            res.append(cur_layer)
+        return res
+```
+
+
+
+## [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
+
+![image-20210403125754679](https://gitee.com/sxy22/note_images/raw/master/image-20210403125754679.png)
+
+
+
+
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+"""
+class Solution:
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+        if root is None:
+            return None
+        self.pre = Node(-1)
+        dummy_node = self.pre
+        self.dfs(root)
+        head = dummy_node.right
+        tail = self.pre
+        head.left = tail
+        tail.right = head 
+        return head 
+
+
+    def dfs(self, root):
+        if root is None:
+            return 
+        self.dfs(root.left)
+        cur = root
+        self.pre.right = cur
+        cur.left = self.pre 
+        self.pre = cur
+        self.dfs(root.right)
+        return
+```
+
+
+
+## [剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
+
+输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+
+ 
+
+示例 1：
+
+输入：arr = [3,2,1], k = 2
+输出：[1,2] 或者 [2,1]
+
+
+
+**方法1**
+
++ 堆排序
++ 用一个大根堆实时维护数组的前 k小值。首先将前k个数插入大根堆中，随后从第 k+1个数开始遍历
++ 如果当前遍历到的数比大根堆的堆顶的数要小，就把堆顶的数弹出，再插入当前遍历到的数
++ 复杂度O(nlogk)
+
+
+
+```python
+import heapq as Heap
+class Solution:
+    def getLeastNumbers(self, arr: List[int], k: int) -> List[int]:
+        if k == 0:
+            return  []
+        # python中的heap是小根堆
+        heap = [-x for x in arr[:k]]
+        Heap.heapify(heap)
+
+        for i in range(k, len(arr)):
+            num = arr[i]
+            top = -heap[0]
+            if num < top:
+                Heap.heappop(heap)
+                Heap.heappush(heap, -num)
+            
+        res = [-x for x in heap]
+        return res 
+```
+
+**方法2 快排变形**
+
+```python
+class Solution:
+    def getLeastNumbers(self, arr: List[int], k: int) -> List[int]:
+        self.res = []
+        if len(arr) == k:
+            return arr 
+        
+        self.quicksearch(arr, 0, len(arr) - 1, k)
+        return self.res 
+    
+    def quicksearch(self, lst, left, right, k):
+        if right <= left:
+            return 
+        
+        i = left
+        j = right
+        mid = lst[left]
+        while i < j:
+            while i < j and lst[j] >= mid:
+                j-= 1
+            lst[i], lst[j] = lst[j], lst[i]
+            
+            while i < j and lst[i] <= mid:
+                i += 1
+            lst[i], lst[j] = lst[j], lst[i]
+        lst[i] = mid
+        cnt = i - left
+        if cnt == k - 1:
+            self.res.extend(lst[left:i+1])
+        elif cnt == k:
+            self.res.extend(lst[left:i])
+        elif cnt < k - 1:
+            self.res.extend(lst[left:i+1])
+            self.quicksearch(lst, i+1, right, k - cnt - 1)
+        else:
+            self.quicksearch(lst, left, i-1, k)
+        return
+```
+
+
+
+## [剑指 Offer 45. 把数组排成最小的数](https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/)
+
+输入一个非负整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+
+ 
+
+示例 1:
+
+输入: [10,2]
+输出: "102"
+
++ 自定义排序
++ java中自定义Comparator
+
+
+
+```java
+class Solution {
+    public String minNumber(int[] nums) {
+        // 比较器
+        Comparator<String> comp = new Comparator<>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String a = o1 + o2;
+                String b = o2 + o1;
+                if (a.compareTo(b) <= 0) return -1;
+                return 1;
+            }
+        };
+        String[] arr = new String[nums.length];
+        for(int i = 0;i < nums.length;i++){
+            arr[i] = String.valueOf(nums[i]);
+        }
+        Arrays.sort(arr, comp);
+        StringBuffer str = new StringBuffer();
+        for (String s : arr) {
+            str.append(s);
+        }
+        
+        return str.toString();
+    }
+}
+```
+
+
+
++ python3中自己写快速排序
+
+```python
+class Solution:
+    def minNumber(self, nums: List[int]) -> str:
+        L = len(nums)
+        nums = [str(num) for num in nums]
+        #快排
+        self.quick_sort(nums, 0, len(nums)-1)
+        return ''.join(nums)
+
+    def quick_sort(self, lst, L, R):
+        if L >= R:
+            return
+        i = L
+        j = R 
+        mid = lst[i]
+        while i < j:
+            while i < j and self.larger(lst[j], mid):
+                j -= 1
+            lst[i] = lst[j]
+            while  i < j and self.larger(mid, lst[i]):
+                i += 1
+            lst[j] = lst[i]
+
+        lst[i] = mid
+        self.quick_sort(lst, L, i - 1)
+        self.quick_sort(lst, i + 1, R)
+        
+    def larger(self, num1, num2):
+        if int(num1 + num2) >= int(num2 + num1):
+            return True
+        else:
+            return False
+```
+
+
+
++ python3中使用functools.cmp_to_key
+
+```python
+from functools import cmp_to_key
+class Solution:
+    def minNumber(self, nums: List[int]) -> str:
+        # 比较函数
+        def comp(s1, s2):
+            if s1 + s2 <= s2 + s1:
+                return -1
+            else:
+                return 1
+
+        nums = [str(num) for num in nums]
+        # 注意用法 sorted(arr, key=cmp_to_key(cmp))
+        nums.sort(key=cmp_to_key(comp))
+        return ''.join(nums)
+```
+
+## [剑指 Offer 46. 把数字翻译成字符串](https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/)
+
+给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。
+
+ 
+
+示例 1:
+
+输入: 12258
+输出: 5
+解释: 12258有5种不同的翻译，分别是"bccfi", "bwfi", "bczi", "mcfi"和"mzi"
+
++ 简单的dp
+
+```python
+class Solution:
+    def translateNum(self, num: int) -> int:
+        nums = str(num)
+        if len(nums) == 1:
+            return 1
+        dp = [1] * len(nums)
+        if self.helper(nums[0:2]):
+            dp[1] = 2
+        
+        for i in range(2, len(nums)):
+            dp[i] = dp[i-1]
+            if self.helper(nums[i-1:i+1]):
+                dp[i] += dp[i-2]
+        
+        return dp[-1]
+        
+    def helper(self, s):
+        if s >= '10' and s <= '25':
+            return True
+        return False
+```
+
+
+
+## [剑指 Offer 48. 最长不含重复字符的子字符串](https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/)
+
+与双指针 3题相同
+
+
+
+## [剑指 Offer 49. 丑数](https://leetcode-cn.com/problems/chou-shu-lcof/)
+
+我们把只包含质因子 2、3 和 5 的数称作丑数（Ugly Number）。求按从小到大的顺序的第 n 个丑数。
+
+示例:
+
+输入: n = 10
+输出: 12
+解释: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 是前 10 个丑数
+
+
+
+**思路动态规划**
+
+![image-20210410120459022](https://gitee.com/sxy22/note_images/raw/master/image-20210410120459022.png)
+
++ p2指，x2后大于当前位置前一个丑数，的最小的一个丑数
+
+```python
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        dp = [1] * n 
+        p2, p3, p5 = 0, 0, 0
+
+        for i in range(1, n):
+            n2 = dp[p2] * 2
+            n3 = dp[p3] * 3
+            n5 = dp[p5] * 5
+            dp[i] = min(n2, n3, n5)
+            
+            if n2 == dp[i]:
+                p2 += 1
+            if n3 == dp[i]:
+                p3 += 1
+            if n5 == dp[i]:
+                p5 += 1
+        
+        return dp[-1]
+```
+
+
+
+
+
+## [剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
+
+
+
+```
+输入: [7,5,6,4]
+输出: 5
+```
+
++ 使用归并排序
++ 考虑合并两个有序数组时，同时它们之间的逆序对个数，见代码
++ 总的来说就是分治的思想，分成两边，左边的逆序对+右边的逆序对+左右交互的逆序对
++ 排序可以降低计算左右交互的逆序对的时间复杂度，本来需要逐个比较，排序后只需要遍历一遍
+
+```python
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        L = len(nums)
+        temp = [0] * L 
+        res = self.merge_sort(nums, temp, 0, L - 1)
+        return res
+        
+    def merge_sort(self, nums, temp, l, r):
+        # 结束, 返回0，即没有逆序对
+        if l >= r:
+            return 0
+        mid = (l + r) // 2
+        # 分别计算两边的逆序对个数，并使两边成为有序数组
+        left_count = self.merge_sort(nums, temp, l, mid)
+        right_count = self.merge_sort(nums, temp, mid + 1, r)
+        # 两段已经有序,合并阶段
+        # 使用temp暂存 l -- r
+        i = l 
+        j = mid + 1
+        temp[l: r + 1] = nums[l: r + 1]
+        count = 0
+        for k in range(l, r + 1):
+            # 左边已经遍历完, 直接把右边加入
+            if i == mid + 1:
+                nums[k] = temp[j]
+                j += 1 
+            # 右边遍历完, 直接把左边加入
+            elif j == r + 1:
+                nums[k] = temp[i]
+                i += 1
+            # 不是逆序对
+            elif temp[i] <= temp[j]:
+                nums[k] = temp[i]
+                i += 1
+            # 发现是逆序对, i - j
+            # 此时i之后的都与j构成逆序对
+            # 共 mid - i + 1 组
+            else:
+                nums[k] = temp[j]
+                j += 1
+                count += mid - i + 1
+        # 合并完成，l -- r 有序
+        # 三者相加
+        return left_count + right_count + count
+```
+
+
+
+
+
+
+
+
+
+
+
+## [剑指 Offer 52. 两个链表的第一个公共节点](https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/)
+
++ 见链表160
+
+```java
+class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode node1 = headA;
+        ListNode node2 = headB;
+        while (node1 != node2) {
+            node1 = (node1 == null ? headB : node1.next);
+            node2 = (node2 == null ? headA : node2.next);
+        }
+        return node1;
+    }
+}
+```
+
+
+
+## [剑指 Offer 53 - I. 在排序数组中查找数字 I](https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
+
+统计一个数字在排序数组中出现的次数。
+
+ 
+
+示例 1:
+
+输入: nums = [5,7,7,8,8,10], target = 8
+输出: 2
+
+示例 2:
+
+输入: nums = [5,7,7,8,8,10], target = 6
+输出: 0
+
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        right = self.bi_right(nums, target)
+        left = self.bi_right(nums, target - 0.001)# 小技巧，减一个小数字
+        return right - left
+
+    def bi_right(self, nums, x):
+        # 找到第一个比x大的数的下标
+        # 范围  0 - len(nums)
+        # 保证插入有序
+        lo = 0
+        hi = len(nums)
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if nums[mid] <= x:
+                lo = mid + 1
+            else:
+                hi = mid 
+        return lo
+```
+
+
+
++ 用bisect包
+
+```python
+import bisect
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        right = bisect.bisect(nums, target)
+        left = bisect.bisect(nums, target - 0.001)
+        return right - left
+```
+
+
+
+## [剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
+
+给定一棵二叉搜索树，请找出其中第k大的节点。
+
+示例 1:
+
+输入: root = [3,1,4,null,2], k = 1
+   3
+  / \
+ 1   4
+  \
+   2
+
+
+
++ 二叉搜索书 右中左 则是从大到小
++ 做 k 次
+
+```python
+class Solution:
+    def kthLargest(self, root: TreeNode, k: int) -> int:
+        # 右中左 第k个停止
+        stack = []
+        res = -1
+        while k > 0:
+            while root:
+                stack.append(root)
+                root = root.right
+            top = stack.pop()
+            res = top.val
+            k -= 1
+            root = top.left
+        return res
+```
+
+
+
+## [剑指 Offer 55 - I. 二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
+
+输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
+
+```python
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+        else:
+            return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+```
+
+
+
+## [剑指 Offer 55 - II. 平衡二叉树](https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/)
+
+输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
+
+
+
++ 求二叉树深度相同的思路
++ 若一个节点满足条件，则返回它的深度，不满足则直接返回-1， 此时整棵树都不满足，一路返回-1到root
+
+```python
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        if self.helper(root) == -1:
+            return False
+        else:
+            return True
+ 
+    def helper(self, root):
+        if root is None:
+            return 0
+        leftdepth = self.helper(root.left)
+        if leftdepth == -1:
+            return -1
+        rightdepth = self.helper(root.right)
+        if rightdepth == -1:
+            return -1
+        if abs(leftdepth - rightdepth) <= 1:
+            return 1 + max(leftdepth, rightdepth)
+        else:
+            return -1
+```
+
+
+
+## [剑指 Offer 56 - I. 数组中数字出现的次数](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/)
+
+一个整型数组 nums 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。
+
+示例 1：
+
+输入：nums = [4,1,4,6]
+输出：[1,6] 或 [6,1]
+
+![image-20210416184051356](https://gitee.com/sxy22/note_images/raw/master/image-20210416184051356.png)
+
+
+
++ 一个数字和0 异或 不变
++ 举例： 检查一个数num的第三位 是否是0， 拿100 & num。 结果为0， 说明第三位为0， 结果为100， 说明第三位为1
+
+```python
+class Solution:
+    def singleNumbers(self, nums: List[int]) -> List[int]:
+        all_xor = 0
+        # 一个数字和0 异或 不变
+        for num in nums:
+            all_xor = all_xor ^ num
+        div = 1
+        while all_xor & div == 0:
+            div <<= 1
+
+        a = 0
+        b = 0
+        for num in nums:
+            if (num & div) != 0:
+                a = a ^ num 
+            else:
+                b = b ^ num 
+        return [a, b]
+```
+
+
+
+## [剑指 Offer 57. 和为s的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
+
+输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。
+
+ 
+
+示例 1：
+
+输入：nums = [2,7,11,15], target = 9
+输出：[2,7] 或者 [7,2]
+
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        i = 0 
+        j = len(nums) - 1
+        while i < j:
+            if nums[i] + nums[j] == target:
+                return [nums[i], nums[j]]
+            elif nums[i] + nums[j] > target:
+                j -= 1
+            else:
+                i += 1
+```
+
+
+
+## [剑指 Offer 57 - II. 和为s的连续正数序列](https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/)
+
+输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+
+序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+
+示例 1：
+
+输入：target = 9
+输出：[[2,3,4],[4,5]]
+
++ 滑动窗口的思路
+
+```python
+class Solution:
+    def findContinuousSequence(self, target: int) -> List[List[int]]:
+        res = []
+        # 从1 - 2开始
+        i = 1
+        j = 2
+        end = (target + 1) // 2 
+        # 计算i到j的sum，与target比较
+        while i < j and j <= end:
+            s = (i + j) * (j - i + 1) / 2
+            if s < target:
+                j += 1
+            elif s > target:
+                i += 1
+            else:    
+                res.append(list(range(i, j+1)))
+                i += 1
+                j += 1
+            
+        return res
+```
+
+
+
+## [剑指 Offer 58 - I. 翻转单词顺序](https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/)
+
+输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。为简单起见，标点符号和普通字母一样处理。例如输入字符串"I am a student. "，则输出"student. a am I"。
+
+ 
+
+示例 1：
+
+输入: "the sky is blue"
+输出: "blue is sky the"
+
+```python
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        s += ' '
+        word = []
+        cur = ''
+        for i in range(len(s)):
+            if s[i] == ' ' :
+                if len(cur) > 0:
+                    word.append(cur)
+                    cur = ''
+            else:
+                cur += s[i]
+        return ' '.join(reversed(word))
+```
+
+## [剑指 Offer 59 - I. 滑动窗口的最大值](https://leetcode-cn.com/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/)
+
+给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
+
+示例:
+
+输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
+输出: [3,3,5,5,6,7] 
+解释: 
+
+  滑动窗口的位置                最大值
+
+---------------               -----
+
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+
++ 单调队列
+
+```python
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        if k == 0:
+            return []
+        queue = collections.deque()
+        res = []
+        for i in range(k):
+            self.add(queue, nums[i])
+        
+        i =  0
+        j = k - 1
+        while j < len(nums):
+            res.append(queue[0])
+            # 删除 i 
+            if queue[0] == nums[i]:
+                queue.popleft()
+            # 加入 j + 1
+            if j + 1 < len(nums):
+                self.add(queue, nums[j+1])
+            i += 1
+            j += 1
+        return res 
+    
+    def add(self, queue, val):
+        while len(queue) > 0 and queue[-1] < val:
+            queue.pop()
+        queue.append(val)
+```
+
+
+
+## [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
+
+0,1,···,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字（删除后从下一个数字开始计数）。求出这个圆圈里剩下的最后一个数字。
+
+例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
+
++ 约瑟夫环
+
+![image-20210422155709170](https://gitee.com/sxy22/note_images/raw/master/image-20210422155709170.png)
+
+```python
+class Solution:
+    def lastRemaining(self, n: int, m: int) -> int:
+        prev = 0
+        cur = 0
+        for k in range(2, n + 1):
+            t = m % k
+            cur = (prev + t) % k
+            prev = cur 
+        
+        return cur
+```
+
+
+
+## [剑指 Offer 68 - I. 二叉搜索树的最近公共祖先](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/)
+
+给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+
+百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。
+
+
+
+
+
++ 从上向下找
++ 当 p,q 都在 root 的 右子树 中，则遍历至 root.right
++ 否则， 都在 root的 左子树 中，则遍历至 root.left
++ 否则，说明找到了 最近公共祖先 ，跳出。
+
+
+
++ 迭代
++ 自顶向下的搜索
+
+```python
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        maxi = max(p.val, q.val)
+        mini = min(p.val, q.val)
+        while root:
+            # 两个节点均在右子树
+            if root.val < mini:
+                root = root.right
+            # 两个节点均在左子树
+            elif root.val > maxi:
+                root = root.left
+            # 找到
+            else:
+                return root 
+        return 
+```
+
++ 递归
+
+```python
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        maxi = max(p.val, q.val)
+        mini = min(p.val, q.val)
+        # 两个节点均在右子树
+        if root.val < mini:
+            return self.lowestCommonAncestor(root.right, p, q)
+        # 两个节点均在左子树
+        elif root.val > maxi:
+            return self.lowestCommonAncestor(root.left, p, q)
+        # 找到
+        else:
+            return root 
+```
+
+
+
+## [剑指 Offer 68 - II. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/)
+
+```python
+class Solution:
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        if root is None:
+            return root
+        if root == p or root == q:
+            return root 
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if left is not None and right is not None:
+            return root 
+        if left is None:
+            return right
+        else:
+            return left
+```
+
