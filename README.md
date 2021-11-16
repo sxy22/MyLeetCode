@@ -5,7 +5,13 @@
 
 ### [回溯算法](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#%E5%9B%9E%E6%BA%AFbacktrack)
 
-
+| 题目                                                         | 题解                                                         | 难度   |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| [46. 全排列](https://leetcode-cn.com/problems/permutations/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#46-%E5%85%A8%E6%8E%92%E5%88%97) | Medium |
+| [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#47-%E5%85%A8%E6%8E%92%E5%88%97-ii) | Medium |
+| [90. 子集 II](https://leetcode-cn.com/problems/subsets-ii/)  | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#90-%E5%AD%90%E9%9B%86-ii) | Medium |
+| [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90) | Medium |
+| [77. 组合](https://leetcode-cn.com/problems/combinations/)   | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#77-%E7%BB%84%E5%90%88) | Medium |
 
 
 
@@ -22,7 +28,14 @@
 
 ## 每日一题
 
-+ [11/14/2021](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#677-%E9%94%AE%E5%80%BC%E6%98%A0%E5%B0%84)
+| 日期       | 题目                                                         | 题解                                                         | 难度   |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 11/12/2021 | [375. 猜数字大小 II](https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11122021) | Medium |
+| 11/13/2021 | [520. 检测大写字母](https://leetcode-cn.com/problems/detect-capital/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11132021) | Easy   |
+| 11/14/2021 | [677. 键值映射](https://leetcode-cn.com/problems/map-sum-pairs/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11142021) | Medium |
+| 11/15/2021 | [319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11152021) | Medium |
+|            |                                                              |                                                              |        |
+|            |                                                              |                                                              |        |
 
-+ [11/15/2021](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11152021)
+
 
