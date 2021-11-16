@@ -2,7 +2,7 @@
 
 ## LeetCode
 
-### [回溯算法]()(https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#%E5%9B%9E%E6%BA%AFbacktrack)
+### [回溯算法](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#%E5%9B%9E%E6%BA%AFbacktrack)
 
 |  ID  |                             题目                             | 难度 |                             题解                             |
 | :--: | :----------------------------------------------------------: | :--: | :----------------------------------------------------------: |
