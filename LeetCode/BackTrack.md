@@ -36,16 +36,6 @@ class Solution:
 
 ## [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/)
 
-给定一个可包含重复数字的序列 nums ，按任意顺序 返回所有不重复的全排列。
-
-示例 1
-
-输入：nums = [1,1,2]
-输出：
-[[1,1,2],
- [1,2,1],
- [2,1,1]]
-
 **思路**
 
 + 有重复数字，为了避免重复的答案，每一次只能选择相同数字中的一个
@@ -86,19 +76,6 @@ class Solution:
 
 ## [90. 子集 II](https://leetcode-cn.com/problems/subsets-ii/)
 
-给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
-
-解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。
-
- 
-
-示例 1：
-
-输入：nums = [1,2,2]
-输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]
-
-
-
 **思路**
 
 + 回溯，找子集
@@ -136,15 +113,6 @@ class Solution:
 
 ## [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 
-数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
-
-示例 1：
-
-输入：n = 3
-输出：["((()))","(()())","(())()","()(())","()()()"]
-
-
-
 ```python
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
@@ -178,21 +146,6 @@ class Solution:
 ```
 
 ## [77. 组合](https://leetcode-cn.com/problems/combinations/)
-
-给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
-
-示例:
-
-输入: n = 4, k = 2
-输出:
-[
-  [2,4],
-  [3,4],
-  [2,3],
-  [1,2],
-  [1,3],
-  [1,4],
-]
 
 **思路**
 

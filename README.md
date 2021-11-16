@@ -5,22 +5,11 @@
 
 ### [回溯算法](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#%E5%9B%9E%E6%BA%AFbacktrack)
 
-|  ID  |                             题目                             | 难度 |                             题解                             |
-| :--: | :----------------------------------------------------------: | :--: | :----------------------------------------------------------: |
-|  46  |   [全排列](https://leetcode-cn.com/problems/permutations/)   | 中等 | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#46-%E5%85%A8%E6%8E%92%E5%88%97) |
-|  47  | [全排列 II](https://leetcode-cn.com/problems/permutations-ii/) | 中等 | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#47-%E5%85%A8%E6%8E%92%E5%88%97-ii) |
-|  90  |   [子集 II](https://leetcode-cn.com/problems/subsets-ii/)    | 中等 | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#90-%E5%AD%90%E9%9B%86-ii) |
-|      |                                                              |      |                                                              |
-|      |                                                              |      |                                                              |
-|      |                                                              |      |                                                              |
-|      |                                                              |      |                                                              |
-|      |                                                              |      |                                                              |
-|      |                                                              |      |                                                              |
 
 
 
-+ [回溯算法](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#%E5%9B%9E%E6%BA%AFbacktrack)
-+ [二叉树](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E4%BA%8C%E5%8F%89%E6%A0%91)
+
+### [二叉树](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E4%BA%8C%E5%8F%89%E6%A0%91)
 
 ## 剑指Offer
 
@@ -36,3 +25,4 @@
 + [11/14/2021](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#677-%E9%94%AE%E5%80%BC%E6%98%A0%E5%B0%84)
 
 + [11/15/2021](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11152021)
+

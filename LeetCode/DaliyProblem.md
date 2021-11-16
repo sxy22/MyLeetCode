@@ -1,16 +1,62 @@
 ## Leetcode每日一题
 
+## 11/12/2021
+
+[375. 猜数字大小 II](https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/)
+
+```python
+class Solution:
+    def getMoneyAmount(self, n: int) -> int:
+        dp = [[0] * (n + 1) for _ in range(n + 1)]
+        for l in range(2, n + 1):
+            for i in range(1, n + 2 - l):
+                j = i + l - 1
+                mini = n * n
+                for k in range(i, j + 1):
+                    mini = min(mini, k + max(self.get(dp, i, k-1), self.get(dp, k+1, j)))
+                dp[i][j] = mini
+        return dp[1][n]
+    def get(self, arr, i, j):
+        if i > j:
+            return 0
+        return arr[i][j]
+```
+
+
+
+## 11/13/2021
+
+[520. 检测大写字母](https://leetcode-cn.com/problems/detect-capital/)
+
+```python
+class Solution:
+    def detectCapitalUse(self, word: str) -> bool:
+        if len(word) == 1:
+            return True 
+        fir = self.is_up(word[0])
+        sec = self.is_up(word[1])
+        if fir is False and sec is True:
+            return False 
+        rest = False
+        if fir is True and sec is True:
+            rest = True
+        for i in range(2, len(word)):
+            if self.is_up(word[i]) is not rest:
+                return False 
+        return True 
+
+
+    def is_up(self, s):
+        if s >= 'A' and s <= 'Z':
+            return True
+        return False
+```
+
+
+
 ## 11/14/2021
 
-#### [677. 键值映射](https://leetcode-cn.com/problems/map-sum-pairs/)
-
-
-
-实现一个 MapSum 类，支持两个方法，insert 和 sum：
-
-+ MapSum() 初始化 MapSum 对象
-+ void insert(String key, int val) 插入 key-val 键值对，字符串表示键 key ，整数表示值 val 。如果键 key 已经存在，那么原来的键值对将被替代成新的键值对。
-+ int sum(string prefix) 返回所有以该前缀 prefix 开头的键 key 的值的总和。
+[677. 键值映射](https://leetcode-cn.com/problems/map-sum-pairs/)
 
 **思路**
 
@@ -61,13 +107,7 @@ class Trie:
 
 ## 11/15/2021
 
-#### [319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/)
-
-初始时有 n 个灯泡处于关闭状态。第一轮，你将会打开所有灯泡。接下来的第二轮，你将会每两个灯泡关闭一个。
-
-第三轮，你每三个灯泡就切换一个灯泡的开关（即，打开变关闭，关闭变打开）。第 i 轮，你每 i 个灯泡就切换一个灯泡的开关。直到第 n 轮，你只需要切换最后一个灯泡的开关。
-
-找出并返回 n 轮后有多少个亮着的灯泡。
+[319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/)
 
 **思路**
 
