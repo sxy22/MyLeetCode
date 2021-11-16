@@ -1,17 +1,3 @@
-<style>
-table th:first-of-type {
-    width: 4cm;
-}
-table th:nth-of-type(2) {
-    width: 4cm;
-}
-table th:nth-of-type(3) {
-    width: 4cm;
-}
-table th:nth-of-type(3) {
-    width: 4cm;
-}
-</style>
 
 # 值得记录/复习的LeetCode题
 
