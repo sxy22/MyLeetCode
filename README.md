@@ -13,9 +13,19 @@
 | [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90) | Medium |
 | [77. 组合](https://leetcode-cn.com/problems/combinations/)   | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BackTrack.md#77-%E7%BB%84%E5%90%88) | Medium |
 
-
-
 ### [二叉树](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E4%BA%8C%E5%8F%89%E6%A0%91)
+
+| 题目                                                         | 难度                                                         | 难度   |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| [先序遍历 迭代&递归](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86-%E8%BF%AD%E4%BB%A3%E9%80%92%E5%BD%92) |                                                              |        |
+| [中序遍历 迭代&递归](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86-%E8%BF%AD%E4%BB%A3%E9%80%92%E5%BD%92) |                                                              |        |
+| [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86) | Medium |
+| [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#543-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84) | Easy   |
+| [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#105-%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91) | Medium |
+| [106. 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#106-%E4%BB%8E%E4%B8%AD%E5%BA%8F%E4%B8%8E%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91) | Medium |
+| [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#236-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88) | Medium |
+
+
 
 ## 剑指Offer
 
@@ -30,11 +40,12 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 11/10/2021 | [495. 提莫攻击](https://leetcode-cn.com/problems/teemo-attacking/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11102021) | Easy   |
 | 11/12/2021 | [375. 猜数字大小 II](https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11122021) | Medium |
 | 11/13/2021 | [520. 检测大写字母](https://leetcode-cn.com/problems/detect-capital/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11132021) | Easy   |
 | 11/14/2021 | [677. 键值映射](https://leetcode-cn.com/problems/map-sum-pairs/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11142021) | Medium |
 | 11/15/2021 | [319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11152021) | Medium |
-|            |                                                              |                                                              |        |
+| 11/17/2021 | [318. 最大单词长度乘积](https://leetcode-cn.com/problems/maximum-product-of-word-lengths/) | [Python]()                                                   |        |
 |            |                                                              |                                                              |        |
 
 
