@@ -45,7 +45,7 @@
 | 11/13/2021 | [520. 检测大写字母](https://leetcode-cn.com/problems/detect-capital/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11132021) | Easy   |
 | 11/14/2021 | [677. 键值映射](https://leetcode-cn.com/problems/map-sum-pairs/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11142021) | Medium |
 | 11/15/2021 | [319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11152021) | Medium |
-| 11/17/2021 | [318. 最大单词长度乘积](https://leetcode-cn.com/problems/maximum-product-of-word-lengths/) | [Python]()                                                   |        |
+| 11/17/2021 | [318. 最大单词长度乘积](https://leetcode-cn.com/problems/maximum-product-of-word-lengths/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11172021) | Medium |
 |            |                                                              |                                                              |        |
 
 
