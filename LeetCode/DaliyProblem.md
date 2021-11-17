@@ -1,5 +1,26 @@
 ## Leetcode每日一题
 
+
+
+## 11/10/2021
+
+#### [495. 提莫攻击](https://leetcode-cn.com/problems/teemo-attacking/)
+
+```python
+class Solution:
+    def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
+        ans = duration
+        for i in range(len(timeSeries) - 1):
+            t1 = timeSeries[i]
+            t2 = timeSeries[i+1]
+            ans += min(t2 - t1, duration)
+        return ans
+```
+
+
+
+
+
 ## 11/12/2021
 
 [375. 猜数字大小 II](https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/)
@@ -131,4 +152,36 @@ class Solution:
     def bulbSwitch(self, n: int) -> int:
         return (int(math.sqrt(n)))
 ```
+
+
+
+11/17/2021
+
+[318. 最大单词长度乘积](https://leetcode-cn.com/problems/maximum-product-of-word-lengths/)
+
+**思路**
+
++ 先用26位二进制表示每个word
++ 与为0则没有相同字符串
+
+```python
+class Solution:
+    def maxProduct(self, words: List[str]) -> int:
+        n = len(words)
+        bits = [0] * n
+        for i in range(n):
+            word = words[i]
+            for w in word:
+                # 或运算
+                bits[i] = bits[i] | (1 << (ord(w) - ord('a')))
+        ans = 0
+
+        for i in range(n):
+            for j in range(i+1, n):
+                if (bits[i] & bits[j]) == 0:
+                    ans = max(ans, len(words[i]) * len(words[j]))
+        return ans 
+```
+
+
 

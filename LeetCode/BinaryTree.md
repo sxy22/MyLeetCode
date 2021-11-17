@@ -72,32 +72,9 @@ class Solution:
         return res 
 ```
 
+
+
 ## [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-
-给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
-
- 
-
-示例：
-二叉树：[3,9,20,null,null,15,7],
-
-```
-    3
-   / \
-  9  20
-    /  \
-   15   7
-```
-
-返回其层序遍历结果：
-
-[
-  [3],
-  [9,20],
-  [15,7]
-]
-
-
 
 ```python
 class Solution:
@@ -145,9 +122,13 @@ class Solution:
             return 1 + max(L, R)
 ```
 
+
+
 ## [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 见剑指offer07
+
+
 
 ## [106. 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
 
@@ -186,8 +167,6 @@ class Solution {
 
 
 ## [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
-
-![image-20210324154207388](https://gitee.com/sxy22/note_images/raw/master/image-20210324154207388.png)
 
 **思路**
 
