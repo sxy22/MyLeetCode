@@ -25,14 +25,14 @@
 | [106. 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#106-%E4%BB%8E%E4%B8%AD%E5%BA%8F%E4%B8%8E%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91) | Medium |
 | [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#236-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88) | Medium |
 
-### [双指针&滑动窗口]
+### [双指针&滑动窗口](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#%E5%8F%8C%E6%8C%87%E9%92%88--%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3)
 
-| 题目                                                         | 难度     | 难度   |
-| ------------------------------------------------------------ | -------- | ------ |
-| [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/) | [Python] |        |
-| [567. 字符串的排列](https://leetcode-cn.com/problems/permutation-in-string/) | [Python] |        |
-| [424. 替换后的最长重复字符](https://leetcode-cn.com/problems/longest-repeating-character-replacement/) | [Python] | Medium |
-| [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) | [Python] | Easy   |
+| 题目                                                         | 难度                                                         | 难度   |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2) | Medium |
+| [567. 字符串的排列](https://leetcode-cn.com/problems/permutation-in-string/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#567-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%92%E5%88%97) | Medium |
+| [424. 替换后的最长重复字符](https://leetcode-cn.com/problems/longest-repeating-character-replacement/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#424-%E6%9B%BF%E6%8D%A2%E5%90%8E%E7%9A%84%E6%9C%80%E9%95%BF%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6) | Medium |
+| [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2) | Hard   |
 
 
 
@@ -50,14 +50,14 @@
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
 |            |                                                              |                                                              |        |
-| 11/18/2021 | [563. 二叉树的坡度](https://leetcode-cn.com/problems/binary-tree-tilt/) | [Python]                                                     | Easy   |
+| 11/18/2021 | [563. 二叉树的坡度](https://leetcode-cn.com/problems/binary-tree-tilt/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11182021) | Easy   |
 | 11/17/2021 | [318. 最大单词长度乘积](https://leetcode-cn.com/problems/maximum-product-of-word-lengths/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11172021) | Medium |
 | 11/15/2021 | [319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11152021) | Medium |
 | 11/14/2021 | [677. 键值映射](https://leetcode-cn.com/problems/map-sum-pairs/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11142021) | Medium |
 | 11/13/2021 | [520. 检测大写字母](https://leetcode-cn.com/problems/detect-capital/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11132021) | Easy   |
 | 11/12/2021 | [375. 猜数字大小 II](https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11122021) | Medium |
 | 11/10/2021 | [495. 提莫攻击](https://leetcode-cn.com/problems/teemo-attacking/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11102021) | Easy   |
-| 11/8/2021  | [299. 猜数字游戏](https://leetcode-cn.com/problems/bulls-and-cows/) | [Python]                                                     | Medium |
+| 11/8/2021  | [299. 猜数字游戏](https://leetcode-cn.com/problems/bulls-and-cows/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1182021) | Medium |
 |            |                                                              |                                                              |        |
 
 
