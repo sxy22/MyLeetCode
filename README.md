@@ -49,7 +49,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
-|            |                                                              |                                                              |        |
+| 11/19/2021 | [397. 整数替换](https://leetcode-cn.com/problems/integer-replacement/) | [Pyhton]                                                     | Medium |
 | 11/18/2021 | [563. 二叉树的坡度](https://leetcode-cn.com/problems/binary-tree-tilt/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11182021) | Easy   |
 | 11/17/2021 | [318. 最大单词长度乘积](https://leetcode-cn.com/problems/maximum-product-of-word-lengths/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11172021) | Medium |
 | 11/15/2021 | [319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11152021) | Medium |
@@ -58,7 +58,7 @@
 | 11/12/2021 | [375. 猜数字大小 II](https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11122021) | Medium |
 | 11/10/2021 | [495. 提莫攻击](https://leetcode-cn.com/problems/teemo-attacking/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11102021) | Easy   |
 | 11/8/2021  | [299. 猜数字游戏](https://leetcode-cn.com/problems/bulls-and-cows/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1182021) | Medium |
-|            |                                                              |                                                              |        |
+| 11/7/2021  | [598. 范围求和 II](https://leetcode-cn.com/problems/range-addition-ii/) | [Pyhton]                                                     | Medium |
 
 
 

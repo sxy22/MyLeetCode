@@ -1,5 +1,54 @@
 ## Leetcode每日一题
 
+## 11/19/2021
+
+[397. 整数替换](https://leetcode-cn.com/problems/integer-replacement/)
+
+**思路1**
+
++ 直接递归
++ 偶数时， 计算 n // 2
++ 奇数时，计算min(n-1, n+1)
+
+```python
+class Solution:
+    def integerReplacement(self, n: int) -> int:
+        if n == 1:
+            return 0 
+        if n % 2 == 0:
+            return 1 + self.integerReplacement(n // 2)
+        else:
+            return 2 + min(self.integerReplacement(n // 2), self.integerReplacement(n // 2 + 1)
+        return -1 
+```
+
+**思路2**
+
++ 记忆化减低复杂度
+
+```python
+class Solution:
+    def __init__(self):
+        self.memo = dict()
+    def integerReplacement(self, n: int) -> int:
+        if n == 1:
+            return 0 
+        if n in self.memo:
+            return self.memo[n]
+        steps = -1
+        if n % 2 == 0:
+            steps = 1 + self.integerReplacement(n // 2)
+        else:
+            steps = 2 + min(self.integerReplacement(n // 2), self.integerReplacement(n // 2 + 1))
+        self.memo[n] = steps
+        return steps
+
+```
+
+
+
+
+
 ## 11/18/2021
 
 [563. 二叉树的坡度](https://leetcode-cn.com/problems/binary-tree-tilt/)
@@ -262,6 +311,21 @@ class Solution:
 ```
 
 
+
+## 11/7/2021
+
+#### [598. 范围求和 II](https://leetcode-cn.com/problems/range-addition-ii/)
+
+```python
+class Solution:
+    def maxCount(self, m: int, n: int, ops: List[List[int]]) -> int:
+        min_a = m
+        min_b = n
+        for a, b in ops:
+            min_a = min(min_a, a)
+            min_b = min(min_b, b)
+        return min_a * min_b
+```
 
 
 
