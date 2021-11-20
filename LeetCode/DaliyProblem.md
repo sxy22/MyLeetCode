@@ -1,5 +1,35 @@
 ## Leetcode每日一题
 
+
+
+## 11/20/2021
+
+[594. 最长和谐子序列](https://leetcode-cn.com/problems/longest-harmonious-subsequence/)
+
+**思路**
+
++ 每个子序列中只有两个相邻的数
++ 用哈希表记录每个数字出现的次数
+
+```python
+class Solution:
+    def findLHS(self, nums: List[int]) -> int:
+        ans = 0
+        hashmap = dict()
+        for num in nums:
+            if num not in hashmap:
+                hashmap[num] = 0
+            hashmap[num] += 1
+        
+        for fir in hashmap.keys():
+            sec_cnt = hashmap.get(fir + 1, 0)
+            if sec_cnt != 0:
+                ans = max(ans, hashmap[fir] + sec_cnt)
+        return ans 
+```
+
+
+
 ## 11/19/2021
 
 [397. 整数替换](https://leetcode-cn.com/problems/integer-replacement/)
@@ -328,4 +358,26 @@ class Solution:
 ```
 
 
+
+
+
+## 11/6/2021
+
+[268. 丢失的数字](https://leetcode-cn.com/problems/missing-number/)
+
++ 异或
++ 先求[1,n] 的异或和 ans，然后用 anss 对各个 nums[i]nums[ii]进行异或
+
+
+```python
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        xorsum = 0
+        n = len(nums)
+        for x in nums:
+            xorsum ^= x 
+        for x in range(n + 1):
+            xorsum ^= x 
+        return xorsum
+```
 
