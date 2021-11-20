@@ -61,6 +61,7 @@
 | 11/8/2021  | [299. 猜数字游戏](https://leetcode-cn.com/problems/bulls-and-cows/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1182021) | Medium |
 | 11/7/2021  | [598. 范围求和 II](https://leetcode-cn.com/problems/range-addition-ii/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1172021) | Medium |
 | 11/6/2021  | [268. 丢失的数字](https://leetcode-cn.com/problems/missing-number/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1162021) | Easy   |
+|            |                                                              |                                                              |        |
 
 
 
