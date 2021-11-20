@@ -49,7 +49,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
-| 11/20/2021 | [594. 最长和谐子序列](https://leetcode-cn.com/problems/longest-harmonious-subsequence/) | [Python]                                                     | Easy   |
+| 11/20/2021 | [594. 最长和谐子序列](https://leetcode-cn.com/problems/longest-harmonious-subsequence/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11202021) | Easy   |
 | 11/19/2021 | [397. 整数替换](https://leetcode-cn.com/problems/integer-replacement/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11192021) | Medium |
 | 11/18/2021 | [563. 二叉树的坡度](https://leetcode-cn.com/problems/binary-tree-tilt/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11182021) | Easy   |
 | 11/17/2021 | [318. 最大单词长度乘积](https://leetcode-cn.com/problems/maximum-product-of-word-lengths/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11172021) | Medium |
@@ -60,7 +60,7 @@
 | 11/10/2021 | [495. 提莫攻击](https://leetcode-cn.com/problems/teemo-attacking/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11102021) | Easy   |
 | 11/8/2021  | [299. 猜数字游戏](https://leetcode-cn.com/problems/bulls-and-cows/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1182021) | Medium |
 | 11/7/2021  | [598. 范围求和 II](https://leetcode-cn.com/problems/range-addition-ii/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1172021) | Medium |
-| 11/6/2021  | [268. 丢失的数字](https://leetcode-cn.com/problems/missing-number/) | [Python]                                                     | Easy   |
+| 11/6/2021  | [268. 丢失的数字](https://leetcode-cn.com/problems/missing-number/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1162021) | Easy   |
 
 
 
