@@ -1,5 +1,66 @@
 ## Leetcode每日一题
 
+## 11/21/2021
+
+[559. N 叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/)
+
+**思路**1 
+
++ DFS
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        if root is None:
+            return 0 
+        # if root.children is None:
+        #     return 1 
+        child_dep = 0
+        for child in root.children:
+            child_dep = max(child_dep, self.maxDepth(child))
+        return 1 + child_dep
+```
+
+**思路2**1
+
++ BFS
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        if root is None:
+            return 0
+        ans = 0
+        queue = collections.deque()
+        queue.append(root)
+        while queue:
+            ans += 1
+            for _ in range(len(queue)):
+                node = queue.popleft() 
+                for child in node.children:
+                    queue.append(child)
+        
+        return ans 
+```
+
+
+
 
 
 ## 11/20/2021
