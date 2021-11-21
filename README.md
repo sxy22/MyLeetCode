@@ -49,6 +49,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 11/21/2021 | [559. N 叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11212021) | Easy   |
 | 11/20/2021 | [594. 最长和谐子序列](https://leetcode-cn.com/problems/longest-harmonious-subsequence/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11202021) | Easy   |
 | 11/19/2021 | [397. 整数替换](https://leetcode-cn.com/problems/integer-replacement/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11192021) | Medium |
 | 11/18/2021 | [563. 二叉树的坡度](https://leetcode-cn.com/problems/binary-tree-tilt/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11182021) | Easy   |
