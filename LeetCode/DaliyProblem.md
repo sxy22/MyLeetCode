@@ -1,5 +1,37 @@
 ## Leetcode每日一题
 
+## 11/22/2021
+
+[384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
+
+**思路**
+
++ 从前往后填充 [0,n−1] 
+
++ 对于下标 x 而言，我们从[x,n−1] 中随机出一个位置与 xxx 进行值交换
+
+```python
+class Solution:
+    def __init__(self, nums: List[int]):
+        self.original = nums.copy()
+        self.nums = nums
+        self.n = len(nums)
+
+    def reset(self) -> List[int]:
+        self.nums = self.original.copy()
+        return self.nums
+
+    def shuffle(self) -> List[int]:
+        for i in range(self.n - 1):
+            j = random.randint(i, self.n - 1)
+            self.nums[i], self.nums[j] = self.nums[j], self.nums[i]
+        return self.nums 
+```
+
+
+
+
+
 ## 11/21/2021
 
 [559. N 叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/)
@@ -405,7 +437,7 @@ class Solution:
 
 ## 11/7/2021
 
-#### [598. 范围求和 II](https://leetcode-cn.com/problems/range-addition-ii/)
+[598. 范围求和 II](https://leetcode-cn.com/problems/range-addition-ii/)
 
 ```python
 class Solution:
@@ -441,4 +473,25 @@ class Solution:
             xorsum ^= x 
         return xorsum
 ```
+
+
+
+## 11/5/2021
+
+[1218. 最长定差子序列](https://leetcode-cn.com/problems/longest-arithmetic-subsequence-of-given-difference/)
+
+```python
+class Solution:
+    def longestSubsequence(self, arr: List[int], difference: int) -> int:
+        num_len = dict() 
+        ans = 1
+        for num in arr:
+            l = num_len.get(num - difference, 0) + 1
+            ans = max(ans, l)
+            num_len[num] = l 
+        
+        return ans
+```
+
+
 
