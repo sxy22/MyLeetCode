@@ -49,6 +49,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 11/22/2021 | [384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11222021) | Medium |
 | 11/21/2021 | [559. N 叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11212021) | Easy   |
 | 11/20/2021 | [594. 最长和谐子序列](https://leetcode-cn.com/problems/longest-harmonious-subsequence/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11202021) | Easy   |
 | 11/19/2021 | [397. 整数替换](https://leetcode-cn.com/problems/integer-replacement/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11192021) | Medium |
@@ -62,7 +63,7 @@
 | 11/8/2021  | [299. 猜数字游戏](https://leetcode-cn.com/problems/bulls-and-cows/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1182021) | Medium |
 | 11/7/2021  | [598. 范围求和 II](https://leetcode-cn.com/problems/range-addition-ii/) | [Pyhton](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1172021) | Medium |
 | 11/6/2021  | [268. 丢失的数字](https://leetcode-cn.com/problems/missing-number/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1162021) | Easy   |
-|            |                                                              |                                                              |        |
+| 11/5/2021  | [1218. 最长定差子序列](https://leetcode-cn.com/problems/longest-arithmetic-subsequence-of-given-difference/) | [Python](https://leetcode-cn.com/problems/longest-arithmetic-subsequence-of-given-difference/)) | Medium |
 
 
 
