@@ -1,5 +1,47 @@
 ## Leetcode每日一题
 
+## 11/23/2021
+
+[859. 亲密字符串](https://leetcode-cn.com/problems/buddy-strings/)
+
+**思路**
+
++ 长度要相同
++ 若两字符串完全相等，则要求有重复字符
++ 有两个位置不同，且错位相等
+
+```python
+class Solution:
+    def buddyStrings(self, s: str, goal: str) -> bool:
+        if len(s) != len(goal):
+            return False
+        idx = [] 
+        cnt = collections.defaultdict(int)
+        twosame = False
+        for i in range(len(s)):
+            if s[i] != goal[i]:
+                if len(idx) == 2:
+                    return False 
+                idx.append(i)
+            cnt[s[i]] += 1
+            if twosame is False and cnt[s[i]] >= 2:
+                twosame = True 
+        if len(idx) == 1:
+            return False
+        if len(idx) == 0:
+            return twosame
+        i, j = idx 
+        if s[i] != goal[j] or s[j] != goal[i]:
+            return False 
+        return True  
+```
+
+
+
+
+
+
+
 ## 11/22/2021
 
 [384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
@@ -494,4 +536,27 @@ class Solution:
 ```
 
 
+
+## 11/4/2021
+
+[367. 有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/)
+
+```python
+class Solution:
+    def isPerfectSquare(self, num: int) -> bool:
+        if num == 1:
+            return True
+        l = 2
+        r = num // 2
+        while l <= r:
+            mid = (l + r) // 2
+            sq = mid * mid
+            if sq == num:
+                return True
+            elif sq > num:
+                r = mid - 1
+            else:
+                l = mid + 1
+        return False
+```
 
