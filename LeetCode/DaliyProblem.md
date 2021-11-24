@@ -560,3 +560,49 @@ class Solution:
         return False
 ```
 
+
+
+## 11/2/2021
+
+[237. 删除链表中的节点](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/)
+
+**思路**
+
++ 将需要删除的结点值设置为下一个结点的值
++ 删除下一个结点
++ 效果等同于删除node
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        node.val = node.next.val 
+        node.next = node.next.next
+```
+
+
+
+## 11/1/2021
+
+[575. 分糖果](https://leetcode-cn.com/problems/distribute-candies/)
+
+```python
+class Solution:
+    def distributeCandies(self, candyType: List[int]) -> int:
+        hset = set()
+        for c in candyType:
+            hset.add(c)
+        
+        max_candy = len(candyType) // 2
+        return min(max_candy, len(hset))
+```
+
