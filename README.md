@@ -66,6 +66,8 @@
 | 11/6/2021  | [268. 丢失的数字](https://leetcode-cn.com/problems/missing-number/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1162021) | Easy   |
 | 11/5/2021  | [1218. 最长定差子序列](https://leetcode-cn.com/problems/longest-arithmetic-subsequence-of-given-difference/) | [Python](https://leetcode-cn.com/problems/longest-arithmetic-subsequence-of-given-difference/) | Medium |
 | 11/4/2021  | [367. 有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1142021) | Easy   |
+| 11/2/2021  | [237. 删除链表中的节点](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1122021) | Easy   |
+| 11/1/2021  | [575. 分糖果](https://leetcode-cn.com/problems/distribute-candies/) | [Python]([575. 分糖果](https://leetcode-cn.com/problems/distribute-candies/)) | Easy   |
 
 
 
