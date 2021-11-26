@@ -1,4 +1,56 @@
-## Leetcode每日一题
+# Leetcode每日一题
+
+# 11/2021
+
+## 11/26/2021
+
+[700. 二叉搜索树中的搜索](https://leetcode-cn.com/problems/search-in-a-binary-search-tree/)
+
++ 递归
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        if root is None:
+            return None 
+        if root.val == val:
+            return root 
+        elif root.val > val:
+            return self.searchBST(root.left, val)
+        else:
+            return self.searchBST(root.right, val)
+```
+
++ 迭代
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        while root:
+            if root.val == val:
+                return root 
+            elif val < root.val:
+                root = root.left
+            else:
+                root = root.right 
+        return None 
+```
+
+
+
+
 
 ## 11/23/2021
 
@@ -604,5 +656,40 @@ class Solution:
         
         max_candy = len(candyType) // 2
         return min(max_candy, len(hset))
+```
+
+
+
+# 10/2021
+
+## 10/31/2021
+
+[500. 键盘行](https://leetcode-cn.com/problems/keyboard-row/)
+
+```python
+class Solution:
+    def findWords(self, words: List[str]) -> List[str]:
+        hashmap = dict()
+        groups = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
+        lines = [0, 1, 2]
+        for w, l in zip(groups, lines):
+            for s in w:
+                hashmap[s] = l 
+        
+        ans = []
+        for word in words:
+            line = -1
+            valid = True
+            for s in word:
+                s = s.lower()
+                if line == -1:
+                    line = hashmap[s]
+                    continue 
+                if hashmap[s] != line:
+                    valid = False
+                    break 
+            if valid:
+                ans.append(word)
+        return ans
 ```
 
