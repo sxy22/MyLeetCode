@@ -49,6 +49,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 11/26/2021 | [700. 二叉搜索树中的搜索](https://leetcode-cn.com/problems/search-in-a-binary-search-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11262021) | Easy   |
 | 11/23/2021 | [859. 亲密字符串](https://leetcode-cn.com/problems/buddy-strings/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11232021) | Easy   |
 | 11/22/2021 | [384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11222021) | Medium |
 | 11/21/2021 | [559. N 叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11212021) | Easy   |
@@ -68,6 +69,7 @@
 | 11/4/2021  | [367. 有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1142021) | Easy   |
 | 11/2/2021  | [237. 删除链表中的节点](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1122021) | Easy   |
 | 11/1/2021  | [575. 分糖果](https://leetcode-cn.com/problems/distribute-candies/) | [Python]([575. 分糖果](https://leetcode-cn.com/problems/distribute-candies/)) | Easy   |
+| 10/31/2021 | [500. 键盘行](https://leetcode-cn.com/problems/keyboard-row/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#10312021) | Easy   |
 
 
 
