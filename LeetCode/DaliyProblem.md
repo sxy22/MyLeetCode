@@ -2,6 +2,56 @@
 
 # 11/2021
 
+## 11/28/2021
+
+[438. 找到字符串中所有字母异位词](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/)
+
++ 双指针表示范围
++ diff维护差异
+
+```python
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        if len(s) < len(p):
+            return []
+        ans = []
+        len_s, len_p = len(s), len(p)
+        cnt = [0] * 26
+        for i in range(len_p):
+            cnt[ord(p[i]) - ord('a')] += 1
+            cnt[ord(s[i]) - ord('a')] -= 1
+        diff = sum([1 for x in cnt if x != 0])
+        if diff == 0:
+            ans.append(0)
+        i = 0
+        j = len_p - 1
+        while j < len_s - 1:
+            # 去掉s[i]
+            i_idx = ord(s[i]) - ord('a')
+            if cnt[i_idx] == -1:
+                diff -= 1
+            if cnt[i_idx] == 0:
+                diff += 1
+            cnt[i_idx] += 1
+            # 增加s[j+1]
+            j_idx = ord(s[j+1]) - ord('a')
+            if cnt[j_idx] == 1:
+                diff -= 1
+            if cnt[j_idx] == 0:
+                diff += 1
+            cnt[j_idx] -= 1
+            i += 1
+            j += 1
+            # print(i, j, diff)
+            if diff == 0:
+                ans.append(i)
+        return  ans 
+```
+
+
+
+
+
 ## 11/26/2021
 
 [700. 二叉搜索树中的搜索](https://leetcode-cn.com/problems/search-in-a-binary-search-tree/)
