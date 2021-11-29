@@ -2,6 +2,43 @@
 
 # 11/2021
 
+## 11/29/2021
+
+[786. 第 K 个最小的素数分数](https://leetcode-cn.com/problems/k-th-smallest-prime-fraction/)
+
++ 官方方法二：优先队列
+
+```python
+class Frac:
+    def __init__(self, idx: int, idy: int, x: int, y: int) -> None:
+        self.idx = idx
+        self.idy = idy
+        self.x = x
+        self.y = y
+
+    def __lt__(self, other: "Frac") -> bool:
+        return self.x * other.y < self.y * other.x
+
+
+class Solution:
+    def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
+        n = len(arr)
+        q = [Frac(0, i, arr[0], arr[i]) for i in range(1, n)]
+        heapq.heapify(q)
+
+        for _ in range(k - 1):
+            frac = heapq.heappop(q)
+            i, j = frac.idx, frac.idy
+            if i + 1 < j:
+                heapq.heappush(q, Frac(i + 1, j, arr[i + 1], arr[j]))
+        frac = heapq.heappop(q)
+        return [frac.x, frac.y]
+```
+
+
+
+
+
 ## 11/28/2021
 
 [438. 找到字符串中所有字母异位词](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/)
