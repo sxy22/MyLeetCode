@@ -2,6 +2,41 @@
 
 # 11/2021
 
+## 11/30/2021
+
+[400. 第 N 位数字](https://leetcode-cn.com/problems/nth-digit/)
+
+```python
+class Solution:
+    def findNthDigit(self, n: int) -> int:
+        s = 0
+        m = 1
+        while m < 100:
+            if s < n <= s + 9 * (10 ** (m-1)) * m:
+                break
+            else:
+                
+                s += 9 * (10 ** (m-1)) * m
+                m += 1
+        # 是m位数
+        #再确定是m位数中的第几个
+        T = n - s
+        if T % m == 0:
+            number = int(T/m)
+        else:
+            number = int(T/m) + 1
+        #计算第number个m位数是几
+        X = 10 ** (m - 1) + number - 1
+        #是X的第几位
+        X = str(X)
+        dig = T % m
+        return int(X[dig - 1])
+```
+
+
+
+
+
 ## 11/29/2021
 
 [786. 第 K 个最小的素数分数](https://leetcode-cn.com/problems/k-th-smallest-prime-fraction/)
