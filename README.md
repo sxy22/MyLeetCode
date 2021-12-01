@@ -49,6 +49,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/12/2021  | [1446. 连续字符](https://leetcode-cn.com/problems/consecutive-characters/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1122021) | Easy   |
 | 11/30/2021 | [400. 第 N 位数字](https://leetcode-cn.com/problems/nth-digit/) | [Python]([400. 第 N 位数字](https://leetcode-cn.com/problems/nth-digit/)) | Medium |
 | 11/29/2021 | [786. 第 K 个最小的素数分数](https://leetcode-cn.com/problems/k-th-smallest-prime-fraction/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11292021) | Hard   |
 | 11/28/2021 | [438. 找到字符串中所有字母异位词](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#11282021) | Medium |
