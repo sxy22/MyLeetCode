@@ -2,6 +2,31 @@
 
 # 11/2021
 
+## 1/12/2021
+
+[1446. 连续字符](https://leetcode-cn.com/problems/consecutive-characters/)
+
+```python
+class Solution:
+    def maxPower(self, s: str) -> int:
+        s += '#'
+        char = s[0]
+        max_len = 1
+        i, j = 0, 0
+        while j < len(s) - 1:
+            j = j + 1
+            if s[j] != char:
+                max_len = max(max_len, j - i)
+                char = s[j]
+                i = j 
+        
+        return max_len
+```
+
+
+
+# 11/2021
+
 ## 11/30/2021
 
 [400. 第 N 位数字](https://leetcode-cn.com/problems/nth-digit/)
