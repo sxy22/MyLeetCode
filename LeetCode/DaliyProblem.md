@@ -2,6 +2,31 @@
 
 # 12/2021
 
+## 2/12/2021
+
+[506. 相对名次](https://leetcode-cn.com/problems/relative-ranks/)
+
+```python
+class Solution:
+    def findRelativeRanks(self, score: List[int]) -> List[str]:
+        n = len(score)
+        ans = [''] * n 
+        idx_sorted = list(range(n))
+        idx_sorted = sorted(idx_sorted, key=lambda i: score[i], reverse=True)
+        for i in range(n):
+            medal = str(i + 1)
+            if i == 0:
+                medal = 'Gold Medal'
+            elif i == 1:
+                medal = 'Silver Medal'
+            elif i == 2:
+                medal = 'Bronze Medal'
+            ans[idx_sorted[i]] = medal
+        return ans
+```
+
+
+
 ## 1/12/2021
 
 [1446. 连续字符](https://leetcode-cn.com/problems/consecutive-characters/)
