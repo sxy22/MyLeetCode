@@ -2,6 +2,29 @@
 
 # 12/2021
 
+## 4/12/2021
+
+[383. 赎金信](https://leetcode-cn.com/problems/ransom-note/)
+
+```python
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        mag_cnt = collections.defaultdict(int)
+        for s in magazine:
+            mag_cnt[s] += 1
+        for s in ransomNote:
+            mag_cnt[s] -= 1
+            if mag_cnt[s] < 0:
+                return False 
+        return True 
+```
+
+
+
+
+
+
+
 ## 2/12/2021
 
 [506. 相对名次](https://leetcode-cn.com/problems/relative-ranks/)
