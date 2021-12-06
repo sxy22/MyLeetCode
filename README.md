@@ -49,6 +49,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 6/12/2021  | [1816. 截断句子](https://leetcode-cn.com/problems/truncate-sentence/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#6122021) | Easy   |
 | 4/12/2021  | [383. 赎金信](https://leetcode-cn.com/problems/ransom-note/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#4122021) | Easy   |
 | 2/12/2021  | [506. 相对名次](https://leetcode-cn.com/problems/relative-ranks/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#2122021) | Easy   |
 | 1/12/2021  | [1446. 连续字符](https://leetcode-cn.com/problems/consecutive-characters/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1122021) | Easy   |
