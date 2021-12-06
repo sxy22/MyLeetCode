@@ -2,6 +2,47 @@
 
 # 12/2021
 
+## 6/12/2021
+
+[1816. 截断句子](https://leetcode-cn.com/problems/truncate-sentence/)
+
+```python
+class Solution:
+    def truncateSentence(self, s: str, k: int) -> str:
+        s += ' '
+        ans = []
+        word = ''
+        for c in s:
+            if k == 0:
+                break
+            if c == ' ':
+                ans.append(word)
+                word = ''
+                k -= 1
+            else:
+                word += c 
+
+        return ' '.join(ans)
+```
+
++ 数空格
+
+```python
+class Solution:
+    def truncateSentence(self, s: str, k: int) -> str:
+        # 数空格
+        s += ' '
+        for i in range(len(s)):
+            c = s[i]
+            if c == ' ':
+                k -= 1
+                if k == 0:
+                    break
+        return s[:i]
+```
+
+
+
 ## 4/12/2021
 
 [383. 赎金信](https://leetcode-cn.com/problems/ransom-note/)
