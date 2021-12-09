@@ -2,6 +2,60 @@
 
 # 12/2021
 
+## 9/12/2021
+
+[794. 有效的井字游戏](https://leetcode-cn.com/problems/valid-tic-tac-toe-state/)
+
+```python
+class Solution:
+    def validTicTacToe(self, board: List[str]) -> bool:
+        cnt1, cnt2 = 0, 0
+        for r in range(3):
+            for c in range(3):
+                if board[r][c] == ' ':
+                    continue
+                if board[r][c] == 'O':
+                    cnt2 += 1
+                else:
+                    cnt1 += 1
+        if cnt1 != cnt2 and cnt1 - 1 != cnt2:
+            return False 
+        win1, win2 = 0, 0
+        for i in range(3):
+            if board[i][0] == board[i][1] and board[i][1] == board[i][2]:
+                if board[i][0] == 'X':
+                    win1 += 1
+                if board[i][0] == 'O':
+                    win2 += 1
+            if board[0][i] == board[1][i] and board[1][i] == board[2][i]:
+                # print(board[0][i],  board[1][i], board[2][i])
+                if board[0][i] == 'X':
+                    win1 += 1
+                if board[0][i] == 'O':
+                    win2 += 1
+        # print(win1, win2)
+        if board[0][0] == board[1][1] == board[2][2]:
+            if board[0][0] == 'X':
+                win1 += 1
+            if board[0][0] == 'O':
+                win2 += 1
+        if board[0][2] == board[1][1] == board[2][0]:
+            if board[0][2] == 'X':
+                win1 += 1
+            if board[0][2] == 'O':
+                win2 += 1 
+        # print(win1, win2)
+        if win1 != 0 and win2 != 0:
+            return False
+        if win1 != 0 and cnt1 == cnt2:
+            return False
+        if win2 != 0 and cnt1 != cnt2:
+            return False 
+        return True
+```
+
+
+
 ## 6/12/2021
 
 [1816. 截断句子](https://leetcode-cn.com/problems/truncate-sentence/)
