@@ -2,6 +2,45 @@
 
 # 12/2021
 
+## 10/12/2021
+
+[748. 最短补全词](https://leetcode-cn.com/problems/shortest-completing-word/)
+
+```python
+class Solution:
+    def shortestCompletingWord(self, licensePlate: str, words: List[str]) -> str:
+        cnt_lic = [0] * 26
+        for s in licensePlate:
+            s = s.lower()
+            idx = ord(s) - ord('a')
+            if idx >= 0 and idx <= 25:
+                cnt_lic[idx] += 1
+        # print(cnt_lic)
+        ans = ''
+        min_len = 100
+        for word in words:
+            if len(word) >= min_len:
+                continue 
+            if self.is_comp(word, cnt_lic):
+                ans = word 
+                min_len = len(ans)
+        return ans 
+
+    def is_comp(self, word, cnt_lic):
+        cnt_word = [0] * 26
+        for s in word:
+            idx = ord(s) - ord('a')
+            cnt_word[idx] += 1
+        for i in range(26):
+            if cnt_lic[i] != 0 and cnt_word[i] < cnt_lic[i]:
+                return False 
+        return True 
+```
+
+
+
+
+
 ## 9/12/2021
 
 [794. 有效的井字游戏](https://leetcode-cn.com/problems/valid-tic-tac-toe-state/)
