@@ -2,6 +2,49 @@
 
 # 12/2021
 
+## 11/12/2021
+
+[911. 在线选举](https://leetcode-cn.com/problems/online-election/)
+
+```python
+class TopVotedCandidate:
+
+    def __init__(self, persons: List[int], times: List[int]):
+        votes = {}
+        top = None
+        max_vote = 0
+        tops = []
+        for p in persons:
+            votes.setdefault(p, 0)
+            votes[p] += 1
+            if votes[p] >= max_vote:
+                max_vote = votes[p]
+                top = p 
+            tops.append(top) 
+        self.times = times
+        self.tops = tops 
+
+    def q(self, t: int) -> int:
+        lo, hi = 0, len(self.times)
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if t >= self.times[mid]:
+                lo = mid + 1
+            else:
+                hi = mid 
+        return self.tops[lo - 1]
+
+
+
+# Your TopVotedCandidate object will be instantiated and called as such:
+# obj = TopVotedCandidate(persons, times)
+# param_1 = obj.q(t)
+```
+
+
+
+
+
 ## 10/12/2021
 
 [748. 最短补全词](https://leetcode-cn.com/problems/shortest-completing-word/)
