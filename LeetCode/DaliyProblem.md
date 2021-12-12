@@ -2,6 +2,30 @@
 
 # 12/2021
 
+## 12/12/2021
+
+[709. 转换成小写字母](https://leetcode-cn.com/problems/to-lower-case/)
+
++ 大写字母 A - Z的 ASCII 码范围为[65,90]
++ 小写字母 a - z的 ASCII 码范围为[97,122]
++ 相差32
+
+```python
+class Solution:
+    def toLowerCase(self, s: str) -> str:
+        ans = []
+        for ch in s:
+            asc = ord(ch)
+            if asc <= 90 and asc >= 65:
+                ch = chr(asc + 32)
+            ans.append(ch)
+        return ''.join(ans)
+```
+
+
+
+
+
 ## 11/12/2021
 
 [911. 在线选举](https://leetcode-cn.com/problems/online-election/)
