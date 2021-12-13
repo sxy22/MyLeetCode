@@ -2,7 +2,31 @@
 
 # 12/2021
 
-## 12/12/2021
+## 12/13/2021
+
+[807. 保持城市天际线](https://leetcode-cn.com/problems/max-increase-to-keep-city-skyline/)
+
+```python
+class Solution:
+    def maxIncreaseKeepingSkyline(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        ans = 0
+        row_max = [0] * n
+        col_max = [0] * n
+        for r in range(n):
+            for c in range(n):
+                val = grid[r][c]
+                row_max[r] = max(row_max[r], val)
+                col_max[c] = max(col_max[c], val)
+        for r in range(n):
+            for c in range(n):
+                ans += min(row_max[r], col_max[c]) - grid[r][c]
+        return ans 
+```
+
+
+
+## 12/13/2021
 
 [709. 转换成小写字母](https://leetcode-cn.com/problems/to-lower-case/)
 
@@ -26,7 +50,7 @@ class Solution:
 
 
 
-## 11/12/2021
+## 12/12/2021
 
 [911. 在线选举](https://leetcode-cn.com/problems/online-election/)
 
@@ -69,7 +93,7 @@ class TopVotedCandidate:
 
 
 
-## 10/12/2021
+## 12/10/2021
 
 [748. 最短补全词](https://leetcode-cn.com/problems/shortest-completing-word/)
 
@@ -108,7 +132,7 @@ class Solution:
 
 
 
-## 9/12/2021
+## 12/9/2021
 
 [794. 有效的井字游戏](https://leetcode-cn.com/problems/valid-tic-tac-toe-state/)
 
@@ -162,7 +186,7 @@ class Solution:
 
 
 
-## 6/12/2021
+## 12/6/2021
 
 [1816. 截断句子](https://leetcode-cn.com/problems/truncate-sentence/)
 
@@ -203,7 +227,7 @@ class Solution:
 
 
 
-## 4/12/2021
+## 12/4/2021
 
 [383. 赎金信](https://leetcode-cn.com/problems/ransom-note/)
 
@@ -226,7 +250,7 @@ class Solution:
 
 
 
-## 2/12/2021
+## 12/2/2021
 
 [506. 相对名次](https://leetcode-cn.com/problems/relative-ranks/)
 
@@ -251,7 +275,7 @@ class Solution:
 
 
 
-## 1/12/2021
+## 12/1/2021
 
 [1446. 连续字符](https://leetcode-cn.com/problems/consecutive-characters/)
 
