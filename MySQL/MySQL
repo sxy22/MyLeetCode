@@ -1,0 +1,330 @@
+# 基础
+
+##  sql 执行顺序
+
+在上面的示例中 SQL 语句的执行顺序如下: 
+
+　　 (1). 首先执行 FROM 子句, 从 tb_Grade 表组装数据源的数据 
+
+　　 (2). 执行 WHERE 子句, 筛选 tb_Grade 表中所有数据不为 NULL 的数据 
+
+　　 (3). 执行 GROUP BY 子句, 把 tb_Grade 表按 "学生姓名" 列进行分组(注：这一步开始才可以使用select中的别名，他返回的是一个游标，而不是一个表，所以在where中不可以使用select中的别名，而having却可以使用，感谢网友  zyt1369  提出这个问题)
+
+　　 (4). 计算 max() 聚集函数, 按 "总成绩" 求出总成绩中最大的一些数值 
+
+　　 (5). 执行 HAVING 子句, 筛选课程的总成绩大于 600 分的. 
+
+　　 (7). 执行 ORDER BY 子句, 把最后的结果按 "Max 成绩" 进行排序. 
+
+## DQL
+
+### limit
+
+limit x, y 
+从第x个开始（不包括x），一共取y个
+
+
+
+### 分组后聚合函数
+
+- COUNT()：统计指定列不为NULL的记录行数； 
+- MAX()：计算指定列的最大值，如果指定列是字符串类型，那么使用字符串排序运算； 
+- MIN()：计算指定列的最小值，如果指定列是字符串类型，那么使用字符串排序运算； 
+- SUM()：计算指定列的数值和，如果指定列类型不是数值类型，那么计算结果为0； 
+- AVG()：计算指定列的平均值，如果指定列类型不是数值类型，那么计算结果为0； 
+- 分组本身也能代表group特征
+
+
+
+### case when
+
+```mysql
+
+case XX  
+when YY then WW  
+when YY then WW  
+when YY then WW  
+else//其他情况  
+MM  
+end  
+如果没有else和及其子句，则返回NULL  
+
+CASE   
+WHEN 条件1 THEN result1  
+WHEN 条件2 THEN result2  
+....  
+[ELSE resultn]  
+END  
+
+```
+
+
+
+## Date 操作
+
+### DATE_ADD()  和 DATE_SUB() 函数
+
+```mysql
+DATE_ADD(date,INTERVAL expr type)
+DATE_SUB(date,INTERVAL expr type)
+
+SELECT OrderId,DATE_ADD(OrderDate,INTERVAL 2 DAY) AS OrderPayDate
+FROM Orders
+```
+
+![image-20211213214912834](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211213214912834.png)
+
+### DATEDIFF() 函数
+
+```mysql
+DATEDIFF(date1,date2)
+
+# date1 和 date2 参数是合法的日期或日期/时间表达式。
+# 只有值的日期部分参与计算。
+```
+
+
+
+###  DATE_FORMAT() 函数
+
+```mysql
+DATE_FORMAT(date,format)
+```
+
+![image-20211213215104030](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211213215104030.png)
+
+
+
+## DML
+
+### 插入 insert
+
+insert into [表名] values()
+
+可以插入子查询
+
+#列顺序可以任意，可以为null的可以省略 select返回的结果和插入数据的字段数量、顺序、类型需要一致。  
+```sql
+INSERT INTO beauty(id, `name`, sex, borndate, phone, photo, boyfriend_id)
+VALUES (13, 'aaa', '女', '1990-4-23', '12345', NULL, 22);
+```
+
+说明： 
+值和字段需要一一对应 
+如果是字符型或日期类型，值需要用单引号引起来；如果是数值类型，不需要用单引号 
+字段和值的个数必须一致，位置对应 
+字段如果不能为空，则必须插入值 
+可以为空的字段可以不用插入值，但需要注意：字段和值都不写；或字段写上，值用null代替 
+表名后面的字段可以省略不写，此时表示所有字段，顺序和表中字段顺序一致。 
+
+
+#set
+
+```sql
+INSERT INTO beauty
+SET id = 17, `name` = '刘', phone='110';
+```
+
+#一次插入多行， 省略列名默认按照表的顺序
+```sql
+INSERT INTO beauty
+VALUES (23, 'aaa', '女', '1990-4-23', '12345', NULL, 22),
+(24, 'aaa', '女', '1990-4-23', '12345', NULL, 22),
+(25, 'aaa', '女', '1990-4-23', '12345', NULL, 22);
+```
+
+
+
+### on duplicated key update
+
+```sql
+INSERT INTO pms_statistic (
+	id,
+	tenantId,
+	tenantName,
+	isDeleted,
+	createTime
+)
+VALUES
+	(
+		6257,50,'保存或修改0',1,'2020-01-00'
+	) ,(
+		6258,51,'保存或修改1',1,'2020-01-01'
+	) ,(
+		6259,52,'保存或修改2',1,'2020-01-02'
+	) ,(
+		62510,53,'保存或修改3',1,'2020-01-03'
+	) 
+ON DUPLICATE KEY UPDATE tenantId = VALUES(tenantId),tenantName = VALUES(tenantName)
+		,isDeleted = VALUES(isDeleted),createTime = VALUES(createTime);
+```
+
+
+
+### 修改 update
+
+**修改单表记录**
+
+```sql
+update 表名
+set 列=value, ... ,列=value
+where 筛选
+```
+eg.  
+#大于10的电话改成110  
+
+```sql
+UPDATE beauty
+SET phone = 110
+WHERE id > 10;
+```
+---
+
+**修改多表记录**
+```sql
+update
+两表连接
+set
+where
+```
+
+eg. 
+#修改没有男朋友的人的boyfriend id 为404  
+
+```sql
+UPDATE beauty AS be 
+LEFT JOIN boys AS bo
+ON be.boyfriend_id = bo.id
+SET be.boyfriend_id = 404
+WHERE bo.id IS NULL; 
+```
+
+
+
+### 删除 delete truncate
+
+```sql
+delete from 表
+where 筛选条件
+```
+
+**已删除就是整行删除**
+
+eg.  
+#删除手机号9结尾
+```sql
+DELETE FROM beauty
+WHERE phone LIKE '%9';
+```
+---
+
+**多表语法**
+```sql
+delete 表1别名（如果两个表一起删就一起加上）
+from 两表连接
+where
+```
+#多表，删除张无忌的女朋友
+```sql
+DELETE be
+FROM beauty AS be
+JOIN boys AS bo ON be.boyfriend_id = bo.id
+WHERE bo.boyName = '张无忌';
+```
+
+
+---
+
+**truncate**  
+truncate table 直接删除表
+
+**drop，truncate，delete区别**
++ drop (删除表)：删除内容和定义，释放空间，简单来说就是把整个表去掉，以后要新增数据是不可能的，除非新增一个表。
++ truncate (清空表中的数据)：删除内容、释放空间但不删除定义(保留表的数据结构)，与drop不同的是，只是清空表数据而已  
+自增长列会从1开始
++ 如果有自增列，truncate方式删除之后，自增列的值会被初始化，delete方式要分情况（如果数  
+据库被重启了，自增列值也会被初始化，数据库未被重启，则不变）
++ 如果要删除表定义及其数据，请使用 drop table 语句
++ 安全性：小心使用 drop 和 truncate，尤其没有备份的时候，否则哭都来不及
++ 删除速度，一般来说: drop> truncate > delete
+
++ delete语句是数据库操作语言(dml)，这个操作会放到 rollback segement 中，事务提交之后才生  
+效；如果有相应的 trigger，执行的时候将被触发。  
+truncate、drop 是数据库定义语言(ddl)，操作立即生效，原数据不放到 rollback segment 中，  
+不能回滚，操作不触发 trigger。
+
+
+
+## DDL
+
+### 库管理  创建、删除
+
+```sql
+#创建
+CREATE DATABASE IF NOT EXISTS books;
+# 删除
+DROP DATABASE IF EXISTS books;
+```
+
+### 表的创建 create table
+
+```sql
+create table 表名(
+    列名    类型[长度， 约束]
+)
+```
+
+eg.
+```sql
+CREATE TABLE book(
+				id INT NOT NULL, 
+				bname VARCHAR(20),
+				price DOUBLE,
+				author_id INT,
+				pub_date DATETIME			
+);
+DESC book;
+```
+
+
+
+### 表的修改 alter table
+
+1. 修改列名  
+```sql
+ALTER TABLE ... CHANGE COLUMN 1  2 类型
+ALTER TABLE book CHANGE COLUMN pub_date  pb_date DATETIME;
+```
+
+2. 修改类型，约束
+```sql
+ALTER TABLE ... MODIFY COLUMN 列 类型 ;
+ALTER TABLE book MODIFY COLUMN pb_date TIMESTAMP;
+```
+
+3. 添加列
+```sql
+ALTER TABLE author ADD COLUMN annual DOUBLE;
+```
+
+4. 删除列
+```sql
+ALTER TABLE author DROP COLUMN annual;
+```
+
+5. 修改表名
+```sql
+ALTER TABLE author RENAME TO author_info;
+```
+
+
+
+### 表的复制
+
+仅仅复制表的结构
+CREATE TABLE au_copy LIKE author_info;
+
+复制表
+CREATE TABLE au_copy2 
+SELECT * FROM author_info
+WHERE id = 2;
