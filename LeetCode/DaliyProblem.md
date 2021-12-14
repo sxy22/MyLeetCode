@@ -4,6 +4,8 @@
 
 ## 12/14/2021
 
+[630. 课程表 III](https://leetcode-cn.com/problems/course-schedule-iii/)
+
 ```python
 class Solution:
     def scheduleCourse(self, courses: List[List[int]]) -> int:
