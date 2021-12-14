@@ -2,6 +2,36 @@
 
 # 12/2021
 
+## 12/14/2021
+
+```python
+class Solution:
+    def scheduleCourse(self, courses: List[List[int]]) -> int:
+        courses = sorted(courses, key=lambda x: x[1])
+        heap = []
+        days = 0
+        ans = 0
+        for c in courses:
+            d, last = c
+            if days + d <= last:
+                days += d
+                ans += 1
+                heapq.heappush(heap, -d)
+            else:
+                if len(heap) == 0:
+                    continue
+                dmax = -heap[0]
+                if dmax > d:
+                    heapq.heappop(heap)
+                    heapq.heappush(heap, -d)
+                    days += (d - dmax)
+        return ans 
+```
+
+
+
+
+
 ## 12/13/2021
 
 [807. 保持城市天际线](https://leetcode-cn.com/problems/max-increase-to-keep-city-skyline/)
