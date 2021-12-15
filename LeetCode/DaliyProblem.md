@@ -2,6 +2,36 @@
 
 # 12/2021
 
+## 12/15/2021
+
+[851. 喧闹和富有](https://leetcode-cn.com/problems/loud-and-rich/)
+
+```python
+class Solution:
+    def loudAndRich(self, richer: List[List[int]], quiet: List[int]) -> List[int]:
+        n = len(quiet)
+        hmap = dict()
+        for x, y in richer:
+            hmap.setdefault(y, []).append(x)
+        self.ans = [-1] * n
+        for i in range(n):
+            self.DFS(i, hmap, quiet)
+        return self.ans 
+
+    def DFS(self, i, hmap, quiet):
+        if self.ans[i] != -1:
+            return
+        candi = i
+        for idx in hmap.get(i, []):
+            self.DFS(idx, hmap, quiet)
+            if quiet[self.ans[idx]] < quiet[candi]:
+                candi = self.ans[idx]
+        self.ans[i] = candi 
+        return 
+```
+
+
+
 ## 12/14/2021
 
 [630. 课程表 III](https://leetcode-cn.com/problems/course-schedule-iii/)
