@@ -328,3 +328,119 @@ CREATE TABLE au_copy LIKE author_info;
 CREATE TABLE au_copy2 
 SELECT * FROM author_info
 WHERE id = 2;
+
+
+
+# window function
+
+```my
+mysql> SELECT
+         year, country, product, profit,
+         SUM(profit) OVER() AS total_profit,
+         SUM(profit) OVER(PARTITION BY country) AS country_profit
+       FROM sales
+       ORDER BY country, year, product, profit;
++------+---------+------------+--------+--------------+----------------+
+| year | country | product    | profit | total_profit | country_profit |
++------+---------+------------+--------+--------------+----------------+
+| 2000 | Finland | Computer   |   1500 |         7535 |           1610 |
+| 2000 | Finland | Phone      |    100 |         7535 |           1610 |
+| 2001 | Finland | Phone      |     10 |         7535 |           1610 |
+| 2000 | India   | Calculator |     75 |         7535 |           1350 |
+| 2000 | India   | Calculator |     75 |         7535 |           1350 |
+| 2000 | India   | Computer   |   1200 |         7535 |           1350 |
+| 2000 | USA     | Calculator |     75 |         7535 |           4575 |
+| 2000 | USA     | Computer   |   1500 |         7535 |           4575 |
+| 2001 | USA     | Calculator |     50 |         7535 |           4575 |
+| 2001 | USA     | Computer   |   1200 |         7535 |           4575 |
+| 2001 | USA     | Computer   |   1500 |         7535 |           4575 |
+| 2001 | USA     | TV         |    100 |         7535 |           4575 |
+| 2001 | USA     | TV         |    150 |         7535 |           4575 |
++------+---------+------------+--------+--------------+----------------+
+```
+
++ 第一个over 参数为空， 即所有row都在一组
++ 第二over 以country分类
+
+窗口函数只能出现在select 后或者 order by 后面  
+窗口 执行在having 后， select 前  
+
+## 两种over的形式
+
++ 直接在over后写 
+  如OVER(PARTITION BY country)
+
++ over + 窗口名 
+  再定义 WINDOW w AS (ORDER BY val)
++ 
+
+## 非聚合函数
+
+**CUME_DIST() 和 PERCENT_RANK()**
+
+Returns the cumulative distribution of a value within a group of values;
+that is, the percentage of partition values less than or equal to the value in the current row
+求累计百分比，即<= 它的数据量的百分比  
+
+
+
+**DENSE_RANK() 和 RANK() 和 ROW_NUMBER()**
+
+DENSE_RANK() 
+返回组内的排序， without gaps， 即相同的值有相同的排名，排名连续不断 
+必须有order by 
+
+RANK() 排名并不连续
+
+ROW_NUMBER() 返回行号
+
+
+
+**LAG() 和 LEAD()**
+
+LAG(expr [, N[, default]]) [null_treatment] 
+返回排序后当前行的 前N行的数据 
+如果不存在， 返回defaul 
+N 默认为1， defaul 默认为 null  
+
+LEAD() 
+后面的数据
+
+常用来比较前后差异
+
+```mysql
+mysql> SELECT
+         t, val,
+         LAG(val)        OVER w AS 'lag',
+         LEAD(val)       OVER w AS 'lead',
+         val - LAG(val)  OVER w AS 'lag diff',
+         val - LEAD(val) OVER w AS 'lead diff'
+       FROM series
+       WINDOW w AS (ORDER BY t);
++----------+------+------+------+----------+-----------+
+| t        | val  | lag  | lead | lag diff | lead diff |
++----------+------+------+------+----------+-----------+
+| 12:00:00 |  100 | NULL |  125 |     NULL |       -25 |
+| 13:00:00 |  125 |  100 |  132 |       25 |        -7 |
+| 14:00:00 |  132 |  125 |  145 |        7 |       -13 |
+| 15:00:00 |  145 |  132 |  140 |       13 |         5 |
+| 16:00:00 |  140 |  145 |  150 |       -5 |       -10 |
+| 17:00:00 |  150 |  140 |  200 |       10 |       -50 |
+| 18:00:00 |  200 |  150 | NULL |       50 |      NULL |
++----------+------+------+------+----------+-----------+
+```
+
+
+
+## 聚合函数累计 sum、avg、min、max等
+
+没有 order by 就是一般的聚合函数，所有组内都一样
+
+有order by 就是累计计算
+
+partition by：执行分组功能 
+order by：表面是排序功能，实际是累计功能！！！ 
+再强调一遍：order by 表面是排序功能，实际是累计功能！  
+
+order by经常被用来和partition by连用，计算名次，可实际是累计作用的，仔细想想可以发现，计算组内名次不就是在累计吗，每个人的名次都是综合他之前所有人的名次基础上得来的。
+
