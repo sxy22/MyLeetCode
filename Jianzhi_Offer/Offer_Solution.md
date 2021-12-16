@@ -1,23 +1,10 @@
-# 剑指Offer
+# 剑指Offer(第二版)
 
 ## [剑指Offer 03. 数组中重复的数字](https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)
 
-找出数组中重复的数字。
+**思路一**
 
-
-在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
-
-示例 1：
-
-输入：
-[2, 3, 1, 0, 2, 5, 3]
-输出：2 或 3 
-
-
-
-思路一
-
-使用hashset
++ 使用hashset
 
 ```java
 class Solution {
@@ -35,54 +22,34 @@ class Solution {
 }
 ```
 
-思路二
+**思路二**
 
-所有数字都在 0～n-1 的范围内， 可用原数组作为hashset
++ 所有数字都在 0～n-1 的范围内， 可用原数组作为hashset
 
-1. 检查nums[i] 是否等于i， 若是则i++
-2. 若不是，nums[i]的正确下标为nums[i]， 看是否相等，相等则找到了重复数字
-3. 交换 下标 i 和 nums[i]， 继续在i处检查
++ 检查nums[i] 是否等于i， 若是则i++
+
++ 若不是，nums[i]的正确下标为nums[i]， 看是否相等，相等则找到了重复数字
+
++ 交换 下标 i 和 nums[i]， 继续在i处检查
 
 ```python
 class Solution:
     def findRepeatNumber(self, nums: List[int]) -> int:
-        i = 0 
+        i = 0
         while i < len(nums):
-            value = nums[i]
-            if i == value:
+            val = nums[i]
+            if val == i:
                 i += 1
                 continue
-            idx_value = nums[value]
-            if value == idx_value:
-                return value 
-            nums[i], nums[value] = nums[value], nums[i]
+            if nums[val] == val:
+                return val 
+            nums[i], nums[val] = nums[val], nums[i]
+        return -1
 ```
 
 
 
 ## [剑指Offer 04. 二维数组中的查找](https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/)
-
-在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个高效的函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
-
- 
-
-示例:
-
-现有矩阵 matrix 如下：
-
-[
-  [1,   4,  7, 11, 15],
-  [2,   5,  8, 12, 19],
-  [3,   6,  9, 16, 22],
-  [10, 13, 14, 17, 24],
-  [18, 21, 23, 26, 30]
-]
-
-给定 target = 5，返回 true。
-
-给定 target = 20，返回 false。
-
-
 
 **思路**
 
@@ -90,18 +57,32 @@ class Solution:
 + target < matrix\[i\]\[j\], j -= 1
 + target > matrix\[i\]\[j\], i += 1
 
+```python
+class Solution:
+    def findNumberIn2DArray(self, matrix: List[List[int]], target: int) -> bool:
+        row = len(matrix)
+        if row == 0:
+            return False
+        column = len(matrix[0])
+        if column == 0:
+            return False
+        i = 0
+        j = column - 1
+        while j >= 0 and i <= row - 1:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] > target:
+                j -= 1
+            else:
+                i +=1
+        return False
+```
+
 
 
 ## [剑指 Offer 05. 替换空格](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)
 
 请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
-
- 
-
-示例 1：
-
-输入：s = "We are happy."
-输出："We%20are%20happy."
 
 
 
@@ -128,33 +109,43 @@ class Solution {
 
 
 
+```python
+class Solution:
+    def replaceSpace(self, s: str) -> str:
+        ans = []
+        for ch in s:
+            if ch == ' ':
+                ans.append("%20")
+            else:
+                ans.append(ch)
+        return ''.join(ans)
+```
 
+
+
+## [剑指 Offer 06. 从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def reversePrint(self, head: ListNode) -> List[int]:
+        res = []
+        while head is not None:
+            res.append(head.val)
+            head = head.next
+        return res[::-1]
+```
 
 
 
 
 
 ## [剑指Offer 07. 重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
-
-输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
-
- 
-
-例如，给出
-
-前序遍历 preorder = [3,9,20,15,7]
-中序遍历 inorder = [9,3,15,20,7]
-
-返回如下的二叉树：
-
- 3
-/ \
-
-9  20
-    /  \
-   15   7
-
-
 
 **思路**
 
@@ -202,16 +193,51 @@ class Solution {
 }
 ```
 
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        self.map = {}
+        n = len(inorder)
+        for i in range(n):
+            self.map[inorder[i]] = i
+        self.preorder = preorder
+        self.inorder = inorder
+        root = self.helper(0, n - 1, 0, n - 1)
+        return root 
+
+        
+    def helper(self, pre_l, pre_r, in_l, in_r):
+        if pre_l > pre_r:
+            return None
+        root_val = self.preorder[pre_l]
+        root = TreeNode(root_val)
+        # root 在inorder的idx
+        in_mid = self.map[root_val]
+        # 左右子树结点个数
+        l_cnt = in_mid - in_l
+        r_cnt = in_r - in_mid
+        root.left = self.helper(pre_l + 1, pre_l + l_cnt, in_l, in_mid - 1)
+        root.right = self.helper(pre_l + l_cnt + 1, pre_r, in_mid + 1, in_r)
+        return root 
+```
+
+
+
+
+
 ## [剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
-用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+**思路**
 
-示例 1：
-
-输入：
-["CQueue","appendTail","deleteHead","deleteHead"]
-[[],[3],[],[]]
-输出：[null,null,3,-1]
++ stack1 接受新的值
++ stack2 辅助pop操作
 
 ```python
 class CQueue:
@@ -239,14 +265,49 @@ class CQueue:
 
 
 
+## [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+
++ 原地动态规划
+
+```python
+class Solution:
+    def fib(self, n: int) -> int:
+        if n == 0:
+            return 0
+        max_int = 1000000007
+        a, b = 0, 1
+        for i in range(n - 1):
+            a, b = b, a + b 
+            if b >= max_int:
+                b %= max_int
+        return b
+```
+
+
+
+## [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
+
+```python
+class Solution:
+    def numWays(self, n: int) -> int:
+        if n == 0:
+            return 1 
+        if n <= 2:
+            return n 
+        a, b = 1, 2
+        max_int = 1000000007
+        for i in range(n - 2):
+            a, b = b, a + b
+            if b > max_int:
+                b %= max_int
+        return b 
+```
+
+
+
+
+
 ## [剑指 Offer 11. 旋转数组的最小数字](https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/)
-
-把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。  
-
-示例 1：
-
-输入：[3,4,5,1,2]
-输出：1
 
 + 二分查找，有重复 数字
 + numbers[i] < numbers[j]， 则此段有序，i位置即为最小值，直接返回
@@ -272,6 +333,8 @@ class Solution:
 ```
 
 
+
+##  HERE stop hear、
 
 
 

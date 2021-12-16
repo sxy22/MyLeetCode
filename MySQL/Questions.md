@@ -1,3 +1,5 @@
+# LeetCode 数据库
+
 ## [175. 组合两个表](https://leetcode-cn.com/problems/combine-two-tables/)
 
 <img src="https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211213221543084.png" alt="image-20211213221543084" style="zoom:80%;" />
@@ -34,4 +36,8 @@ select max(Salary) as SecondHighestSalary
 from Employee
 where Salary < (select max(Salary) from Employee);
 ```
+
+
+
+## [178. 分数排名(window)](https://leetcode-cn.com/problems/rank-scores/)
 
