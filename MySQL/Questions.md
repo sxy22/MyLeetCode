@@ -101,3 +101,115 @@ on e1.ManagerId = e2.Id
 where e1.Salary > e2.Salary;
 ```
 
+
+
+## [182. 查找重复的电子邮箱](https://leetcode-cn.com/problems/duplicate-emails/)
+
+![image-20211216203108580](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216203108580.png)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    Email 
+from Person
+group by Email
+having count(Id) > 1;
+```
+
+
+
+## [183. 从不订购的客户](https://leetcode-cn.com/problems/customers-who-never-order/)
+
+![image-20211216203244080](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216203244080.png)
+
+
+
++ left join
+
+```mysql
+# Write your MySQL query statement below
+select
+    C.Name as Customers
+from Customers as C
+left join Orders as O 
+on C.Id = O.CustomerId
+where O.Id is Null;
+```
+
++ 子查询
+
+```mysql
+select `Name` as Customers
+from Customers
+where Id not in (select CustomerId from Orders)
+```
+
+
+
+## [184. 部门工资最高的员工](https://leetcode-cn.com/problems/department-highest-salary/)
+
+![image-20211216204818757](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204818757.png)
+
+![image-20211216204826370](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204826370.png)
+
+```mysql
+select 
+    d.Name as "Department", 
+    e.Name as "Employee", 
+    e.Salary
+from Employee as e 
+join (
+    select DepartmentId, max(salary) as ms
+    from Employee
+    group by DepartmentId
+) as T
+on e.DepartmentId = T.DepartmentId and e.Salary = T.ms
+join Department as d 
+on e.DepartmentId = d.Id
+```
+
+
+
+## [185. 部门工资前三高的所有员工](https://leetcode-cn.com/problems/department-top-three-salaries/)
+
+![image-20211216204846709](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204846709.png)
+
+![image-20211216204856309](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204856309.png)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    D.Name as Department ,
+    T.Name as Employee,
+    T.Salary
+from (
+    select 
+        *,
+        DENSE_RANK() over(partition by DepartmentId order by Salary DESC) as rk
+    from Employee
+) as T 
+join Department as D 
+on T.DepartmentId = D.Id 
+where T.rk <= 3;
+```
+
+
+
+## [196. 删除重复的电子邮箱(blank)](https://leetcode-cn.com/problems/delete-duplicate-emails/)
+
+
+
+## [197. 上升的温度](https://leetcode-cn.com/problems/rising-temperature/)
+
+![image-20211216205050037](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216205050037.png)
+
+![image-20211216205116693](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216205116693.png)
+
+```mysql
+select w1.id
+from Weather as w1
+join Weather as w2
+on DATEDIFF(w1.RecordDate, w2.RecordDate) = 1
+where w1.Temperature > w2.Temperature;
+```
+

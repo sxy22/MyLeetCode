@@ -334,9 +334,85 @@ class Solution:
 
 
 
-##  HERE stop hear、
+## [剑指 Offer 12. 矩阵中的路径](https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/)
+
+**思路**
+
++ 搜索过的位置标记为“+”， 即可解决重复搜索
++ 也可以定义传统的searched set()
+
+```python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        self.word = word 
+        self.ans = False
+        self.m, self.n  = len(board), len(board[0])
+        for i in range(self.m):
+            for j in range(self.n):
+                self.DFS(board, i, j, 0)
+        return self.ans
+
+        
+    def DFS(self, board, i, j, idx):
+        if self.ans:
+            return
+        if idx == len(self.word):
+            self.ans = True
+            return
+        if i < 0 or i >= self.m or j < 0 or j >= self.n:
+            return 
+        if board[i][j] != self.word[idx]:
+            return 
+        temp = board[i][j]
+        board[i][j] = '+'
+        self.DFS(board, i+1, j, idx+1)
+        self.DFS(board, i-1, j, idx+1)
+        self.DFS(board, i, j+1, idx+1)
+        self.DFS(board, i, j-1, idx+1)
+        board[i][j] = temp 
+        return 
+```
 
 
+
+## [剑指 Offer 13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
+
++ DFS
++ 如到达已搜索过的点，可以直接return，因为其他路径会从该店出发
+
+
+
+```python
+class Solution:
+    def movingCount(self, m: int, n: int, k: int) -> int:
+        self.visited = [[0] * n for _ in range(m)]
+        self.ans = 0 
+        self.DFS(0, 0, m, n, k)
+        return self.ans 
+
+    def DFS(self, i, j, m, n, k):
+        if i < 0 or i >= m or j < 0 or j >= n:
+            return 
+        if self.visited[i][j] == 1:
+            return 
+        if self.bitsum(i) + self.bitsum(j) > k:
+            return 
+        self.visited[i][j] = 1
+        self.ans += 1
+        self.DFS(i + 1, j, m, n ,k)
+        self.DFS(i - 1, j, m, n ,k)
+        self.DFS(i, j + 1, m, n ,k)
+        self.DFS(i, j - 1, m, n ,k)
+        return 
+
+    def bitsum(self, x):
+        ans = 0
+        while x > 0:
+            ans += x % 10
+            x = x // 10
+        return ans 
+
+```
 
 
 
@@ -344,38 +420,23 @@ class Solution:
 
 ## [剑指 Offer 15. 二进制中1的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
 
-请实现一个函数，输入一个整数（以二进制串形式），输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
-
- 
-
-示例 1：
-
-输入：00000000000000000000000000001011
-输出：3
-解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。
-
-
-
 **思路1**
 
 + 和1 与操作， 可以得到最后一位的情况
 + 右移
 
-```java
-public class Solution {
-    // you need to treat n as an unsigned value
-    public int hammingWeight(int n) {
+```c++
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
         int ans = 0;
         while (n != 0) {
-            int last = n & 1;
-            if (last == 1) {
-                ans += 1;
-            }
-            n = n >>> 1;
+            ans += n & 1;
+            n = n >> 1;
         }
         return ans;
     }
-}
+};
 ```
 
 
@@ -386,18 +447,20 @@ public class Solution {
 + 记录多少次操作会使n变为0
 
 ```java
-public class Solution {
-    // you need to treat n as an unsigned value
-    public int hammingWeight(int n) {
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
         int ans = 0;
         while (n != 0) {
-            ans += 1;
+            ans++;
             n = n & (n - 1);
         }
         return ans;
     }
-}
+};
 ```
+
+
 
 
 

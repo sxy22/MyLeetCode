@@ -2,6 +2,50 @@
 
 # 12/2021
 
+## 12/17/2021
+
+[1518. 换酒问题](https://leetcode-cn.com/problems/water-bottles/)
+
++ Python
+
+```python
+class Solution:
+    def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
+        ans = 0
+        empty = 0
+        while numBottles != 0:
+            ans += numBottles
+            empty += numBottles
+            numBottles = empty // numExchange
+            empty = empty % numExchange
+        return ans 
+    
+```
+
++ C++
+
+```c++
+class Solution {
+public:
+    int numWaterBottles(int numBottles, int numExchange) {
+        int ans = numBottles;
+        int empty = numBottles;
+        while (empty >= numExchange) {
+            int temp = empty / numExchange;
+            ans += temp;
+            empty = empty % numExchange + temp;
+        }
+        return ans;
+    }
+};
+```
+
+
+
+
+
+
+
 ## 12/15/2021
 
 [851. 喧闹和富有](https://leetcode-cn.com/problems/loud-and-rich/)
