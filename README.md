@@ -36,6 +36,22 @@
 
 
 
+### [链表](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#%E9%93%BE%E8%A1%A8)
+
+| 题目                                                         | 难度                                                         | 难度 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ---- |
+| [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#160-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8) | Easy |
+| [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#206-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8) | Easy |
+| [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#141-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8) | Eas  |
+
+
+
+
+
+---
+
+
+
 ## 剑指Offer
 
 + [剑指Offer 03. 数组中重复的数字](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_Solution.md#%E5%89%91%E6%8C%87offer-03-%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97)
@@ -49,6 +65,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 12/17/2021 | [1518. 换酒问题](https://leetcode-cn.com/problems/water-bottles/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12172021) | Easy   |
 | 12/15/2021 | [851. 喧闹和富有](https://leetcode-cn.com/problems/loud-and-rich/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12152021) | Medium |
 | 12/14/2021 | [630. 课程表 III](https://leetcode-cn.com/problems/course-schedule-iii/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12142021) | Hard   |
 | 12/13/2021 | [807. 保持城市天际线](https://leetcode-cn.com/problems/max-increase-to-keep-city-skyline/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12132021) | Medium |
