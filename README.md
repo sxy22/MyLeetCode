@@ -42,7 +42,7 @@
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ---- |
 | [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#160-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8) | Easy |
 | [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#206-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8) | Easy |
-| [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#141-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8) | Eas  |
+| [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#141-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8) | Easy |
 
 
 

@@ -213,3 +213,110 @@ on DATEDIFF(w1.RecordDate, w2.RecordDate) = 1
 where w1.Temperature > w2.Temperature;
 ```
 
+
+
+## [511. 游戏玩法分析 I](https://leetcode-cn.com/problems/game-play-analysis-i/)
+
+![image-20211217210740533](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217210740533.png)
+
+![image-20211217210749485](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217210749485.png)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    player_id,
+    min(event_date) as first_login
+from Activity 
+group by player_id;
+```
+
+
+
+## [512. 游戏玩法分析 II](https://leetcode-cn.com/problems/game-play-analysis-ii/)
+
+![image-20211217210919062](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217210919062.png)
+
+```mysql
+select A.player_id, A.device_id
+from Activity as A
+join (
+    select player_id, min(event_date) as fd
+    from Activity
+    group by player_id
+) as T
+on A.player_id = T.player_id
+and A.event_date = T.fd
+```
+
+
+
++ window function
+
+```mysql
+# Write your MySQL query statement below
+select
+    T.player_id, 
+    T.device_id
+from (
+    select 
+        player_id,
+        device_id,
+        RANK() over(partition by player_id order by event_date) as rk
+    from Activity
+) as T 
+where T.rk = 1;
+```
+
+
+
+## [534. 游戏玩法分析 III](https://leetcode-cn.com/problems/game-play-analysis-iii/)
+
++ window function
+
+```mysql
+# Write your MySQL query statement below
+select 
+    player_id, 
+    event_date,
+    SUM(games_played) over(partition by player_id order by event_date) as 'games_played_so_far'
+from Activity;
+```
+
+
+
+## [550. 游戏玩法分析 IV](https://leetcode-cn.com/problems/game-play-analysis-iv/)
+
+![image-20211217211549996](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217211549996.png)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    ROUND(count(A.player_id) / (select count(distinct player_id) from Activity) ,2) as fraction
+from Activity as A 
+join (
+    select player_id,
+    MIN(event_date) as first_date
+    from Activity
+    group by player_id
+) as T
+on A.player_id = T.player_id
+and DATEDIFF(A.event_date, T.first_date) = 1;
+```
+
+
+
+## [570. 至少有5名直接下属的经理](https://leetcode-cn.com/problems/managers-with-at-least-5-direct-reports/)
+
+![image-20211217212014696](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217212014696.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    E1.Name
+from Employee as E1
+join Employee as E2
+on E1.Id = E2. ManagerId
+group by E1.Id
+having count(E2.Id) >=5;
+```
+
