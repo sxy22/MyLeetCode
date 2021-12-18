@@ -2,6 +2,70 @@
 
 # 12/2021
 
+## 12/18/2021
+
+[419. 甲板上的战舰](https://leetcode-cn.com/problems/battleships-in-a-board/)
+
++ python
+
+```python
+class Solution:
+    def countBattleships(self, board: List[List[str]]) -> int:
+        ans = 0
+        m, n = len(board), len(board[0])
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] != 'X':
+                    continue 
+                if self.get(i - 1, j, board) != 'X' and self.get(i, j - 1, board) != 'X':
+                    ans += 1
+        return ans 
+
+    def get(self, i, j, board):
+        if i < 0 or j < 0:
+            return '.'
+        else:
+            return board[i][j]
+```
+
++ JAVA
+
+```java
+class Solution {
+    char[][] board;
+
+    public int countBattleships(char[][] board) {
+        this.board = board;
+        int m = board.length;
+        int n = board[0].length;
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] != 'X') {
+                    continue;
+                }
+                if (get(i - 1, j) != 'X' && get(i, j - 1) != 'X') {
+                    ans += 1;
+                }
+            }
+        }
+        return ans;
+    }
+
+    char get(int i, int j) {
+        if (i < 0 || j < 0) {
+            return '.';
+        }else {
+            return board[i][j];
+        }
+    }
+}
+```
+
+
+
+
+
 ## 12/17/2021
 
 [1518. 换酒问题](https://leetcode-cn.com/problems/water-bottles/)

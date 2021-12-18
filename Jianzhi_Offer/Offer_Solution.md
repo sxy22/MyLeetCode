@@ -468,15 +468,6 @@ public:
 
 实现 pow(x, n) ，即计算 x 的 n 次幂函数（即，xn）。不得使用库函数，同时不需要考虑大数问题。
 
- 
-
-示例 1：
-
-输入：x = 2.00000, n = 10
-输出：1024.00000
-
-
-
 **思路**
 
 + $x^n = x^{n / 2}x^{n / 2}$
@@ -505,6 +496,61 @@ class Solution:
         else:
             return x * temp * temp
 ```
+
++ 不递归
+
+![image-20211218000111115](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211218000111115.png)
+
++ Python
+
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1
+        ans = 1
+        if n < 0:
+            x = 1 / x
+            n = -n
+        while n != 0:   
+            if (n & 1) == 1:
+                ans *= x
+            n = n >> 1
+            x *= x
+        return ans 
+```
+
+
+
++ Java
+
+```java
+class Solution {
+    public double myPow(double x, int n) {
+        if (n == 0) {
+            return 1;
+        }
+        long N = n;
+        double ans = 1;
+        if (N < 0) {
+            N = -N;
+            x = 1.0 / x;
+        }
+        while (N != 0) {
+            if ((N & 1) == 1) {
+                ans *= x;
+            }
+            N >>= 1;
+            x *= x;
+        }
+        return ans;
+    }
+}
+```
+
+
+
+# here
 
 
 
