@@ -15,7 +15,7 @@
 
 ### [二叉树](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E4%BA%8C%E5%8F%89%E6%A0%91)
 
-| 题目                                                         | 难度                                                         | 难度   |
+| 题目                                                         | 题解                                                         | 难度   |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
 | [先序遍历 迭代&递归](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86-%E8%BF%AD%E4%BB%A3%E9%80%92%E5%BD%92) |                                                              |        |
 | [中序遍历 迭代&递归](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/BinaryTree.md#%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86-%E8%BF%AD%E4%BB%A3%E9%80%92%E5%BD%92) |                                                              |        |
@@ -27,7 +27,7 @@
 
 ### [双指针&滑动窗口](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#%E5%8F%8C%E6%8C%87%E9%92%88--%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3)
 
-| 题目                                                         | 难度                                                         | 难度   |
+| 题目                                                         | 题解                                                         | 难度   |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
 | [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2) | Medium |
 | [567. 字符串的排列](https://leetcode-cn.com/problems/permutation-in-string/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/TwoPointer%26SlidingWindow.md#567-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%92%E5%88%97) | Medium |
@@ -38,7 +38,7 @@
 
 ### [链表](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#%E9%93%BE%E8%A1%A8)
 
-| 题目                                                         | 难度                                                         | 难度 |
+| 题目                                                         | 题解                                                         | 难度 |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ---- |
 | [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#160-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8) | Easy |
 | [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/LinkedList.md#206-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8) | Easy |
@@ -54,17 +54,13 @@
 
 ## 剑指Offer
 
-+ [剑指Offer 03. 数组中重复的数字](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_Solution.md#%E5%89%91%E6%8C%87offer-03-%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97)
-+ [剑指Offer 04. 二维数组中的查找](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_Solution.md#%E5%89%91%E6%8C%87offer-04-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE)
-
-+ [剑指 Offer 05. 替换空格](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_Solution.md#%E5%89%91%E6%8C%87-offer-05-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC)
-
-+ [剑指Offer 07. 重建二叉树](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_Solution.md#%E5%89%91%E6%8C%87offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91)
+**剑指Offer 第2版** [solution](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_Solution.md#%E5%89%91%E6%8C%87offer%E7%AC%AC%E4%BA%8C%E7%89%88)
 
 ## 每日一题
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 12/18/2021 | [419. 甲板上的战舰](https://leetcode-cn.com/problems/battleships-in-a-board/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12182021) | Medium |
 | 12/17/2021 | [1518. 换酒问题](https://leetcode-cn.com/problems/water-bottles/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12172021) | Easy   |
 | 12/15/2021 | [851. 喧闹和富有](https://leetcode-cn.com/problems/loud-and-rich/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12152021) | Medium |
 | 12/14/2021 | [630. 课程表 III](https://leetcode-cn.com/problems/course-schedule-iii/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12142021) | Hard   |
