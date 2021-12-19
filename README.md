@@ -60,6 +60,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 12/19/2021 | [997. 找到小镇的法官](https://leetcode-cn.com/problems/find-the-town-judge/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12192021) | Easy   |
 | 12/18/2021 | [419. 甲板上的战舰](https://leetcode-cn.com/problems/battleships-in-a-board/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12182021) | Medium |
 | 12/17/2021 | [1518. 换酒问题](https://leetcode-cn.com/problems/water-bottles/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12172021) | Easy   |
 | 12/15/2021 | [851. 喧闹和富有](https://leetcode-cn.com/problems/loud-and-rich/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12152021) | Medium |
