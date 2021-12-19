@@ -2,6 +2,53 @@
 
 # 12/2021
 
+## 12/19/2021
+
+[997. 找到小镇的法官](https://leetcode-cn.com/problems/find-the-town-judge/)
+
++ JAVA
+
+```java
+class Solution {
+    public int findJudge(int n, int[][] trust) {
+        int[] trust_others = new int[n + 1];
+        int[] trusted = new int[n + 1];
+        for (int i = 0; i < trust.length; i++) {
+            int a = trust[i][0];
+            int b = trust[i][1];
+            trust_others[a] = 1;
+            trusted[b] += 1;
+        }
+        for (int i = 1; i < n + 1; i++) {
+            if (trusted[i] == n - 1 && trust_others[i] == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
+
++ Python
+
+```python
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        trust_other = [0] * (n + 1)
+        trusted = [0] * (n + 1)
+        for a, b in trust:
+            trust_other[a] = 1
+            trusted[b] += 1
+        for i in range(1, n + 1):
+            if trusted[i] == n - 1 and trust_other[i] == 0:
+                return i 
+        return -1 
+```
+
+
+
+
+
 ## 12/18/2021
 
 [419. 甲板上的战舰](https://leetcode-cn.com/problems/battleships-in-a-board/)

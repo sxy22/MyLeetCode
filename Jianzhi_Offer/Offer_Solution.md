@@ -550,21 +550,9 @@ class Solution {
 
 
 
-# here
-
 
 
 ## [剑指 Offer 18. 删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
-
-给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。
-
-返回删除后的链表的头节点。
-
-示例 1:
-
-输入: head = [4,5,1,9], val = 5
-输出: [4,1,9]
-解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9.
 
 **思路**
 
@@ -587,16 +575,6 @@ class Solution:
 
 
 ## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
-
-输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位于数组的后半部分。
-
-示例：
-
-输入：nums = [1,2,3,4]
-输出：[1,3,2,4] 
-注：[3,1,2,4] 也是正确的答案之一。
-
-
 
 **思路**
 
@@ -632,21 +610,9 @@ class Solution {
 }
 ```
 
+
+
 ## [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
-
-输入一个链表，输出该链表中倒数第k个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。
-
-例如，一个链表有 6 个节点，从头节点开始，它们的值依次是 1、2、3、4、5、6。这个链表的倒数第 3 个节点是值为 4 的节点。
-
- 
-
-示例：
-
-给定一个链表: 1->2->3->4->5, 和 k = 2.
-
-返回链表 4->5.
-
-
 
 **思路**
 
@@ -667,40 +633,113 @@ class Solution:
         return head1
 ```
 
+
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (k > 0) {
+            fast = fast.next;
+            k -= 1;
+        }
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+}
+```
+
+
+
 ## [剑指 Offer 24. 反转链表](https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/)
 
-见 链表 206 题
++ pre, cur
++ cur 指向pre
++ cur.next 提前保存
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
+
+
+## [剑指 Offer 25. 合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode prehead = new ListNode(-1);
+        ListNode ans = prehead;
+        while (l1 != null && l2 != null) {
+            ListNode next_node;
+            if (l1.val <= l2.val) {
+                next_node = l1;
+                l1 = l1.next;
+            }else {
+                next_node = l2;
+                l2 = l2.next;
+            }
+            prehead.next = next_node;
+            prehead = prehead.next;
+        }
+
+        if (l1 == null) {
+            prehead.next = l2;
+        }else {
+            prehead.next = l1;
+        }
+        return ans.next;
+    }
+}
+```
+
+
 
 ## [剑指 Offer 26. 树的子结构](https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/)
 
-输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)
-
-B是A的子结构， 即 A中有出现和B相同的结构和节点值。
-
-例如:给定的树 A:
-
-例如:
-给定的树 A:
-
-​     3
-​    / \
-
-   4   5
-  / \
- 1   2
-
-给定的树 B：
-
-   4 
-  /
- 1
-返回 true，因为 B 与 A 的一个子树拥有相同的结构和节点值。
-
-
-
 **思路**
 
-+ 每个节点判断，是否包含B
++ 遍历A的每个节点判断，是否包含B
 + 注意判断条件
 
 ```python
@@ -728,6 +767,41 @@ class Solution:
         # 向下递归
         return self.twosame(node1.left, node2.left) and self.twosame(node1.right, node2.right)
 ```
+
+
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (A == null || B == null) {
+            return false;
+        }
+        if (healper(A, B)) {
+            return true;
+        }
+        return isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+
+    boolean healper(TreeNode A, TreeNode B) {
+        if (B == null) return true;
+        if (A == null || A.val != B.val) return false;
+        return healper(A.left, B.left) && healper(A.right, B.right);
+    }
+}
+```
+
+
+
+# here
 
 
 

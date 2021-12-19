@@ -320,3 +320,61 @@ group by E1.Id
 having count(E2.Id) >=5;
 ```
 
+
+
+## [574. 当选者](https://leetcode-cn.com/problems/winning-candidate/)
+
+![image-20211218201758825](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211218201758825.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    C.Name
+from Vote as V
+join Candidate as C 
+on V.CandidateId = C.id
+group by V.CandidateId
+order by count(V.id) DESC
+limit 1;
+```
+
+
+
+## [577. 员工奖金](https://leetcode-cn.com/problems/employee-bonus/)
+
+![image-20211218204253679](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211218204253679.png)
+
+```mysql
+select `name`, bonus
+from Employee as E
+left join Bonus as B 
+on E.empId = B.empId
+where IFnull(B.bonus, 0) < 1000;
+
+# case when
+select E.name, B.bonus
+from Employee as E
+left join Bonus as B
+on E.empId = B.empId
+where (case
+       when B.bonus is Null then 0
+       when B.bonus < 1000 then 0
+       else 1
+       end) = 0;
+```
+
+
+
+## [578. 查询回答率最高的问题](https://leetcode-cn.com/problems/get-highest-answer-rate-question/)
+
+![image-20211218205116473](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211218205116473.png)
+
+```mysql
+select 
+    question_id as survey_log
+from SurveyLog 
+group by question_id
+order by sum(if(action = 'answer', 1, 0)) / sum(if(action = 'show', 1, 0)) desc, question_id
+limit 1;
+```
+
