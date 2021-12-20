@@ -378,3 +378,69 @@ order by sum(if(action = 'answer', 1, 0)) / sum(if(action = 'show', 1, 0)) desc,
 limit 1;
 ```
 
+
+
+## [579. 查询员工的累计薪水](https://leetcode-cn.com/problems/find-cumulative-salary-of-an-employee/)
+
+![image-20211219194650303](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194650303.png)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    E1.Id, 
+    E1.Month, 
+    SUM(E2.Salary) as Salary
+from Employee as E1
+join Employee as E2
+on E1.Id = E2.Id
+and E1.Month - E2.Month between 0 and 2
+left join (select Id, max(Month) as MM from Employee group by Id) as T
+on E1.Id = T.Id and E1.Month = T.MM
+where T.Id is null
+group by E1.Id, E1.Month
+order by E1.Id, E1.Month DESC;
+```
+
+
+
+## [580. 统计各专业学生人数](https://leetcode-cn.com/problems/count-student-number-in-departments/)
+
+![image-20211219194925811](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194925811.png)
+
+![image-20211219194939735](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194939735.png)
+
+![image-20211219194953272](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194953272.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    de.dept_name,
+    count(st.student_id) as student_number
+from department as de
+left join student as st 
+on de.dept_id = st.dept_id
+group by de.dept_id
+order by student_number DESC, de.dept_name;
+```
+
+
+
+## [584. 寻找用户推荐人](https://leetcode-cn.com/problems/find-customer-referee/)
+
+![image-20211219195153698](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219195153698.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    name 
+from customer
+where IFNULL(referee_id, -1) != 2;
+
+select `name`
+from customer
+where ( case
+        when referee_id = 2 then 1
+        else 0
+        end) = 0;
+```
+

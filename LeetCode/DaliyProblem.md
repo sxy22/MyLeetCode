@@ -2,6 +2,78 @@
 
 # 12/2021
 
+## 12/20/2021
+
+[475. 供暖器](https://leetcode-cn.com/problems/heaters/)
+
++ 二分查找距离最近的值
+
+**Java**
+
+```java
+class Solution {
+    public int findRadius(int[] houses, int[] heaters) {
+        int ans = 0;
+        Arrays.sort(heaters);
+        int n = heaters.length;
+        for (int val : houses) {
+            int min_dist;
+            int idx = bisect(heaters, val);
+            if (idx == 0) {
+                min_dist = heaters[0] - val;
+            }else if (idx == n) {
+                min_dist = val - heaters[n - 1];
+            }else {
+                int l = val - heaters[idx - 1];
+                int r = heaters[idx] - val;
+                min_dist = Math.min(l, r);
+            }
+            ans = Math.max(ans, min_dist);
+        }
+        return ans;
+
+    }
+
+    int bisect(int[] arr, int value) {
+        int le = 0, ri = arr.length;
+        while (le < ri) {
+            int mid = (le + ri) / 2;
+            if (arr[mid] <= value) {
+                le = mid + 1;
+            }else {
+                ri = mid;
+            }
+        }
+        return le;
+    }
+}
+```
+
+
+
+**Python**
+
+```python
+class Solution:
+    def findRadius(self, houses: List[int], heaters: List[int]) -> int:
+        heaters = sorted(heaters)
+        ans = 0
+        for val in houses:
+            idx = bisect.bisect(heaters, val)
+            if idx == 0:
+                min_dist = heaters[0] - val
+            elif idx == len(heaters):
+                min_dist = val - heaters[-1]
+            else:
+                min_dist = min(val - heaters[idx - 1], heaters[idx] - val)
+            ans = max(ans, min_dist)
+        return ans 
+```
+
+
+
+
+
 ## 12/19/2021
 
 [997. 找到小镇的法官](https://leetcode-cn.com/problems/find-the-town-judge/)
