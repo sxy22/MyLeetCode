@@ -801,10 +801,6 @@ class Solution {
 
 
 
-# here
-
-
-
 ## [剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
 
 请完成一个函数，输入一个二叉树，该函数输出它的镜像。
@@ -845,20 +841,31 @@ class Solution:
         return root
 ```
 
+```java
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        if (root == null) {return root;}
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        stack.add(root);
+        while (stack.size() != 0) {
+            TreeNode node = stack.removeFirst();
+            if (node.left != null) {stack.add(node.left);}
+            if (node.right != null) {stack.add(node.right);}
+            TreeNode left = node.left;
+            node.left = node.right;
+            node.right = left;
+        }
+        return root;
+    }
+}
+```
+
 
 
 ## [剑指 Offer 28. 对称的二叉树](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/)
 
-请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
-
-例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
-
-​    1
-
-   / \
-  2   2
- / \ / \
-3  4 4  3
++ 忽略root
++ 检查左右子树是否对称
 
 ```python
 class Solution:
@@ -877,6 +884,38 @@ class Solution:
         if node1.val != node2.val:
             return False
         return self.twosym(node1.left, node2.right) and self.twosym(node1.right, node2.left)
+```
+
+**Java**
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return twosym(root.left, root.right);
+
+    }
+
+    boolean twosym(TreeNode n1, TreeNode n2) {
+        if (n1 == null && n2 == null) {
+            return true;
+        }else if (n1 == null || n2 == null) {
+            return false;
+        }else if (n1.val != n2.val) {
+            return false;
+        }
+        return twosym(n1.left, n2.right) && twosym(n1.right, n2.left);
+    }
+}
 ```
 
 
@@ -921,21 +960,46 @@ class Solution {
 
 
 
+## [剑指 Offer 30. 包含min函数的栈](https://leetcode-cn.com/problems/bao-han-minhan-shu-de-zhan-lcof/)
+
++ 栈的特点，一个元素入栈时的栈内元素和出栈时一致
++ 定义一个辅助min栈，记录每个元素入栈时的栈内最小值
+
+```python
+class MinStack:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, x: int) -> None:
+        self.stack.append(x)
+        cur_min = x 
+        if (len(self.min_stack) != 0):
+            cur_min = min(x, self.min_stack[-1])
+        self.min_stack.append(cur_min)
+
+    def pop(self) -> None:
+        self.min_stack.pop()
+        return self.stack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def min(self) -> int:
+        return self.min_stack[-1]
+```
+
+
+
+
+
+
+
 ## [剑指 Offer 31. 栈的压入、弹出序列](https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/)
-
-输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如，序列 {1,2,3,4,5} 是某栈的压栈序列，序列 {4,5,3,2,1} 是该压栈序列对应的一个弹出序列，但 {4,3,5,1,2} 就不可能是该压栈序列的弹出序列。
-
- 
-
-示例 1：
-
-输入：pushed = [1,2,3,4,5], popped = [4,5,3,2,1]
-输出：true
-解释：我们可以按以下顺序执行：
-push(1), push(2), push(3), push(4), pop() -> 4,
-push(5), pop() -> 5, pop() -> 3, pop() -> 2, pop() -> 1
-
-
 
 **思路**
 
@@ -955,29 +1019,26 @@ class Solution:
         return len(stack) == 0
 ```
 
+```java
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Stack<Integer> stack = new Stack<>();
+        int idx = 0;
+        for (int num : pushed) {
+            stack.push(num);
+            while (!stack.isEmpty() && stack.peek() == popped[idx]) {
+                stack.pop();
+                idx += 1;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+```
+
 
 
 ## [剑指 Offer 32 - I. 从上到下打印二叉树](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)
-
-从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
-
- 
-
-例如:
-给定二叉树: [3,9,20,null,null,15,7],
-
-​    3
-
-   / \
-  9  20
-    /  \
-   15   7
-
-返回：
-
-[3,9,20,15,7]
-
-
 
 + 广度优先遍历
 + 不需要考虑层数
@@ -1000,31 +1061,43 @@ class Solution:
 
 
 
+Java
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int[] levelOrder(TreeNode root) {
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        ArrayList<Integer> ans = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            TreeNode top = queue.removeFirst();
+            if (top != null) {
+                ans.add(top.val);
+                queue.add(top.left);
+                queue.add(top.right);
+            }
+        }
+        int[] res = new int[ans.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = ans.get(i);
+        }
+        return res;
+    }
+}
+```
+
+
+
 ## [剑指 Offer 32 - II. 从上到下打印二叉树 II](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
-
-从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
-
- 
-
-例如:
-给定二叉树: [3,9,20,null,null,15,7],
-
-​    3
-
-   / \
-  9  20
-    /  \
-   15   7
-
-返回其层次遍历结果：
-
-[
-  [3],
-  [9,20],
-  [15,7]
-]
-
-
 
 + 广度优先遍历
 + 需要考虑层数，每一层需要单独一个循环
@@ -1054,6 +1127,88 @@ class Solution:
             res.append(cur_layer)
         return res
 ```
+
+
+
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root != null) {
+            queue.add(root);
+        }
+        while (!queue.isEmpty()) {
+            List<Integer> layer = new ArrayList<>();
+            int s = queue.size();
+            for (int i = 0; i < s; i++) {
+                TreeNode top = queue.removeFirst();
+                layer.add(top.val);
+                if (top.left != null) queue.add(top.left);
+                if (top.right != null) queue.add(top.right);
+            }
+            ans.add(layer);
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer 32 - III. 从上到下打印二叉树 III](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/)
+
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        if(root != null) queue.add(root);
+        while(!queue.isEmpty()) {
+            LinkedList<Integer> tmp = new LinkedList<>();
+            for(int i = queue.size(); i > 0; i--) {
+                TreeNode node = queue.poll();
+                if(res.size() % 2 == 0) tmp.addLast(node.val); // 偶数层 -> 队列头部
+                else tmp.addFirst(node.val); // 奇数层 -> 队列尾部
+                if(node.left != null) queue.add(node.left);
+                if(node.right != null) queue.add(node.right);
+            }
+            res.add(tmp);
+        }
+        return res;
+    }
+}
+```
+
+
+
+## [剑指 Offer 33. 二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
+
+```java
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        return recur(postorder, 0, postorder.length - 1);
+    }
+
+    boolean recur(int[] postorder, int i, int j) {
+        if (i >= j) return true;
+        int head = postorder[j];
+        int mid = i;
+        while (postorder[mid] < head) {
+            mid += 1;
+        }
+        // 左子树 i - mid - 1
+        for (int k = mid; k < j; k++) {
+            if (postorder[k] < head) {
+                return false;
+            }
+        }
+        return recur(postorder, i, mid - 1) && recur(postorder, mid, j - 1);
+    }
+}
+```
+
+
 
 
 
