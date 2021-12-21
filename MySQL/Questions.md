@@ -444,3 +444,74 @@ where ( case
         end) = 0;
 ```
 
+
+
+## [585. 2016年的投资](https://leetcode-cn.com/problems/investments-in-2016/)
+
+![image-20211220211658807](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211220211658807.png)
+
+```mysql
+select round(sum(TIV_2016),2) as TIV_2016
+from insurance
+where PID not in (
+            select PID from insurance
+            group by TIV_2015
+            having count(*) = 1)
+and PID in (
+            select PID from insurance
+            group by LAT, LON
+            having count(*) = 1
+);
+```
+
+
+
++ window func
+
+```mysql
+select 
+    ROUND(sum(T.TIV_2016), 2) as TIV_2016
+from (
+    select
+    *,
+    count(PID) over(partition by TIV_2015) as cnt1,
+    count(PID) over(partition by LAT, LON) as cnt2
+    from insurance
+) as T
+where T.cnt1 >1 and T.cnt2 = 1;
+```
+
+
+
+## [586. 订单最多的客户](https://leetcode-cn.com/problems/customer-placing-the-largest-number-of-orders/)
+
+![image-20211220212835065](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211220212835065.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    customer_number
+from orders 
+group by customer_number
+order by count(order_number) DESC
+limit 1;
+```
+
+
+
+## [596. 超过5名学生的课](https://leetcode-cn.com/problems/classes-more-than-5-students/)
+
+![image-20211220213043680](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211220213043680.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    class 
+from courses
+group by class
+having count(student) >= 5;
+```
+
+
+
+## [597. 好友申请 I：总体通过率](https://leetcode-cn.com/problems/friend-requests-i-overall-acceptance-rate/)
