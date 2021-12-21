@@ -1210,13 +1210,177 @@ class Solution {
 
 
 
+## [剑指 Offer 34. 二叉树中和为某一值的路径](https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
+
+**Java**
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    LinkedList<List<Integer>> ans = new LinkedList<>();
+    LinkedList<Integer> path = new LinkedList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int target) {
+        recur(root, target);
+        return ans;
+    }
+    
+    void recur(TreeNode node, int target) {
+        if (node == null) return;
+        path.addLast(node.val);
+        target -= node.val;
+        if (target == 0 && node.left == null && node.right == null) {
+            ans.addLast(new LinkedList(path));
+        }
+        recur(node.left, target);
+        recur(node.right, target);
+        path.removeLast();
+    } 
+}
+
+```
+
+
+
+**Python**
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: TreeNode, target: int) -> List[List[int]]:
+        self.ans = []
+        self.path = []
+        self.recur(root, target)
+        return self.ans
+
+    def recur(self, node, target):
+        if node is None:
+            return 
+        self.path.append(node.val)
+        target -= node.val
+        if target == 0 and node.left is None and node.right is None:
+            self.ans.append([x for x in self.path])
+        self.recur(node.left, target)
+        self.recur(node.right, target)
+        self.path.pop()
+```
+
+
+
+## [剑指 Offer 35. 复杂链表的复制](https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/)
+
++ 利用哈希表的查询特点，考虑构建 **原链表节点** 和 **新链表对应节点** 的键值对映射关系
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+class Solution {
+    public Node copyRandomList(Node head) {
+        if (head == null) return null;
+
+        Map<Node, Node> map = new HashMap<>();
+        Node prehead = new Node(-1);
+        Node cur = prehead;
+        Node chead = head;
+        while (chead != null) {
+            Node new_node = new Node(chead.val);
+            map.put(chead, new_node);
+            cur.next = new_node;
+            cur = cur.next;
+            chead = chead.next;
+        }
+        chead = head;
+        while (chead != null) {
+            map.get(chead).random = map.get(chead.random);
+            chead = chead.next;
+        }
+        return prehead.next;
+    }
+}
+```
+
+
+
 
 
 ## [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 
-![image-20210403125754679](https://gitee.com/sxy22/note_images/raw/master/image-20210403125754679.png)
+**Java**
 
+```java
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
 
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+    Node pre = new Node(-1);
+    Node pre_copy = pre;
+
+    public Node treeToDoublyList(Node root) {
+        if (root == null) return null;
+        DFS(root);
+        Node head = pre_copy.right;
+        head.left = pre;
+        pre.right = head;
+        return head;
+    }
+
+    void DFS(Node node) {
+        if (node == null) return;
+        DFS(node.left);
+        pre.right = node;
+        node.left = pre;
+        pre = pre.right;
+        DFS(node.right);
+    }
+}
+```
 
 
 
