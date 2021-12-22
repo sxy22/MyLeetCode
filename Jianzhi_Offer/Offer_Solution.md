@@ -1421,18 +1421,171 @@ class Solution:
 
 
 
+## [剑指 Offer 37. 序列化二叉树(缺java)](https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/)
+
++ 层序遍历序列化
+
+**Python**
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        :type root: TreeNode
+        :rtype: str
+        """
+        if root is None:
+            return "*"
+        res = []
+        queue = collections.deque()
+        queue.append(root)
+        while len(queue) > 0:
+            top = queue.popleft()
+            if top is None:
+                res.append("*")
+            else:
+                res.append(str(top.val))
+                queue.append(top.left)
+                queue.append(top.right)
+        return "_".join(res)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        :type data: str
+        :rtype: TreeNode
+        """
+        if data == "*":
+            return None
+
+        data = data.split("_")
+        root = self.getnode(data[0])
+        queue = collections.deque()
+        queue.append(root)
+        i = 1
+        while len(queue) > 0:
+            top = queue.popleft()
+            if top is None:
+                continue
+            top.left = self.getnode(data[i])
+            i += 1
+            top.right = self.getnode(data[i])
+            i += 1
+            queue.append(top.left)
+            queue.append(top.right)
+        return root
+
+    def getnode(self, s):
+        if s == "*":
+            return None
+        else:
+            return TreeNode(int(s))
+
+```
+
+
+
+## [剑指 Offer 38. 字符串的排列(缺java)](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)
+
+```python
+class Solution:
+    def permutation(self, s: str) -> List[str]:
+        self.res = []
+        # 记录是字符剩余可用个数，每次只能取一个
+        self.cnt = collections.Counter(s)
+        # 共用的track
+        self.track = []
+        self.n = len(s)
+        # 需要遍历的字符
+        self.keys = self.cnt.keys()
+
+        self.backtrack_dfs()
+        return self.res 
+
+    def backtrack_dfs(self):
+        if len(self.track) == self.n:
+            self.res.append(''.join(self.track))
+            return
+        # 遍历self.cnt.keys()
+        for num in self.keys:
+            if self.cnt[num] != 0:
+                self.track.append(num)
+                self.cnt[num] -= 1
+                self.backtrack_dfs()
+                self.track.pop()
+                self.cnt[num] += 1
+        return 
+```
+
+
+
+**Java**
+
+```java
+```
+
+
+
+## [剑指 Offer 39. 数组中出现次数超过一半的数字](https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/)
+
++ 摩尔投票法
+
+![image-20211221230229136](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211221230229136.png)
+
+**Java**
+
+```java
+class Solution {
+    public int majorityElement(int[] nums) {
+        int vote = 0;
+        int maj = -1;
+        for (int x : nums) {
+            if (vote == 0) {
+                maj = x;
+            }
+            if (x == maj) {
+                vote += 1;
+            }else {
+                vote -= 1;
+            }
+        }
+        return maj;
+    }
+}
+```
+
+
+
+**Python**
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        vote = 0
+        maj = -1
+        for x in nums:
+            if vote == 0:
+                maj = x
+            if x == maj:
+                vote += 1
+            else:
+                vote -= 1
+        return maj
+```
+
+
+
+
+
+# here
+
 ## [剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
-
-输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
-
- 
-
-示例 1：
-
-输入：arr = [3,2,1], k = 2
-输出：[1,2] 或者 [2,1]
-
-
 
 **方法1**
 
