@@ -515,3 +515,70 @@ having count(student) >= 5;
 
 
 ## [597. 好友申请 I：总体通过率](https://leetcode-cn.com/problems/friend-requests-i-overall-acceptance-rate/)
+
+```mysql
+select round( ifnull((select count(distinct requester_id, accepter_id) from request_accepted) / 
+              (select count(distinct sender_id, send_to_id) from friend_request),0)
+    ,2) as accept_rate
+```
+
+
+
+## [602. 好友申请 II ：谁有最多的好友](https://leetcode-cn.com/problems/friend-requests-ii-who-has-the-most-friends/)
+
+![image-20211221203111893](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211221203111893.png)
+
+```mysql
+# Write your MySQL query statement below
+select id, count(*) as num
+from 
+    (select  requester_id as id from request_accepted
+    UNION ALL
+    select  accepter_id as id from request_accepted) as T
+group by id 
+order by count(*) DESC
+limit 1;
+```
+
+
+
+## [603. 连续空余座位](https://leetcode-cn.com/problems/consecutive-available-seats/)
+
+![image-20211221203718619](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211221203718619.png)
+
+```java
+# Write your MySQL query statement below
+
+select
+    distinct s1.seat_id as seat_id
+from cinema as s1 
+join cinema as s2
+on abs(s1.seat_id - s2.seat_id) = 1
+where s1.free = 1 and s2.free = 1
+order by seat_id;
+```
+
+
+
+
+
+## [608. 树节点](https://leetcode-cn.com/problems/tree-node/)
+
+![image-20211221205013748](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211221205013748.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select 
+    t1.id,
+    (case
+    when t1.p_id is null then 'Root'
+    when count(t2.id) = 0 then "Leaf"
+    else "Inner"
+    end) as `Type`
+from tree as t1
+left join tree as t2
+on t1.id = t2.p_id
+group by t1.id;
+```
+
