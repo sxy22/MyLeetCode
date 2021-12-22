@@ -2,6 +2,36 @@
 
 # 12/2021
 
+## 12/22/2021
+
+[686. 重复叠加字符串匹配](https://leetcode-cn.com/problems/repeated-string-match/)
+
+```python
+class Solution:
+    def repeatedStringMatch(self, a: str, b: str) -> int:
+        k = len(b) // len(a)
+        if len(b) % len(a) != 0:
+            k += 1
+        if self.is_sub(a * k, b):
+            return k 
+        if self.is_sub(a * (k + 1), b):
+            return k + 1
+        return -1 
+
+    def is_sub(self, ss, s):
+        i = 0
+        j = len(s) - 1
+        while j < len(ss):
+            if hash(ss[i: j + 1]) == hash(s):
+                return True
+            i += 1
+            j += 1
+        return False
+    
+```
+
+
+
 ## 12/20/2021
 
 [475. 供暖器](https://leetcode-cn.com/problems/heaters/)
