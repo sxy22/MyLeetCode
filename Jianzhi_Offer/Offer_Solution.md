@@ -1583,8 +1583,6 @@ class Solution:
 
 
 
-# here
-
 ## [剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
 
 **方法1**
@@ -1616,6 +1614,38 @@ class Solution:
         res = [-x for x in heap]
         return res 
 ```
+
+**Java**
+
+```java
+class Solution {
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if (k == 0 || arr.length == 0) {
+            return new int[0];
+        }
+        Queue<Integer> pq = new PriorityQueue<>();
+        for (int i = 0; i < k; i++) {
+            pq.offer(-arr[i]);
+        }
+        for (int i = k; i < arr.length; i++) {
+            int num = arr[i];
+            if (num < -pq.peek()) {
+                pq.poll();
+                pq.offer(-num);
+            }
+        }
+        int[] ans = new int[k];
+        int i = 0;
+        for (int x : pq) {
+            ans[i] = -x;
+            i++;
+        }
+        return ans;
+    }
+}
+```
+
+
 
 **方法2 快排变形**
 
@@ -1658,23 +1688,85 @@ class Solution:
         return
 ```
 
+```java
+class Solution {
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if (k == 0 || arr.length == 0) {
+            return new int[0];
+        }
+        qsort(arr, 0, arr.length - 1, k);
+        int[] ans = new int[k];
+        for (int i = 0; i < k; i++) {
+            ans[i] = arr[i];
+        }
+        return ans;
+    }
+
+
+    void qsort(int[] arr, int l, int r, int k) {
+        if (r < l) return;
+        int i = l;
+        int j = r;
+        int tmp = arr[l];
+        while (i < j) {
+            while (i < j && arr[j] >= tmp) {
+                j -= 1;
+            }
+            arr[i] = arr[j];
+            while (i < j && arr[i] <= tmp) {
+                i += 1;
+            }
+            arr[j] = arr[i];
+        }
+        arr[i] = tmp;
+        if (i - l + 1 == k || i - l + 1 == k + 1) {
+            return;
+        }else if (i - l + 1 < k) {
+            qsort(arr, i + 1, r, k - i + l - 1); 
+        }else {
+            qsort(arr, l, i - 1, k); 
+        }
+    }
+}
+```
+
+
+
+## [剑指 Offer 41. 数据流中的中位数(没做)](https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/)
+
+
+
+## [剑指 Offer 42. 连续子数组的最大和](https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/)
+
++ 用 dp[i]代表以第 i 个数结尾的「连续子数组的最大和」
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {   
+        int[] dp = Arrays.copyOf(nums, nums.length);
+        int max_sum = nums[0];
+        for (int i = 1; i < dp.length; i++) {
+            if (dp[i - 1] > 0) {
+                dp[i] += dp[i - 1];
+            }
+            max_sum = Math.max(max_sum, dp[i]);
+        }
+        return max_sum;
+    }
+}
+```
+
+
+
+## [剑指 Offer 43. 1～n 整数中 1 出现的次数(没做)](https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/)
+
+
+
+## [剑指 Offer 44. 数字序列中某一位的数字(没做)](https://leetcode-cn.com/problems/shu-zi-xu-lie-zhong-mou-yi-wei-de-shu-zi-lcof/)
+
 
 
 ## [剑指 Offer 45. 把数组排成最小的数](https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/)
-
-输入一个非负整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
-
- 
-
-示例 1:
-
-输入: [10,2]
-输出: "102"
-
-+ 自定义排序
-+ java中自定义Comparator
-
-
 
 ```java
 class Solution {
@@ -1763,17 +1855,9 @@ class Solution:
         return ''.join(nums)
 ```
 
+
+
 ## [剑指 Offer 46. 把数字翻译成字符串](https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/)
-
-给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。
-
- 
-
-示例 1:
-
-输入: 12258
-输出: 5
-解释: 12258有5种不同的翻译，分别是"bccfi", "bwfi", "bczi", "mcfi"和"mzi"
 
 + 简单的dp
 
@@ -1800,7 +1884,36 @@ class Solution:
         return False
 ```
 
+**Java**
 
+```java
+class Solution {
+    public int translateNum(int num) {
+        String snum = String.valueOf(num);
+        int[] dp = new int[snum.length() + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i < dp.length; i++) {
+            dp[i] += dp[i - 1];
+            if (valid(snum.substring(i - 2, i))) {
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[dp.length - 1];
+    }
+
+    boolean valid(String s) {
+        if (s.compareTo("10") >= 0 && s.compareTo("25") <= 0) {
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+
+
+# HEre
 
 ## [剑指 Offer 48. 最长不含重复字符的子字符串](https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/)
 
