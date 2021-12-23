@@ -582,3 +582,58 @@ on t1.id = t2.p_id
 group by t1.id;
 ```
 
+
+
+## [614. 二级关注者](https://leetcode-cn.com/problems/second-degree-follower/)
+
+![image-20211222204053595](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211222204053595.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    f1.follower,
+    count(distinct f2.follower) as num
+from follow as f1
+join follow as f2
+on f1.follower = f2.followee
+group by f1.follower
+order by f1.follower;
+```
+
+
+
+## [619. 只出现一次的最大数字](https://leetcode-cn.com/problems/biggest-single-number/)
+
+![image-20211222204845763](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211222204845763.png)
+
+```mysql
+# Write your MySQL query statement below
+select (
+    select
+        num
+    from MyNumbers 
+    group by num 
+    having count(num) = 1
+    order by num DESC 
+    limit 1
+) as num;
+```
+
+
+
+## [620. 有趣的电影](https://leetcode-cn.com/problems/not-boring-movies/)
+
+![image-20211222205337321](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211222205337321.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    *
+from cinema
+where description != "boring"
+and id % 2 = 1
+order by rating DESC;
+```
+
+
+
