@@ -1913,25 +1913,36 @@ class Solution {
 
 
 
-# HEre
+
 
 ## [剑指 Offer 48. 最长不含重复字符的子字符串](https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/)
 
-与双指针 3题相同
+```java
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int i = 0, j = 0;
+        int n = s.length();
+        Set<Character> hset = new HashSet<>();
+        int ans = 0;
+        while (i < n && j < n) {
+            while (j < n && !hset.contains(s.charAt(j))) {
+                hset.add(s.charAt(j));
+                j += 1;
+            }
+            ans = Math.max(j - i, ans);
+            hset.remove(s.charAt(i));
+            i += 1;
+        }
+        return ans;
+    }
+}
+```
+
+
 
 
 
 ## [剑指 Offer 49. 丑数](https://leetcode-cn.com/problems/chou-shu-lcof/)
-
-我们把只包含质因子 2、3 和 5 的数称作丑数（Ugly Number）。求按从小到大的顺序的第 n 个丑数。
-
-示例:
-
-输入: n = 10
-输出: 12
-解释: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 是前 10 个丑数
-
-
 
 **思路动态规划**
 
@@ -1961,20 +1972,53 @@ class Solution:
         return dp[-1]
 ```
 
+```java
+class Solution {
+    public int nthUglyNumber(int n) {
+        int[] dp = new int[n];
+        dp[0] = 1;
+        int p2 = 0, p3 = 0, p5 = 0;
+        for (int i = 1; i < n; i++) {
+            int cand2 = dp[p2] * 2;
+            int cand3 = dp[p3] * 3;
+            int cand5 = dp[p5] * 5;
+            dp[i] = Math.min(Math.min(cand2, cand3), cand5);
+            if (dp[i] == cand2) p2 += 1;
+            if (dp[i] == cand3) p3 += 1;
+            if (dp[i] == cand5) p5 += 1;
+        }
+        return dp[n - 1];
+
+    }
+}
+```
+
+
+
+## [剑指 Offer 50. 第一个只出现一次的字符](https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/)
+
+```java
+class Solution {
+    public char firstUniqChar(String s) {
+        Map<Character, Integer> hashmap = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (hashmap.get(s.charAt(i)) == null) hashmap.put(s.charAt(i), 0);
+            hashmap.put(s.charAt(i), 1 + hashmap.get(s.charAt(i)));
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            if (hashmap.get(s.charAt(i)) == 1) return s.charAt(i);
+        }
+        return ' ';
+    }
+}
+```
+
 
 
 
 
 ## [剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
-
-在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
-
-
-
-```
-输入: [7,5,6,4]
-输出: 5
-```
 
 + 使用归并排序
 + 考虑合并两个有序数组时，同时它们之间的逆序对个数，见代码
@@ -2030,6 +2074,52 @@ class Solution:
 
 
 
+```java
+class Solution {
+    int[] nums;
+    int[] temp;
+    public int reversePairs(int[] nums) {
+        this.nums = nums;
+        this.temp = new int[nums.length];
+        return merge_sort(0, nums.length - 1);
+    }
+
+    int merge_sort(int l, int r) {
+        if (l >= r) {
+            return 0;
+        }
+        int m = (l + r) / 2;
+        int l_count = merge_sort(l, m);
+        int r_count = merge_sort(m + 1, r);
+        // 两段已经有序,合并阶段
+        // 使用temp暂存 l -- r
+        for (int i = l; i <= r; i++) {
+            temp[i] = nums[i];
+        }
+        int i = l;
+        int j = m + 1;
+        int cross_count = 0;
+        for (int k = l; k <= r; k++) {
+            if (i == m + 1) {
+                nums[k] = temp[j];
+                j += 1;
+            }else if (j == r + 1) {
+                nums[k] = temp[i];
+                i += 1;
+            }else if (temp[i] <= temp[j]) {
+                nums[k] = temp[i];
+                i += 1; 
+            }else {
+                nums[k] = temp[j];
+                j += 1;
+                cross_count += m - i + 1;
+            }
+        }
+        return l_count + r_count + cross_count;   
+    }
+}
+```
+
 
 
 
@@ -2059,20 +2149,6 @@ class Solution {
 
 
 ## [剑指 Offer 53 - I. 在排序数组中查找数字 I](https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
-
-统计一个数字在排序数组中出现的次数。
-
- 
-
-示例 1:
-
-输入: nums = [5,7,7,8,8,10], target = 8
-输出: 2
-
-示例 2:
-
-输入: nums = [5,7,7,8,8,10], target = 6
-输出: 0
 
 ```python
 class Solution:
