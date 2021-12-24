@@ -637,3 +637,43 @@ order by rating DESC;
 
 
 
+## [627. 变更性别](https://leetcode-cn.com/problems/swap-salary/)
+
+![image-20211223204710871](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211223204710871.png)
+
+```mysql
+# Write your MySQL query statement below
+
+update Salary
+set sex = IF(sex = "f", "m", "f");
+```
+
+
+
+## [1045. 买下所有产品的客户](https://leetcode-cn.com/problems/customers-who-bought-all-products/)
+
+![image-20211223204957955](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211223204957955.png)
+
+```mysql
+select 
+    customer_id
+from Customer 
+group by customer_id
+having count(distinct product_key) = (select count(*) from Product);
+```
+
+
+
+## [1050. 合作过至少三次的演员和导演](https://leetcode-cn.com/problems/actors-and-directors-who-cooperated-at-least-three-times/)
+
+![image-20211223205135215](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211223205135215.png)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    actor_id, director_id
+from ActorDirector 
+group by actor_id, director_id
+having count(`timestamp`) >= 3;
+```
+
