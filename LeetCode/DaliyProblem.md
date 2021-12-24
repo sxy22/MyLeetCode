@@ -1,6 +1,47 @@
 # Leetcode每日一题
 
-# 12/2021
+# 12/24/2021
+
+[1705. 吃苹果的最大数目](https://leetcode-cn.com/problems/maximum-number-of-eaten-apples/)
+
+```python
+class Solution:
+    def eatenApples(self, apples: List[int], days: List[int]) -> int:
+        apple_cnt = collections.defaultdict(int)
+        pq = []
+        day = 1
+        ans = 0
+        for i in range(len(apples)):
+            # print(apple_cnt)
+            app = apples[i]
+            ds = days[i]
+            while pq and pq[0] <= day:
+                heapq.heappop(pq)
+            if app != 0:
+                apple_cnt[day + ds] += app 
+                heapq.heappush(pq, day + ds)
+            if len(pq) > 0:
+                apple_cnt[pq[0]] -= 1
+                ans += 1
+                if apple_cnt[pq[0]] == 0:
+                    heapq.heappop(pq)
+            day += 1
+        # print(ans)
+        while pq:
+            while pq and pq[0] <= day:
+                heapq.heappop(pq)
+            if len(pq) > 0:
+                apple_cnt[pq[0]] -= 1
+                ans += 1
+                if apple_cnt[pq[0]] == 0:
+                    heapq.heappop(pq)
+            day += 1
+        return ans 
+```
+
+
+
+
 
 ## 12/22/2021
 
