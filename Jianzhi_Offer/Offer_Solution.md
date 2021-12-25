@@ -2124,10 +2124,6 @@ class Solution {
 
 
 
-
-
-
-
 ## [剑指 Offer 52. 两个链表的第一个公共节点](https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/)
 
 + 见链表160
@@ -2187,22 +2183,37 @@ class Solution:
 
 
 
+## [剑指 Offer 53 - II. 0～n-1中缺失的数字](https://leetcode-cn.com/problems/que-shi-de-shu-zi-lcof/)
+
++ 二分查找第一个下标小于该位置数值的下标
+
+```java
+class Solution {
+    public int missingNumber(int[] nums) {
+        int i = 0, j = nums.length - 1;
+        if (j == nums[j]) return j + 1;
+        while (i < j) {
+            int mid = (i + j) / 2;
+            if (mid == nums[mid]) {
+                i = mid + 1;
+            }else {
+                j = mid;
+            }
+        }
+        return i;
+    }
+}
+```
+
+
+
+
+
+
+
 ## [剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
 
-给定一棵二叉搜索树，请找出其中第k大的节点。
-
-示例 1:
-
-输入: root = [3,1,4,null,2], k = 1
-   3
-  / \
- 1   4
-  \
-   2
-
-
-
-+ 二叉搜索书 右中左 则是从大到小
++ 二叉搜索 右中左 则是从大到小
 + 做 k 次
 
 ```python
@@ -2224,9 +2235,75 @@ class Solution:
 
 
 
-## [剑指 Offer 55 - I. 二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
+**Java DFS**
 
-输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int k;
+    int ans = -1;
+    public int kthLargest(TreeNode root, int k) {
+        this.k = k;
+        DFS(root);
+        return ans;
+    }
+
+    void DFS(TreeNode node) {
+        if (node == null || k == 0) return;
+        DFS(node.right);
+        if (k == 0) return;
+        ans = node.val;
+        k--;
+        DFS(node.left);
+    }  
+}
+```
+
+
+
+**Java 迭代**
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+
+    public int kthLargest(TreeNode root, int k) {
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        int ans = -1;
+        while (k > 0) {
+            while (root != null) {
+                stack.addLast(root);
+                root = root.right;
+            }
+            TreeNode top = stack.removeLast();
+            ans = top.val;
+            k -= 1;
+            root = top.left;
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer 55 - I. 二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
 
 ```python
 class Solution:
@@ -2237,13 +2314,31 @@ class Solution:
             return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 ```
 
+**Java**
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        int ldepth = maxDepth(root.left);
+        int rdepth = maxDepth(root.right);
+        return 1 + Math.max(ldepth, rdepth);
+    }
+}
+```
+
 
 
 ## [剑指 Offer 55 - II. 平衡二叉树](https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/)
-
-输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
-
-
 
 + 求二叉树深度相同的思路
 + 若一个节点满足条件，则返回它的深度，不满足则直接返回-1， 此时整棵树都不满足，一路返回-1到root
@@ -2273,14 +2368,40 @@ class Solution:
 
 
 
+**Java**
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        int dep = help(root);
+        if (dep == -1) return false;
+        return true;
+    }
+
+    int help(TreeNode node) {
+        if (node == null) return 0;
+        int ldepth = help(node.left);
+        if (ldepth == -1) return -1;
+        int rdepth = help(node.right);
+        if (rdepth == -1) return -1;
+        if (Math.abs(ldepth - rdepth) > 1) return -1;
+        return 1 + Math.max(ldepth, rdepth);
+    }
+}
+```
+
+
+
 ## [剑指 Offer 56 - I. 数组中数字出现的次数](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/)
-
-一个整型数组 nums 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。
-
-示例 1：
-
-输入：nums = [4,1,4,6]
-输出：[1,6] 或 [6,1]
 
 ![image-20210416184051356](https://gitee.com/sxy22/note_images/raw/master/image-20210416184051356.png)
 
@@ -2311,6 +2432,63 @@ class Solution:
 ```
 
 
+
+**Java**
+
+```java
+class Solution {
+    public int[] singleNumbers(int[] nums) {
+        int all_xor = 0;
+        int diff = 1;
+        int g0 = 0, g1 = 0;
+        for (int num : nums) {
+            all_xor = all_xor ^ num;  
+        }
+        while ((all_xor & diff) == 0) {
+            diff = diff << 1;
+        }
+        for (int num : nums) {
+            if ((num & diff) == 0) {
+                g0 = g0 ^ num;
+            }else {
+                g1 = g1 ^ num;
+            }
+        }
+        return new int[]{g0, g1};
+    }
+}
+```
+
+
+
+## [剑指 Offer 56 - II. 数组中数字出现的次数 II](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/)
+
++ 对于出现三次的数字，各 位 出现的次数都是 3 的倍数
++ 统计所有数字的各二进制位中1的出现次数，并对3求余
+
+```java
+class Solution {
+    public int singleNumber(int[] nums) {
+        int ans = 0;
+        int[] counts = new int[32];
+        for (int num : nums) {
+            for (int i = 31; i >= 0; i--) {
+                counts[i] += (num & 1);
+                num >>= 1;
+            }
+        }
+        for (int i = 0; i < 32; i++) {
+            ans <<= 1;
+            ans = ans | (counts[i] % 3);
+        }
+        return ans;
+    }
+}
+```
+
+
+
+# HERE
 
 ## [剑指 Offer 57. 和为s的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
 
