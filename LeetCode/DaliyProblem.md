@@ -4,7 +4,7 @@
 
 ## 12/25/2021
 
-## [1609. 奇偶树](https://leetcode-cn.com/problems/even-odd-tree/)
+[1609. 奇偶树](https://leetcode-cn.com/problems/even-odd-tree/)
 
 ```python
 # Definition for a binary tree node.
