@@ -677,3 +677,83 @@ group by actor_id, director_id
 having count(`timestamp`) >= 3;
 ```
 
+
+
+## [1077. 项目员工 III](https://leetcode-cn.com/problems/project-employees-iii/)
+
+![image-20211224210153146](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224210153146.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    T.project_id, 
+    T.employee_id
+from (
+    select
+        P.project_id, 
+        P.employee_id, 
+        DENSE_RANK() over(partition by P.project_id order by E.experience_years DESC) as 'rk'
+    from Project as P 
+    join Employee as E 
+    on P.employee_id = E.employee_id
+) as T 
+where T.rk = 1;
+```
+
+
+
+## [1082. 销售分析 I(group window) ](https://leetcode-cn.com/problems/sales-analysis-i/)
+
+![image-20211224210951272](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224210951272.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    T.seller_id
+from (
+    select
+        seller_id,
+        DENSE_RANK() over(order by SUM(price) DESC) as rk
+    from Sales
+    group by seller_id    
+) as T 
+where T.rk = 1;
+```
+
+
+
+## [1083. 销售分析 II](https://leetcode-cn.com/problems/sales-analysis-ii/)
+
+![image-20211224211301178](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224211301178.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select 
+    s.buyer_id
+from Sales as s
+join Product as p 
+where s.product_id = p.product_id
+group by s.buyer_id
+having SUM(IF(p.product_name = "S8", 1, 0)) > 0
+and SUM(IF(p.product_name = "iPhone", 1, 0)) = 0;
+```
+
+
+
+## [1084. 销售分析III](https://leetcode-cn.com/problems/sales-analysis-iii/)
+
+![image-20211224211535638](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224211535638.png)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    p.product_id, 
+    p.product_name
+from Product as p
+join Sales as s 
+on p.product_id = s.product_id
+group by p.product_id
+having sum(s.sale_date not between '2019-01-01' and '2019-03-31') = 0;
+```
+
