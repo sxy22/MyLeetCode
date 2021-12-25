@@ -1,6 +1,61 @@
 # Leetcode每日一题
 
-# 12/24/2021
+# 12/2021
+
+## 12/25/2021
+
+## [1609. 奇偶树](https://leetcode-cn.com/problems/even-odd-tree/)
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
+        queue = collections.deque()
+        queue.append(root)
+        level = 0
+        while queue:
+            layer = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                layer.append(node.val)
+                if node.left is not None:
+                    queue.append(node.left)
+                if node.right is not None:
+                    queue.append(node.right)
+            if not self.is_valid(layer, level):
+                return False 
+            level += 1
+        return True 
+
+
+    def is_valid(self, layer, level):
+        if level % 2 == 0:
+            sign = 1
+            resi = 1
+        else:
+            sign = -1
+            resi = 0
+        pre = layer[0]
+        if pre % 2 != resi:
+            return False
+        for i in range(1, len(layer)):
+            cur = layer[i]
+            if cur % 2 != resi:
+                return False
+            if (cur - pre) * sign <= 0:
+                return False 
+            pre = cur 
+        return True 
+```
+
+
+
+## 12/24/2021
 
 [1705. 吃苹果的最大数目](https://leetcode-cn.com/problems/maximum-number-of-eaten-apples/)
 
