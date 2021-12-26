@@ -757,3 +757,51 @@ group by p.product_id
 having sum(s.sale_date not between '2019-01-01' and '2019-03-31') = 0;
 ```
 
+
+
+## [1107. 每日新用户统计](https://leetcode-cn.com/problems/new-users-daily-count/)
+
+![image-20211225220836558](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211225220836558.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select 
+    T.fd as login_date,
+    count(T.user_id) as user_count
+from (
+    select
+        user_id,
+        min(activity_date) as fd
+    from Traffic
+    where activity = "login"
+    group by user_id
+) as T 
+where DATEDIFF("2019-06-30", T.fd) <= 90 
+group by T.fd;
+```
+
+
+
+
+
+## [1112. 每位学生的最高成绩](https://leetcode-cn.com/problems/highest-grade-for-each-student/)
+
+![image-20211225221110977](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211225221110977.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select 
+    T.student_id,
+    T.course_id,
+    T.grade
+from (
+    select
+        *,
+        RANK() over(partition by student_id order by grade DESC, course_id) as rk 
+    from Enrollments
+) as T
+where T.rk = 1;
+```
+

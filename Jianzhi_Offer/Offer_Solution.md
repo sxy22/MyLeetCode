@@ -2488,18 +2488,9 @@ class Solution {
 
 
 
-# HERE
+
 
 ## [剑指 Offer 57. 和为s的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
-
-输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。
-
- 
-
-示例 1：
-
-输入：nums = [2,7,11,15], target = 9
-输出：[2,7] 或者 [7,2]
 
 ```python
 class Solution:
@@ -2517,16 +2508,30 @@ class Solution:
 
 
 
+**Java**
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            int sum = nums[i] + nums[j];
+            if (sum == target) {
+                return new int[]{nums[i], nums[j]};
+            }else if (sum < target) {
+                i++;
+            }else {
+                j--;
+            }
+        }
+        return new int[2];
+    }
+}
+```
+
+
+
 ## [剑指 Offer 57 - II. 和为s的连续正数序列](https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/)
-
-输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
-
-序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
-
-示例 1：
-
-输入：target = 9
-输出：[[2,3,4],[4,5]]
 
 + 滑动窗口的思路
 
@@ -2555,16 +2560,38 @@ class Solution:
 
 
 
+**Java**
+
+```java
+class Solution {
+    public int[][] findContinuousSequence(int target) {
+        int i = 1, j = 2;
+        ArrayList<int[]> ans = new ArrayList<>();
+        while (i < j) {
+            int sum = (i + j) * (j - i + 1) / 2;
+            if (sum == target) {
+                int[] range = new int[j - i + 1];
+                for (int k = i; k <= j; k++) {
+                    range[k - i] = k;
+                }
+                ans.add(range);
+                i += 1;
+                j += 1;
+            }else if (sum < target) {
+                j += 1;
+            }else {
+                i += 1;
+            }
+        }
+        return ans.toArray(new int[0][]);
+
+    }
+}
+```
+
+
+
 ## [剑指 Offer 58 - I. 翻转单词顺序](https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/)
-
-输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。为简单起见，标点符号和普通字母一样处理。例如输入字符串"I am a student. "，则输出"student. a am I"。
-
- 
-
-示例 1：
-
-输入: "the sky is blue"
-输出: "blue is sky the"
 
 ```python
 class Solution:
@@ -2582,26 +2609,9 @@ class Solution:
         return ' '.join(reversed(word))
 ```
 
+
+
 ## [剑指 Offer 59 - I. 滑动窗口的最大值](https://leetcode-cn.com/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/)
-
-给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
-
-示例:
-
-输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
-输出: [3,3,5,5,6,7] 
-解释: 
-
-  滑动窗口的位置                最大值
-
----------------               -----
-
-[1  3  -1] -3  5  3  6  7       3
- 1 [3  -1  -3] 5  3  6  7       3
- 1  3 [-1  -3  5] 3  6  7       5
- 1  3  -1 [-3  5  3] 6  7       5
- 1  3  -1  -3 [5  3  6] 7       6
- 1  3  -1  -3  5 [3  6  7]      7
 
 + 单调队列
 
