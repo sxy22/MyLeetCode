@@ -2,6 +2,44 @@
 
 # 12/2021
 
+## 12/26/2021
+
+[1078. Bigram 分词](https://leetcode-cn.com/problems/occurrences-after-bigram/)
+
+```python
+class Solution:
+    def findOcurrences(self, text: str, first: str, second: str) -> List[str]:
+        lst = text.split(' ')
+        n = len(lst)
+        fir_idx = []
+        sec_idx = []
+        ans = []
+        for i, word in enumerate(lst):
+            if word == first:
+                fir_idx.append(i)
+            if word == second:
+                sec_idx.append(i)
+        i = 0
+        j = 0
+        while i < len(fir_idx) and j < len(sec_idx):
+            idx1 = fir_idx[i]
+            idx2 = sec_idx[j]
+            if idx1 + 1 == idx2:
+                if idx2 + 1 < n:
+                    ans.append(lst[idx2 + 1])
+                i += 1
+                j += 1
+            elif idx1 < idx2:
+                i += 1
+            elif idx1 >= idx2:
+                j += 1
+        return ans
+```
+
+
+
+
+
 ## 12/25/2021
 
 [1609. 奇偶树](https://leetcode-cn.com/problems/even-odd-tree/)
