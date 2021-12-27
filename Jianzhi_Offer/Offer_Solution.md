@@ -2647,11 +2647,135 @@ class Solution:
 
 
 
+```java
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 0) return new int[0];
+        int[] ans = new int[nums.length - k + 1];
+        LinkedList<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < k; i++) {
+            qadd(queue, nums[i]);
+        }
+
+        int i = 0, j = k - 1;
+        while (j < nums.length) {
+            ans[i] = queue.peekFirst();
+            // 删除 i 处
+            if (queue.peekFirst() == nums[i]) {
+                queue.removeFirst();
+            }
+            if (j + 1 < nums.length) {
+                qadd(queue, nums[j + 1]);
+            }
+            i += 1;
+            j += 1;
+        }
+        return ans;
+    }
+
+    void qadd(LinkedList<Integer> queue, int x) {
+        while (!queue.isEmpty() && x > queue.peekLast()) {
+            queue.removeLast();
+        }
+        queue.addLast(x);
+    }
+}
+```
+
+
+
+## [剑指 Offer 59 - II. 队列的最大值](https://leetcode-cn.com/problems/dui-lie-de-zui-da-zhi-lcof/)
+
+```java
+class MaxQueue {
+    Deque<Integer> queue;
+    Deque<Integer> max_queue;
+    public MaxQueue() {
+        queue = new LinkedList<>();
+        max_queue = new LinkedList<>();
+    }
+
+    public int max_value() {
+        if (queue.isEmpty()) {
+            return -1;
+        }
+        return max_queue.getFirst();
+    }
+
+    public void push_back(int value) {
+        queue.addLast(value);
+        while (!max_queue.isEmpty() && max_queue.getLast() < value) {
+            max_queue.removeLast();
+        }
+        max_queue.addLast(value);
+    }
+
+    public int pop_front() {
+        if (queue.isEmpty()) {
+            return -1;
+        }
+        int top = queue.removeFirst();
+        if (top == max_queue.getFirst()) {
+            max_queue.removeFirst();
+        }
+        return top;
+    }
+}
+```
+
+
+
+## [剑指 Offer 60. n个骰子的点数](https://leetcode-cn.com/problems/nge-tou-zi-de-dian-shu-lcof/)
+
+![image-20211226220535085](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211226220535085.png)
+
+
+
+```python
+class Solution:
+    def dicesProbability(self, n: int) -> List[float]:
+        pre = [1/6] * 6
+        for k in range(2, n + 1):
+            cur = [0] * (5 * n + 1)
+            for i in range(len(cur)):
+                x = k + i 
+                for j in range(1, 7):
+                    if x - j < k - 1:
+                        break
+                    if x - j <= 6 * (k - 1):
+                        cur[i] += pre[x - j - k + 1] / 6
+            pre = cur 
+        return pre 
+```
+
+
+
+## [剑指 Offer 61. 扑克牌中的顺子](https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
+
+```java
+class Solution {
+    public boolean isStraight(int[] nums) {
+        int max = -1, min = 14;
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (num == 0) continue;
+            if (set.contains(num)) return false;
+            set.add(num);
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+        }
+        return (max - min) < 5;
+    }
+}
+```
+
+
+
+
+
+# HERE
+
 ## [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
-
-0,1,···,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字（删除后从下一个数字开始计数）。求出这个圆圈里剩下的最后一个数字。
-
-例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
 
 + 约瑟夫环
 
