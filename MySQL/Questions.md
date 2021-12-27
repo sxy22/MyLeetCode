@@ -805,3 +805,65 @@ from (
 where T.rk = 1;
 ```
 
+
+
+## [1126. 查询活跃业务](https://leetcode-cn.com/problems/active-businesses/)
+
+![image-20211226195910562](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211226195910562.png)
+
+```mysql
+# Write your MySQL query statement below
+select
+    E.business_id
+from Events as E
+join (
+    select
+        event_type,
+        AVG(occurences) as avg_occ 
+    from Events 
+    group by event_type
+) as T 
+on E.event_type = T.event_type
+where E.occurences > T.avg_occ 
+group by E.business_id
+having count(E.event_type) >= 2;
+```
+
+
+
+## [1132. 报告的记录 II](https://leetcode-cn.com/problems/reported-posts-ii/)
+
+```mysql
+# Write your MySQL query statement below
+select
+    round(AVG(T.rate), 2) as average_daily_percent 
+from (
+    select 
+        A.action_date,
+        100 * count(distinct R.post_id) / count(distinct A.post_id) as rate
+    from Actions as A 
+    left join Removals as R
+    on A.post_id = R.post_id
+    where A.action = "report" 
+    and A.extra = "spam"
+    group by A.action_date
+) as T;
+```
+
+
+
+## [1141. 查询近30天活跃用户数](https://leetcode-cn.com/problems/user-activity-for-the-past-30-days-i/)
+
+![image-20211226202149751](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211226202149751.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    activity_date as day, 
+    count(distinct user_id) as active_users 
+from Activity
+where DATEDIFF("2019-07-27", activity_date) < 30
+group by activity_date;
+```
+

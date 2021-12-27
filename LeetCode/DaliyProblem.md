@@ -2,6 +2,58 @@
 
 # 12/2021
 
+## 12/27/2021
+
+[825. 适龄的朋友](https://leetcode-cn.com/problems/friends-of-appropriate-ages/)
+
+```python
+class Solution:
+    def numFriendRequests(self, ages: List[int]) -> int:
+        ages = sorted(ages)
+        ans = 0
+        for x in ages:
+            left = 0.5 * x + 7
+            right = x
+            cnt = self.bisec(ages, right) - self.bisec(ages, left)
+            if x > 14:
+                cnt -= 1
+            ans += max(0, cnt)
+        return ans 
+
+    def bisec(self, arr, x):
+        lo = 0
+        hi = len(arr)
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if arr[mid] <= x:
+                lo = mid + 1
+            else:
+                hi = mid
+        return lo 
+```
+
+
+
+```python
+class Solution:
+    def numFriendRequests(self, ages: List[int]) -> int:
+        cnt = [0] * 121
+        for age in ages:
+            cnt[age] += 1
+        presum = [0] * 121
+        for i in range(1, 121):
+            presum[i] = presum[i - 1] + cnt[i]
+        ans = 0
+        for age in ages:
+            if age <= 14:
+                continue 
+            lo = int(0.5 * age + 7) + 1
+            ans += presum[age] - presum[lo - 1] - 1
+        return ans 
+```
+
+
+
 ## 12/26/2021
 
 [1078. Bigram 分词](https://leetcode-cn.com/problems/occurrences-after-bigram/)
