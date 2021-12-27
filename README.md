@@ -64,6 +64,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 12/27/2021 | [825. 适龄的朋友](https://leetcode-cn.com/problems/friends-of-appropriate-ages/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12272021) | Medium |
 | 12/26/2021 | [1078. Bigram 分词](https://leetcode-cn.com/problems/occurrences-after-bigram/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12262021) | Easy   |
 | 12/25/2021 | [1609. 奇偶树](https://leetcode-cn.com/problems/even-odd-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12252021) | Medium |
 | 12/24/2021 | [1705. 吃苹果的最大数目](https://leetcode-cn.com/problems/maximum-number-of-eaten-apples/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12242021) | Medium |
