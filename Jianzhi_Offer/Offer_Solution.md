@@ -2771,10 +2771,6 @@ class Solution {
 
 
 
-
-
-# HERE
-
 ## [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
 
 + 约瑟夫环
@@ -2796,22 +2792,97 @@ class Solution:
 
 
 
+```java
+class Solution {
+    public int lastRemaining(int n, int m) {
+        int pre = 0, cur = 0;
+        for (int k = 2; k <= n; k++) {
+            int t = (m - 1) % k;
+            cur = pre + t + 1;
+            if (cur > k - 1) {
+                cur -= k;
+            }
+            pre = cur;
+        }
+        return cur;
+    }
+}
+```
+
+
+
+## [剑指 Offer 63. 股票的最大利润](https://leetcode-cn.com/problems/gu-piao-de-zui-da-li-run-lcof/)
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+        int min = prices[0];
+        int max = 0;
+        for (int i = 1; i < prices.length; i++) {
+            max = Math.max(max, prices[i] - min);
+            min = Math.min(min, prices[i]);
+        }
+        return max;
+
+    }
+}
+```
+
+
+
+## [剑指 Offer 65. 不用加减乘除做加法](https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/)
+
+Q ： 若数字 a 和 b 中有负数，则变成了减法，如何处理？
+A ： 在计算机系统中，数值一律用 补码 来表示和存储。补码的优势： 加法、减法可以统一处理（CPU只有加法器）。因此，以上方法 同时适用于正数和负数的加法 
+
+```java
+class Solution {
+    public int add(int a, int b) {
+        while (b != 0) {
+            int temp = a;
+            a = a ^ b;
+            b = (temp & b) << 1;
+        }
+        return a;
+    }
+}
+```
+
+
+
+## [剑指 Offer 66. 构建乘积数组](https://leetcode-cn.com/problems/gou-jian-cheng-ji-shu-zu-lcof/)
+
+```java
+class Solution {
+    public int[] constructArr(int[] a) {
+        int n = a.length;
+        if (n == 0) return new int[0];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        int[] ans = new int[n];
+        left[0] = 1;
+        right[0] = 1;
+        for (int i = 1; i < n; i++) {
+            left[i] = left[i - 1] * a[i - 1];
+            right[i] = right[i - 1] * a[n - i];
+        }
+        for (int i = 0; i < n; i++) {
+            ans[i] = left[i] * right[n - i - 1];
+        }
+        return ans;
+    }
+}
+```
+
+
+
 ## [剑指 Offer 68 - I. 二叉搜索树的最近公共祖先](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/)
-
-给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
-
-百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。
-
-
-
-
 
 + 从上向下找
 + 当 p,q 都在 root 的 右子树 中，则遍历至 root.right
 + 否则， 都在 root的 左子树 中，则遍历至 root.left
 + 否则，说明找到了 最近公共祖先 ，跳出。
-
-
 
 + 迭代
 + 自顶向下的搜索
@@ -2854,7 +2925,19 @@ class Solution:
 
 
 
+
+
 ## [剑指 Offer 68 - II. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/)
+
+**思路**
+
++ 空节点返回None
+
++ 当 root 等于 p,q，则直接返回 root
++ left, right 接受左右子节点的情况
+  + left，right都为空，说明左右子树中 都没有pq，返回None
+  + left，right都不为空，此时root为答案，返回root，会 一路 返回上去
+  + left，right一个不为空，则返回不为空的那个
 
 ```python
 class Solution:
@@ -2871,5 +2954,36 @@ class Solution:
             return right
         else:
             return left
+```
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null) {
+            return root;
+        }else if (left == null) {
+            return right;
+        }else {
+            return left;
+        }
+    }
+}
 ```
 
