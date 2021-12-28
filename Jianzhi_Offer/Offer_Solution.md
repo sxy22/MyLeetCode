@@ -2488,6 +2488,29 @@ class Solution {
 
 
 
+![image-20211228011303714](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211228011303714.png)
+
+![image-20211228011316439](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211228011316439.png)
+
+![image-20211228011324727](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211228011324727.png)
+
+```java
+class Solution {
+    public int singleNumber(int[] nums) {
+        int ones = 0, twos = 0;
+        for (int num : nums) {
+            ones = (ones ^ num) & (~twos);
+            twos = (twos ^ num) & (~ones);
+        }
+        return ones; 
+    }
+}
+```
+
+
+
+
+
 
 
 ## [剑指 Offer 57. 和为s的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
