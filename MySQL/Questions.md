@@ -867,3 +867,85 @@ where DATEDIFF("2019-07-27", activity_date) < 30
 group by activity_date;
 ```
 
+
+
+## [1148. 文章浏览 I](https://leetcode-cn.com/problems/article-views-i/)
+
+![image-20211227195831044](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211227195831044.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select 
+    distinct author_id as id 
+from Views 
+where author_id = viewer_id
+order by id;
+```
+
+
+
+## [1149. 文章浏览 II](https://leetcode-cn.com/problems/article-views-ii/)
+
+![image-20211227200846249](D:\software\Typora\Typora_image\image-20211227200846249.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select 
+    distinct viewer_id as id  
+from Views
+group by viewer_id, view_date
+having count(distinct article_id) >= 2
+order by id;
+```
+
+
+
+## [1158. 市场分析 I](https://leetcode-cn.com/problems/market-analysis-i/)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    U.user_id as buyer_id,
+    U.join_date,
+    count(O.order_id) as orders_in_2019
+from Users as U 
+left join Orders as O 
+on U.user_id = O.buyer_id
+and LEFT(O.order_date, 4) = "2019"
+group by U.user_id;
+```
+
+
+
+## [1159. 市场分析 II](https://leetcode-cn.com/problems/market-analysis-ii/)
+
+![image-20211227203714431](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211227203714431.png)
+
+```mysql
+select
+    U.user_id as seller_id,
+    (case
+    when T.item_id is null then "no"
+    when U.favorite_brand = I.item_brand then "yes"
+    else "no"
+    end) as 2nd_item_fav_brand 
+from Users as U
+left join (
+    select
+        U.user_id,
+        O.item_id,
+        RANK() over(partition by U.user_id order by O.order_date) as rk 
+    from Users as U 
+    join Orders as O 
+    on U.user_id = O.seller_id
+) as T
+on U.user_id = T.user_id and T.rk = 2
+left join Items as I
+on T.item_id = I.item_id;
+```
+
+
+
