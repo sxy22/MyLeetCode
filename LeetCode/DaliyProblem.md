@@ -2,6 +2,60 @@
 
 # 12/2021
 
+## 12/28/2021
+
+[472. 连接词](https://leetcode-cn.com/problems/concatenated-words/)
+
+```python
+class Trie:
+    def __init__(self):
+        # 保存子节点，小写字母情况下最多26个，可以用数组模拟
+        self.children = dict()
+        # 记录该节点 是否作为一个字符串的结束
+        self.isEnd = False
+    
+    def insert(self, word: str) -> None:
+        """Inserts a word into the trie.
+        """
+        node = self
+        for ch in word:
+            # 存在则不操作，不存在则设置一个新节点
+            node.children.setdefault(ch, Trie())
+            # 继续向下，插入新的字符
+            node = node.children[ch]
+        node.isEnd = True
+    
+    def DFS(self, word, start):
+        if start == len(word):
+            return True 
+        node = self
+        for i in range(start, len(word)):
+            next_node = node.children.get(word[i], None)
+            if next_node is None:
+                return False 
+            if next_node.isEnd:
+                if self.DFS(word, i + 1):
+                    return True 
+            node = next_node 
+        return False 
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        words.sort(key=len)
+        myTrie = Trie()
+        ans = []
+        for w in words:
+            if w == '':
+                continue
+            if myTrie.DFS(w, 0):
+                ans.append(w)
+            else:
+                myTrie.insert(w)
+        return ans 
+```
+
+
+
 ## 12/27/2021
 
 [825. 适龄的朋友](https://leetcode-cn.com/problems/friends-of-appropriate-ages/)
