@@ -2,6 +2,27 @@
 
 # 12/2021
 
+## 12/29/2021
+
+[1995. 统计特殊四元组](https://leetcode-cn.com/problems/count-special-quadruplets/)
+
+```python
+class Solution:
+    def countQuadruplets(self, nums: List[int]) -> int:
+        hmap = collections.defaultdict(int)
+        n = len(nums)
+        ans = 0
+        for c in range(n - 2, 1, -1):
+            for d in range(c + 1, n):
+                hmap[nums[d] - nums[c]] += 1
+            b = c - 1
+            for a in range(b):
+                ans += hmap[nums[a] + nums[b]]
+        return ans 
+```
+
+
+
 ## 12/28/2021
 
 [472. 连接词](https://leetcode-cn.com/problems/concatenated-words/)
