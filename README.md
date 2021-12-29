@@ -54,7 +54,7 @@
 
 **剑指Offer 第2版** [solution](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_Solution.md#%E5%89%91%E6%8C%87offer%E7%AC%AC%E4%BA%8C%E7%89%88)
 
-
+**剑指Offer 专项**[solution](https://github.com/sxy22/MyLeetCode/blob/master/Jianzhi_Offer/Offer_New.md#%E5%89%91%E6%8C%87-offer%E4%B8%93%E9%A1%B9%E7%AA%81%E5%87%BB%E7%89%88)
 
 ---
 
@@ -64,6 +64,8 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 12/29/2021 | [1995. 统计特殊四元组](https://leetcode-cn.com/problems/count-special-quadruplets/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12292021) | Easy   |
+| 12/28/2021 | [472. 连接词](https://leetcode-cn.com/problems/concatenated-words/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12282021) | Medium |
 | 12/27/2021 | [825. 适龄的朋友](https://leetcode-cn.com/problems/friends-of-appropriate-ages/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12272021) | Medium |
 | 12/26/2021 | [1078. Bigram 分词](https://leetcode-cn.com/problems/occurrences-after-bigram/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12262021) | Easy   |
 | 12/25/2021 | [1609. 奇偶树](https://leetcode-cn.com/problems/even-odd-tree/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12252021) | Medium |
