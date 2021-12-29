@@ -949,3 +949,25 @@ on T.item_id = I.item_id;
 
 
 
+
+
+## [1174. 即时食物配送 II](https://leetcode-cn.com/problems/immediate-food-delivery-ii/)
+
+![image-20211228211304606](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211228211304606.png)
+
+```mysql
+# Write your MySQL query statement below
+
+
+select 
+    ROUND(100 * AVG(IF(order_date = customer_pref_delivery_date, 1, 0)), 2) as immediate_percentage 
+from Delivery
+where (customer_id, order_date) in (
+    select
+        customer_id,
+        min(order_date) as fd  
+    from Delivery 
+    group by customer_id
+)
+```
+
