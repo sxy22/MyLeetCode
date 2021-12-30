@@ -13,31 +13,28 @@ class Solution:
             return True
         if len(hand) % groupSize != 0:
             return False
-        k = len(hand) // groupSize
 
         cnt = collections.defaultdict(int)
         for x in hand:
             cnt[x] += 1
         hand = [x for x in cnt]
         hand = sorted(hand)
-        n = len(hand)
-        start = 0
-        while k > 0:
-            k -= 1
-            # 找到当前最小值最为起始
-            while cnt[hand[start]] == 0:
-                start += 1
-            cnt[hand[start]] -= 1
-            # 判断是否能组成长度为groupSize
-            if n - start < groupSize:
-                return False
-            # 判断是否是顺子
-            for j in range(start + 1, start + groupSize):
-                if cnt[hand[j]] == 0 or hand[j] - hand[j - 1] != 1:
-                    return False
-                cnt[hand[j]] -= 1
+        i = 0
+        while i < len(hand):
+            # 找到起始数字
+            start = hand[i]
+            if cnt[start] == 0:
+                i += 1
+                continue
+            # 判断是否能组成顺子
+            for j in range(start, start + groupSize):
+                if cnt[j] == 0:
+                    return False 
+                cnt[j] -= 1
         return True 
 ```
+
+
 
 
 
