@@ -971,3 +971,65 @@ where (customer_id, order_date) in (
 )
 ```
 
+
+
+## [1193. 每月交易 I](https://leetcode-cn.com/problems/monthly-transactions-i/)
+
+![image-20211229191351931](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229191351931.png)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    LEFT(trans_date, 7) as `month`,
+    country,
+    count(id) as trans_count,
+    SUM(state = "approved") as approved_count,
+    SUM(amount) as trans_total_amount,
+    SUM(IF(state = "approved", amount, 0)) as approved_total_amount
+from Transactions 
+group by country, LEFT(trans_date, 7);
+```
+
+
+
+## [1194. 锦标赛优胜者](https://leetcode-cn.com/problems/tournament-winners/)
+
+![image-20211229192435148](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229192435148.png)
+
+![image-20211229192446628](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229192446628.png)
+
+![image-20211229192455141](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229192455141.png)
+
+```mysql
+select 
+    TTT.group_id,
+    TTT.player_id
+from (
+    select
+        P.group_id,
+        P.player_id,
+        RANK() over(partition by P.group_id order by TT.score DESC, P.player_id) as rk 
+    from Players as P 
+    left join (
+        select 
+            T.player,
+            SUM(T.score) as score
+        from (
+            select
+                first_player as player,
+                first_score as score 
+            from Matches
+            UNION ALL
+            select
+                second_player as player,
+                second_score as score 
+            from Matches
+        ) as T
+        group by T.player
+    ) as TT 
+    on P.player_id = TT.player
+) as TTT
+where TTT.rk = 1;
+```
+

@@ -2,6 +2,45 @@
 
 # 12/2021
 
+## 12/30/2021
+
+[846. 一手顺子](https://leetcode-cn.com/problems/hand-of-straights/)
+
+```python
+class Solution:
+    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+        if groupSize == 1:
+            return True
+        if len(hand) % groupSize != 0:
+            return False
+        k = len(hand) // groupSize
+
+        cnt = collections.defaultdict(int)
+        for x in hand:
+            cnt[x] += 1
+        hand = [x for x in cnt]
+        hand = sorted(hand)
+        n = len(hand)
+        start = 0
+        while k > 0:
+            k -= 1
+            # 找到当前最小值最为起始
+            while cnt[hand[start]] == 0:
+                start += 1
+            cnt[hand[start]] -= 1
+            # 判断是否能组成长度为groupSize
+            if n - start < groupSize:
+                return False
+            # 判断是否是顺子
+            for j in range(start + 1, start + groupSize):
+                if cnt[hand[j]] == 0 or hand[j] - hand[j - 1] != 1:
+                    return False
+                cnt[hand[j]] -= 1
+        return True 
+```
+
+
+
 ## 12/29/2021
 
 [1995. 统计特殊四元组](https://leetcode-cn.com/problems/count-special-quadruplets/)
