@@ -147,3 +147,26 @@ class Solution {
 
 
 
+## [剑指 Offer II 006. 排序数组中两个数字之和](https://leetcode-cn.com/problems/kLl5u1/)
+
+```java
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int i = 0, j = numbers.length - 1;
+        while (i < j) {
+            int sum = numbers[i] + numbers[j];
+            if (sum == target) {
+                break;
+            }else if (sum < target) {
+                i++;
+            }else {
+                j--;
+            }
+        }
+        return new int[]{i, j};
+    }
+}
+```
+
+
+
