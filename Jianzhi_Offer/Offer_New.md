@@ -170,3 +170,50 @@ class Solution {
 
 
 
+## [剑指 Offer II 007. 数组中和为 0 的三个数](https://leetcode-cn.com/problems/1fGaJU/)
+
++ 三数之和
+
++ 排序，固定i
++ 移动i， j
++ 注意避免重复
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = 0; i < n - 2; i++) {
+            // 找下一个不同的i， 除0之外
+            if (i != 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            if (nums[i] > 0) break;
+            // j, k
+            int j = i + 1, k = n - 1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum < 0) {
+                    j += 1;
+                }else if (sum > 0) {
+                    k -= 1;
+                }else {
+                    ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    // 更新j, k (事实上只需要更新j到下一个不同的元素即可)
+                    j += 1;
+                    k -= 1;
+                    while (j < k && nums[j] == nums[j - 1]) {
+                        j += 1;
+                    }
+                    while (j < k && nums[k] == nums[k + 1]) {
+                        k -= 1;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
