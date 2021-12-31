@@ -244,3 +244,60 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 009. 乘积小于 K 的子数组(!!!!)](https://leetcode-cn.com/problems/ZVAVXX/)
+
++ 晕了
+
+```java
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if (k == 0) return 0;
+        int i = 0, j = 0;
+        int mul = 1;
+        int n = nums.length;
+        int cnt = 0;
+        while (i < n) {
+            while (j < n && mul < k) {
+                mul *= nums[j];
+                j += 1;
+            }
+            if (mul >= k) {
+                cnt += Math.max(0, j - i - 1);
+            }else {
+                cnt += Math.max(0, j - i);
+            }
+            mul /= nums[i];
+            i += 1;
+        }
+        return cnt;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 010. 和为 k 的子数组](https://leetcode-cn.com/problems/QTMn0o/)
+
++ 前缀和
++ 哈希表储存前缀和的个数
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> cnt = new HashMap<>();
+        int pre_sum = 0;
+        cnt.put(0, 1);
+        int ans = 0;
+        for (int num : nums) {
+            pre_sum += num;
+            int target = pre_sum - k;
+            ans += cnt.getOrDefault(target, 0);
+            cnt.put(pre_sum, 1 + cnt.getOrDefault(pre_sum, 0));
+        }
+        return ans;
+    }  
+}
+```
+
