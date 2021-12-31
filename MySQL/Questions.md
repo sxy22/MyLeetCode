@@ -1033,3 +1033,18 @@ from (
 where TTT.rk = 1;
 ```
 
+
+
+## [1211. 查询结果的质量和占比](https://leetcode-cn.com/problems/queries-quality-and-percentage/)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    query_name,
+    ROUND(AVG(rating / position), 2) as quality,
+    ROUND(100 * AVG(rating < 3), 2) as poor_query_percentage
+from Queries
+group by query_name;
+```
+

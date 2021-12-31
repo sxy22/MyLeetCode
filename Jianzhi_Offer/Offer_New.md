@@ -217,3 +217,30 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 008. 和大于等于 target 的最短子数组](https://leetcode-cn.com/problems/2VG8Kg/)
+
+```java
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int i = 0, j = -1;
+        int n = nums.length;
+        int min_len = nums.length + 1;
+        int sum = 0;
+        while (j < n) {
+            if (sum < target) {
+                j += 1;
+                if (j < n) sum += nums[j];
+            }else {
+                min_len = Math.min(min_len, j - i + 1);
+                sum -= nums[i];
+                i += 1;
+            }
+        }
+        if (min_len == n + 1) return 0;
+        return min_len;
+    }
+}
+```
+
