@@ -2,6 +2,35 @@
 
 # 12/2021
 
+## 12/31/2021
+
+[507. 完美数](https://leetcode-cn.com/problems/perfect-number/)
+
+```java
+class Solution {
+    public boolean checkPerfectNumber(int num) {
+        if (num == 1) return false;
+        int sum = 1;
+        int up = (int)Math.sqrt(num + 1);
+        for (int i = 2; i <= up; i++) {
+            int j = num / i;
+            if (i * j == num) {
+                if (i < j) {
+                    sum += i;
+                    sum += j;
+                }
+                if (i == j) {
+                    sum += i;
+                }
+            }
+        }
+        return sum == num;
+    }
+}
+```
+
+
+
 ## 12/30/2021
 
 [846. 一手顺子](https://leetcode-cn.com/problems/hand-of-straights/)
