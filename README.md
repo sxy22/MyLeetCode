@@ -64,6 +64,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 12/31/2021 | [507. 完美数](https://leetcode-cn.com/problems/perfect-number/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12312021) | Easy   |
 | 12/30/2021 | [846. 一手顺子](https://leetcode-cn.com/problems/hand-of-straights/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12302021) | Medium |
 | 12/29/2021 | [1995. 统计特殊四元组](https://leetcode-cn.com/problems/count-special-quadruplets/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12292021) | Easy   |
 | 12/28/2021 | [472. 连接词](https://leetcode-cn.com/problems/concatenated-words/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12282021) | Medium |
