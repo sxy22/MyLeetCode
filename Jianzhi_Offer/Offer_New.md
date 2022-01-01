@@ -301,3 +301,123 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 011. 0 和 1 个数相同的子数组](https://leetcode-cn.com/problems/A1NYOS/)
+
++ 将0看作-1， 即找和为0的子数组
+
+```java
+class Solution {
+    public int findMaxLength(int[] nums) {
+        Map<Integer, Integer> sum2idx = new HashMap<>();
+        sum2idx.put(0, -1);
+        int pre_sum = 0;
+        int max_len = 0;
+        for (int i = 0; i < nums.length; i ++) {
+            int num = nums[i];
+            if (num == 0) num = -1;
+            pre_sum += num;
+            int pre_idx = sum2idx.getOrDefault(pre_sum, -2);
+            if (pre_idx != -2) {
+                max_len = Math.max(max_len, i - pre_idx);
+            }else {
+                sum2idx.put(pre_sum, i);
+            }
+        }
+        return max_len;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 012. 左右两边子数组的和相等](https://leetcode-cn.com/problems/tvdfij/)
+
+```java
+class Solution {
+    public int pivotIndex(int[] nums) {
+        int n = nums.length;
+        int[] left_sum = new int[n];
+        int[] right_sum = new int[n];
+        for (int i = n - 2; i >= 0; i--) {
+            right_sum[i] = right_sum[i + 1] + nums[i + 1];
+        }
+        for (int i = 0; i < n; i++) {
+            if (i != 0) {
+                left_sum[i] = left_sum[i - 1] + nums[i - 1];
+            }
+            if (left_sum[i] == right_sum[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
+
++ 不需要right_sum 直接total - pre_sum
+
+```java
+class Solution {
+    public int pivotIndex(int[] nums) {
+        int n = nums.length;
+        int total = 0;
+        for (int num : nums) {
+            total += num;
+        }
+        int left_sum = 0;
+        for (int i = 0; i < n; i++) {
+            int right_sum = total - left_sum - nums[i];
+            if (left_sum == right_sum) {
+                return i;
+            }
+            left_sum += nums[i];
+        }
+        return -1;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 013. 二维子矩阵的和](https://leetcode-cn.com/problems/O4NDxx/)
+
++ 二维前缀和
+
+```java
+class NumMatrix {
+    private int[][] pre_sum;
+    int m;
+    int n;
+
+    public NumMatrix(int[][] matrix) {
+        this.m = matrix.length;
+        this.n = matrix[0].length;
+        pre_sum = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                pre_sum[i][j] = matrix[i][j] + get(i - 1, j) + get(i, j - 1) - get(i - 1, j - 1);
+            }
+        }
+    }
+    
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        return get(row2, col2) - get(row2, col1 - 1) - get(row1 - 1, col2) + get(row1 - 1, col1 - 1);
+    }
+
+    int get(int row, int col) {
+        if (row < 0 || col < 0) {
+            return 0;
+        }
+        return pre_sum[row][col];
+    }
+}
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix obj = new NumMatrix(matrix);
+ * int param_1 = obj.sumRegion(row1,col1,row2,col2);
+ */
+```
+

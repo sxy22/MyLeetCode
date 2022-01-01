@@ -1,5 +1,55 @@
 # Leetcode每日一题
 
+# 1/2022
+
+## 1/1/2022
+
+[2022. 将一维数组转变成二维数组](https://leetcode-cn.com/problems/convert-1d-array-into-2d-array/)[2022. 将一维数组转变成二维数组](https://leetcode-cn.com/problems/convert-1d-array-into-2d-array/)
+
++ Arrays.copyOfRange
+
+```java
+class Solution {
+    public int[][] construct2DArray(int[] original, int m, int n) {
+        int L = original.length;
+        if (m * n != L) return new int[0][];
+        int[][] ans = new int[m][n];
+        int i = 0;
+        int start = 0;
+        while (i < m) {
+            ans[i] = Arrays.copyOfRange(original, start, start + n);
+            i += 1;
+            start = start + n;
+        }
+        return ans;
+    }
+}
+```
+
+
+
++ 直接计算小标i对应的二维下标
+
+```java
+class Solution {
+    public int[][] construct2DArray(int[] original, int m, int n) {
+        int L = original.length;
+        if (m * n != L) return new int[0][];
+        int[][] ans = new int[m][n];
+        for (int idx = 0; idx < L; idx ++) {
+            int i = idx / n;
+            int j = idx % n;
+            ans[i][j] = original[idx];
+        }
+        return ans;
+    }
+}
+```
+
+
+
+---
+
 # 12/2021
 
 ## 12/31/2021
