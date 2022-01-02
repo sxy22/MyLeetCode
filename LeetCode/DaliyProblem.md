@@ -2,6 +2,44 @@
 
 # 1/2022
 
+## 1/2/2022
+
+[390. 消除游戏](https://leetcode-cn.com/problems/elimination-game/)
+
+```java
+class Solution {
+    public int lastRemaining(int n) {
+        if (n == 1) return 1;
+        int pre = n / 2;
+        return 2 * (pre - lastRemaining(pre) + 1);
+
+    }
+}
+```
+
+```python
+class Solution:
+    def lastRemaining(self, n: int) -> int:
+        a1 = 1
+        an = n
+        step = 1
+        while a1 != an:
+            # print(a1, an)
+            temp = a1
+            k = (an - a1) // step + 1
+            if k & 1 == 1:
+                a1 = an - step 
+            else:
+                a1 = an 
+            an = temp + step 
+            step *= -2
+        return a1
+```
+
+
+
+
+
 ## 1/1/2022
 
 [2022. 将一维数组转变成二维数组](https://leetcode-cn.com/problems/convert-1d-array-into-2d-array/)
