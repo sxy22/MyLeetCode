@@ -64,6 +64,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/2/2022   | [390. 消除游戏](https://leetcode-cn.com/problems/elimination-game/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#122022) | Medium |
 | 1/1/2022   | [2022. 将一维数组转变成二维数组](https://leetcode-cn.com/problems/convert-1d-array-into-2d-array/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#112022) | Easy   |
 | 12/31/2021 | [507. 完美数](https://leetcode-cn.com/problems/perfect-number/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12312021) | Easy   |
 | 12/30/2021 | [846. 一手顺子](https://leetcode-cn.com/problems/hand-of-straights/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12302021) | Medium |
