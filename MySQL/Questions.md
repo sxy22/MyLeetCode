@@ -1066,3 +1066,34 @@ where user_id in (
 and page_id not in (select page_id from Likes where user_id = 1);
 ```
 
+
+
+## [1303. 求团队人数](https://leetcode-cn.com/problems/find-the-team-size/)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    E1.employee_id, 
+    COUNT(E2.employee_id) as team_size
+from Employee as E1
+join Employee as E2
+on E1.team_id = E2.team_id
+group by E1.employee_id;
+```
+
+
+
+## [1308. 不同性别每日分数总计](https://leetcode-cn.com/problems/running-total-for-different-genders/)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    gender, 
+    `day`,
+    SUM(score_points) over(partition by gender order by `day`) as total
+from Scores
+order by gender, `day`;
+```
+
