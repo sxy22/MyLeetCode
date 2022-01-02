@@ -334,6 +334,8 @@ class Solution {
 
 ## [剑指 Offer II 012. 左右两边子数组的和相等](https://leetcode-cn.com/problems/tvdfij/)
 
++ 从左的前缀和 + 从右的前缀和
+
 ```java
 class Solution {
     public int pivotIndex(int[] nums) {
@@ -419,5 +421,108 @@ class NumMatrix {
  * NumMatrix obj = new NumMatrix(matrix);
  * int param_1 = obj.sumRegion(row1,col1,row2,col2);
  */
+```
+
+
+
+## [剑指 Offer II 014. 字符串中的变位词](https://leetcode-cn.com/problems/MPnaiL/)
+
++ 以s1长度作为滑动窗口的长度
++ 用diff记录两字符串的差异，当diff == 0，则找到一个变位词
++ 每加入一个字符
+  + 对应字符的计数 - 1， 若从1 变成0， 则diff -= 1。 在此字符上两字符串无差异
+  + 若从0 变成 - 1， 则diff += 1，  在此字符上两字符串本无差异，现在有差异了
+  + 其他情况diff 不变
++ 每去掉一个字符
+  + 对应字符的计数 + 1， 若从-1 变成0， 则diff -= 1。 在此字符上两字符串无差异
+  + 若从0 变成  1， 则diff += 1，  在此字符上两字符串本无差异，现在有差异了
+  + 其他情况diff 不变
+
+```java
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) return false;
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int i = 0, j = n1 - 1;
+        Map<Character, Integer> cnt = new HashMap<>();
+        for (int k = 0; k < n1; k++) {
+            char s = s1.charAt(k);
+            cnt.put(s, 1 + cnt.getOrDefault(s, 0));
+        }
+        int diff = cnt.size();
+        for (int k = 0; k < n1; k++) {
+            char s = s2.charAt(k);
+            cnt.put(s, cnt.getOrDefault(s, 0) - 1);
+            int val = cnt.get(s);
+            if (val == 0) diff -= 1;
+            if (val == -1) diff += 1;
+        }
+        while (j < n2) {
+            if (diff == 0) return true;
+            // 加入 j + 1
+            if (j + 1 == n2) break;
+            char s = s2.charAt(j + 1);
+            cnt.put(s, cnt.getOrDefault(s, 0) - 1);
+            int val = cnt.get(s);
+            if (val == 0) diff -= 1;
+            if (val == -1) diff += 1;
+            // 移除 i
+            s = s2.charAt(i);
+            cnt.put(s, cnt.getOrDefault(s, 0) + 1);
+            val = cnt.get(s);
+            if (val == 0) diff -= 1;
+            if (val == 1) diff += 1;
+            i += 1;
+            j += 1;
+        }
+        return false;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 015. 字符串中的所有变位词](https://leetcode-cn.com/problems/VabMRr/)
+
+```java
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> ans = new ArrayList<>();
+        if (s.length() < p.length()) return ans;
+        int n1 = s.length();
+        int n2 = p.length();
+        int i = 0, j = -1;
+        int diff = 0;
+        int[] cnt = new int[26];
+        // 加入p的字符
+        for (int k = 0; k < n2; k++) {
+            char ch = p.charAt(k);
+            if (cnt[ch - 'a']++ == 0) {
+                diff += 1;
+            }
+        }
+        while (j < n1) {
+            if (diff == 0) ans.add(i);
+            char ch;
+            if (j - i + 1 == n2) {
+                // 移除i
+                ch = s.charAt(i);
+                cnt[ch - 'a'] += 1;
+                if (cnt[ch - 'a'] == 0) diff -= 1;
+                if (cnt[ch - 'a'] == 1) diff += 1;
+                i += 1;
+            }
+            // 加入 j + 1
+            if (j + 1 == n1) break;
+            ch = s.charAt(j + 1);
+            cnt[ch - 'a'] -= 1;
+            if (cnt[ch - 'a'] == 0) diff -= 1;
+            if (cnt[ch - 'a'] == -1) diff += 1;
+            j += 1;
+        }
+        return ans;
+    }
+}
 ```
 
