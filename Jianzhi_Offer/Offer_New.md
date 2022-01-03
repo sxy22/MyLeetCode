@@ -526,3 +526,140 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 016. 不含重复字符的最长子字符串](https://leetcode-cn.com/problems/wtcaE1/)
+
++ 滑动窗口
++ 右移j直到有重复
++ 更新max_len
++ 移除i，i+=1
+
+```java
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int i = 0, j = 0;
+        Set<Character> hashset = new HashSet<>();
+        int max_len = 0;
+        int n = s.length();
+        while (j < n) {
+            while (j < n && !hashset.contains(s.charAt(j))) {
+                hashset.add(s.charAt(j));
+                j += 1;
+            }
+            max_len = Math.max(max_len, j - i);
+            hashset.remove(s.charAt(i));
+            i += 1;
+        }
+        return max_len;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 017. 含有所有字符的最短字符串](https://leetcode-cn.com/problems/M1oyTv/)
+
++ diff 记录差异，不考虑t中没有的字符
++ diff != 0， 加入j
+  + 对应字符的计数 - 1， 若从1 变成0， 则diff -= 1
++ diff == 0, 移除 i 
+  + 对应字符的计数 +1， 若从0 变成1， 则diff += 1
+
+```java
+class Solution {
+    public String minWindow(String s, String t) {
+        if (t.length() > s.length()) return "";
+        int n1 = s.length();
+        int n2 = t.length();
+        Map<Character, Integer> cnt = new HashMap<>();
+        for (int i = 0; i < n2; i++) {
+            cnt.put(t.charAt(i), 1 + cnt.getOrDefault(t.charAt(i), 0));
+        }
+        int diff = cnt.size();
+        int left = -1, right = n1 + 2;
+        int i = 0, j = 0;
+        char ch;
+        while (i < n1) {
+            while (j < n1 && diff != 0) {
+                ch = s.charAt(j);
+                if (!cnt.containsKey(ch)) {
+                    j += 1;
+                    continue;
+                }
+                //加入 j 
+                cnt.put(ch, cnt.get(ch) - 1);
+                if (cnt.get(ch) == 0) diff -= 1;
+                j += 1;
+            }
+            // 若diff == 0，更新left, right
+            if (diff == 0 && right - left > j - i) {
+                left = i;
+                right = j;
+            }
+            // 移除 i
+            ch = s.charAt(i);
+            if (!cnt.containsKey(ch)) {
+                i += 1;
+                continue;
+            }
+            cnt.put(ch, cnt.get(ch) + 1);
+            if (cnt.get(ch) == 1) diff += 1;
+            i += 1;
+        }
+        if (left == -1) return "";
+        return s.substring(left, right);
+    }
+}
+```
+
+
+
+## [剑指 Offer II 018. 有效的回文](https://leetcode-cn.com/problems/XltzEq/)
+
++ 双指针i ,j
++ 若不是字母或数字，跳过
++ 判断是否相等
++ Java 中 Character类的方法
+
+```java
+class Solution {
+    public boolean isPalindrome(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            while (i < j && !Character.isLetterOrDigit(s.charAt(i))) {
+                i += 1;
+            }
+            while (i < j && !Character.isLetterOrDigit(s.charAt(j))) {
+                j -= 1;
+            }
+            if (Character.toLowerCase(s.charAt(i)) != Character.toLowerCase(s.charAt(j))) {
+                return false;
+            }
+            i += 1;
+            j -= 1;
+        }
+        return true;
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        i = 0
+        j = len(s) - 1
+        while i < j:
+            while i < j and not s[i].isalnum():
+                i += 1
+            while i < j and not s[j].isalnum():
+                j -= 1
+            if s[i].lower() != s[j].lower():
+                return False
+            i += 1
+            j -= 1
+        return True 
+```
+
