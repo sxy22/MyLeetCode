@@ -1097,3 +1097,19 @@ from Scores
 order by gender, `day`;
 ```
 
+
+
+## [1322. 广告效果](https://leetcode-cn.com/problems/ads-performance/)
+
+```mysql
+# Write your MySQL query statement below
+
+
+select
+    ad_id,
+    ifnull(ROUND(100 * SUM(action = 'Clicked') / (SUM(action = 'Clicked') + SUM(action = 'Viewed')), 2), 0) as ctr
+from Ads
+group by ad_id
+order by ctr DESC, ad_id;
+```
+
