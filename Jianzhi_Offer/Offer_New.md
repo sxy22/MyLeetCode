@@ -663,3 +663,166 @@ class Solution:
         return True 
 ```
 
+
+
+## [剑指 Offer II 019. 最多删除一个字符得到回文](https://leetcode-cn.com/problems/RQku0D/)
+
++ 移动i，j判断字符是否相等
++ 若不相等，则判断 i + 1 - j 和 i - j  - 1是否有一个是回文串
+
+```java
+class Solution {
+    public boolean validPalindrome(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return valid(s, i + 1, j) || valid(s, i, j - 1);
+            }
+            i += 1;
+            j -= 1;
+        }
+        return true;
+    }
+
+    boolean valid(String s, int left, int right) {
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            left += 1;
+            right -= 1;
+        }   
+        return true;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 020. 回文子字符串的个数](https://leetcode-cn.com/problems/a7VOhD/)
+
++ 一个回文串去掉两头还是回文串
++ `dp[i][j]` 表示 该子串是否是回文
++ 需要 s[i] == s[j] 且 `dp[i - 1][j - 1]` == true
++ 初始化：
+  + 长度为1的是回文串
+  + 长度为2的判断两个字符是否相等
+  + 可以用一个get()函数 使代码统一
+
+```java
+class Solution {
+    boolean[][] dp;
+
+    public int countSubstrings(String s) {
+        int n = s.length();
+        dp = new boolean[n][n];
+        int ans = 0;
+        // 初始化长度为1
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = true;
+            ans += 1;
+        }
+        // l 表示子串长度
+        // j - i + 1 = l
+        for (int l = 2; l <= n; l++) {
+            for (int i = 0; i <= n - l; i++) {
+                int j = l + i - 1;
+                dp[i][j] = (s.charAt(i) == s.charAt(j)) && get(i + 1, j - 1);
+                if (dp[i][j]) ans += 1;
+            }
+        }
+        return ans;
+    }
+
+    private boolean get(int i, int j) {
+        if (i > j) return true;
+        return dp[i][j];
+    }
+}
+```
+
+
+
+## [剑指 Offer II 021. 删除链表的倒数第 n 个结点](https://leetcode-cn.com/problems/SLwz0R/)
+
++ 创建pre指向head
++ fast先走n + 1 步
++ fast指向null时， slow指向倒数n + 1个
++ 删除slow的下一个结点
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode pre = new ListNode(-1, head);
+        ListNode slow = pre, fast = pre;
+        for (int i = 0; i < n + 1; i++) {
+            fast = fast.next;
+        }
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        slow.next = slow.next.next;
+        return pre.next;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 022. 链表中环的入口节点](https://leetcode-cn.com/problems/c32eOV/)
+
++ 以HashSet存结点
+
+```java
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        Set<ListNode> hset = new HashSet<>();
+        while (head != null) {
+            if (hset.contains(head)) return head;
+            hset.add(head);
+            head = head.next;
+        }
+        return null;
+    }
+}
+```
+
+
+
++ 快慢指针
++ 分析快慢指针相遇的结点位置
++ https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/linked-list-cycle-ii-kuai-man-zhi-zhen-shuang-zhi-/
+
+```java
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode pre = new ListNode(-1);
+        pre.next = head;
+        ListNode fast = pre, slow = pre;
+        while (fast != null) {
+            if (fast.next == null) return null;
+            slow = slow.next;
+            fast = fast.next.next;
+            if (fast == slow) break;
+        }
+        if (fast == null) return null;
+        while (pre != slow) {
+            pre = pre.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+```
+
