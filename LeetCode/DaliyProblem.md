@@ -2,6 +2,50 @@
 
 # 1/2022
 
+## 1/5/2022
+
+[1576. 替换所有的问号](https://leetcode-cn.com/problems/replace-all-s-to-avoid-consecutive-repeating-characters/)
+
+```java
+class Solution {
+    public String modifyString(String s) {
+        StringBuilder ans = new StringBuilder(s);
+        char left, right;
+        for (int i = 0; i < ans.length(); i++) {
+            if (ans.charAt(i) != '?') {
+                continue;
+            }
+            if (i == 0) {
+                left = '?';
+            }else {
+                left = ans.charAt(i - 1);
+            }
+            if (i == ans.length() - 1) {
+                right = '?';
+            }else {
+                right = ans.charAt(i + 1);
+            }
+            ans.setCharAt(i, getchar(left, right));
+        }
+        return ans.toString();
+        
+    }
+
+    char getchar(char left, char right) {
+        char ch = 'a';
+        for (int i = 0; i < 26; i++) {
+            if (ch != left && ch != right) {
+                return ch;
+            }
+            ch = (char) (ch + 1);
+        }
+        return ' ';
+    }
+}
+```
+
+
+
 ## 1/2/2022
 
 [390. 消除游戏](https://leetcode-cn.com/problems/elimination-game/)

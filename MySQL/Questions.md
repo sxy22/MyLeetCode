@@ -1113,3 +1113,49 @@ group by ad_id
 order by ctr DESC, ad_id;
 ```
 
+
+
+## [1364. 顾客的可信联系人数量](https://leetcode-cn.com/problems/number-of-trusted-contacts-of-a-customer/)
+
+```mysql
+select i.invoice_id, c.customer_name, i.price, 
+count(co.contact_name) as contacts_cnt,
+sum(
+    case 
+    when co.contact_name in (select customer_name from Customers) then 1
+    else 0
+    end
+) as trusted_contacts_cnt
+from Invoices as i 
+join Customers as c 
+on i.user_id = c.customer_id
+left join Contacts as co 
+on c.customer_id = co.user_id
+group by i.invoice_id;
+
+
+
+select
+    I.invoice_id,
+    C.customer_name,
+    I.price,
+    COUNT(T.status) as contacts_cnt,
+    IFNULL(SUM(T.status), 0) as trusted_contacts_cnt
+from Invoices as I 
+join Customers as C 
+on I.user_id = C.customer_id
+left join (
+    select
+        Co.user_id,
+        Co.contact_name,
+        IF(C.customer_name is null, 0, 1) as status
+    from Contacts as Co 
+    left join Customers as C 
+    on Co.contact_name = C.customer_name
+) as T
+on I.user_id = T.user_id
+group by I.invoice_id
+order by I.invoice_id;
+
+```
+
