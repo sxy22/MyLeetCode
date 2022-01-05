@@ -826,3 +826,121 @@ public class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 023. 两个链表的第一个重合节点](https://leetcode-cn.com/problems/3u1WK4/)
+
++ A走到底从B的头开始，B也一样
++ 若有交点一定在交点出汇合
++ 若没有交点，A == null， B == null 也会退出循环
+
+```java
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode A_copy = headA, B_copy = headB;
+        if (headA == null || headB == null) return null;
+        while (headA != headB) {
+            headA = headA == null ? B_copy : headA.next;
+            headB = headB == null ? A_copy : headB.next;
+        }
+        return headA;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 024. 反转链表](https://leetcode-cn.com/problems/UHnkqh/)
+
++ 迭代
++ pre, cur
++ cur 指向pre
++ cur.next 提前保存
+
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null, cur = head;
+        ListNode next;
+        while (cur != null) {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
+
+
++ 递归
+
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return null;
+        if (head.next == null) return head;
+        ListNode newhead = reverseList(head.next);
+        // head.next 成为了链表尾
+        head.next.next = head;
+        head.next = null;
+        return newhead;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 025. 链表中的两数相加](https://leetcode-cn.com/problems/lMSNwu/)
+
++ 可以先翻转链表
++ 再按位相加
++ 也可以用stack
+
+```java
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        l1 = reverseList(l1);
+        l2 = reverseList(l2);
+        int carry = 0;
+        int a, b;
+        ListNode head = null;
+        while (l1 != null || l2 != null || carry > 0) {
+            if (l1 == null) {
+                a = 0;
+            }else {
+                a = l1.val;
+                l1 = l1.next;
+            }
+            if (l2 == null) {
+                b = 0;
+            }else {
+                b = l2.val;
+                l2 = l2.next;
+            }
+            int val = a + b + carry;
+            carry = val / 10;
+            val = val % 10;
+            ListNode node = new ListNode(val);
+            node.next = head;
+            head = node;
+        }
+        return head;
+    }
+
+    ListNode reverseList(ListNode head) {
+        ListNode pre = null, cur = head;
+        ListNode next;
+        while (cur != null) {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
