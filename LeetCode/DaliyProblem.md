@@ -2,6 +2,64 @@
 
 # 1/2022
 
+## 1/6/2022
+
+[71. 简化路径](https://leetcode-cn.com/problems/simplify-path/)
+
+```java
+class Solution {
+    public String simplifyPath(String path) {
+        LinkedList<String> stack = new LinkedList<>();
+        StringBuilder s = new StringBuilder();
+        path = path + "/";
+        for (int i = 0; i < path.length(); i++) {
+            char ch = path.charAt(i);
+            if (ch == '/') {
+                if (s.length() == 0) continue;
+                String dirc = s.toString();
+                s = new StringBuilder();
+                if (dirc.equals(".")) {
+                    //pass
+                }else if (dirc.equals("..")) {
+                    if (!stack.isEmpty()) {
+                        stack.removeLast();
+                    }
+                }else {
+                    stack.add(dirc);
+                }
+            }else {
+                s.append(ch);
+            }
+        }
+        //System.out.println(stack.toString());
+        return "/" + String.join("/", stack);
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        step = path.split('/')
+        stack = []
+        for s in step:
+            if len(s) == 0:
+                continue
+            if s == '.':
+                pass
+            elif s == '..':
+                if stack:
+                    stack.pop()
+            else:
+                stack.append(s)
+        
+        return '/' + '/'.join(stack)
+```
+
+
+
 ## 1/5/2022
 
 [1576. 替换所有的问号](https://leetcode-cn.com/problems/replace-all-s-to-avoid-consecutive-repeating-characters/)
