@@ -1159,3 +1159,30 @@ order by I.invoice_id;
 
 ```
 
+
+
+## [1369. 获取最近第二次的活动](https://leetcode-cn.com/problems/get-the-second-most-recent-activity/)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    *
+from UserActivity 
+group by username
+having count(*) = 1
+UNION
+select 
+    T.username, 
+    T.activity,
+    T.startDate,
+    T.endDate
+from (
+    select
+        *,
+        RANK() over(partition by username order by startDate DESC) as rk 
+    from UserActivity 
+)as T
+where T.rk = 2;
+```
+
