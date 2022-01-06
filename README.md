@@ -64,6 +64,8 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/6/2022   | [71. 简化路径](https://leetcode-cn.com/problems/simplify-path/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#162022) | Medium |
+| 1/5/2022   | [1576. 替换所有的问号](https://leetcode-cn.com/problems/replace-all-s-to-avoid-consecutive-repeating-characters/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#152022) | Medium |
 | 1/2/2022   | [390. 消除游戏](https://leetcode-cn.com/problems/elimination-game/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#122022) | Medium |
 | 1/1/2022   | [2022. 将一维数组转变成二维数组](https://leetcode-cn.com/problems/convert-1d-array-into-2d-array/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#112022) | Easy   |
 | 12/31/2021 | [507. 完美数](https://leetcode-cn.com/problems/perfect-number/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#12312021) | Easy   |
