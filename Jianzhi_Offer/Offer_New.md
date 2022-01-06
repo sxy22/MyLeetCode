@@ -944,3 +944,179 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 026. 重排链表](https://leetcode-cn.com/problems/LGjMqU/)
+
++ 寻找链表中点
++ 后半链表逆序
++ 合并链表，原地合并(zigzag)
+
+```java
+class Solution {
+    public void reorderList(ListNode head) {
+        // 找链表中点，即左半边的尾部
+        ListNode slow = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode l1 = head;
+        ListNode l2 = slow.next;
+        slow.next = null;
+        // 翻转l2
+        l2 = reverseList(l2);
+        // 合并l1 l2， l1的长度 >= l2的长度
+        ListNode l1_temp;
+        ListNode l2_temp;
+        while (l2 != null) {
+            l1_temp = l1.next;
+            l2_temp = l2.next;
+            l1.next = l2;
+            l2.next = l1_temp;
+            l1 = l1_temp;
+            l2 = l2_temp;
+        }
+    }
+
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null, cur = head;
+        ListNode next;
+        while (cur != null) {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 027. 回文链表](https://leetcode-cn.com/problems/aMhZSa/)
+
++ 能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题
++ 找到链表中点
++ 后半链表逆序
++ 判断是否相等
++ l1若多出一个结点，不用判断
+
+```java
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        // 找链表中点，即左半边的尾部
+        ListNode slow = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode l1 = head;
+        ListNode l2 = slow.next;
+        slow.next = null;
+        // 翻转l2
+        l2 = reverseList(l2);
+        // 判断是否相等 l1 >= l2的长度
+        while (l2 != null) {
+            if (l1.val != l2.val) return false;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        return true;
+    }
+
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null, cur = head;
+        ListNode next;
+        while (cur != null) {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 028. 展平多级双向链表](https://leetcode-cn.com/problems/Qv1Da2/)
+
++ 先child后next的先序遍历
++ 递归DFS
++ 要先记录child和next 在往下递归
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node prev;
+    public Node next;
+    public Node child;
+};
+*/
+
+class Solution {
+    Node pre;
+
+    public Node flatten(Node head) {
+        if (head == null) return null;
+        pre = new Node();
+        pre.next = head;
+        DFS(head);
+        // head还是头结点，不过prev = pre, 需要设置成null
+        head.prev = null;
+        return head;
+    }
+    void DFS(Node head) {
+        if (head == null) return;
+        Node child = head.child;
+        Node next = head.next;
+        head.child = null;
+        pre.next = head;
+        head.prev = pre;
+        pre = head;
+        DFS(child);
+        DFS(next);
+    }
+}
+```
+
+
+
++ 递归
++ 用一个stack辅助
+
+```java
+class Solution {
+
+    public Node flatten(Node head) {
+        if (head == null) return null;
+        Node pre = new Node();
+        pre.next = head;
+        LinkedList<Node> stack = new LinkedList<>();
+        stack.addLast(head);
+        while (!stack.isEmpty()) {
+            Node node = stack.removeLast();
+            while (node != null) {
+                // node.next 入栈
+                if (node.next != null) stack.addLast(node.next);
+                // 记录child
+                Node child = node.child;
+                // 连接node
+                node.child = null;
+                node.prev = pre;
+                pre.next = node;
+                pre = node;
+                node = child;
+            }
+        }
+        head.prev = null;
+        return head;
+    }
+}
+```
+
