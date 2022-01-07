@@ -2,6 +2,56 @@
 
 # 1/2022
 
+## 1/7/2022
+
+[1614. 括号的最大嵌套深度](https://leetcode-cn.com/problems/maximum-nesting-depth-of-the-parentheses/)
+
+```java
+class Solution {
+    public int maxDepth(String s) {
+        Deque<Integer> stack = new LinkedList<>();
+        int max_dep = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                stack.add(0);
+            }
+            if (ch == ')') {
+                int dep = stack.removeLast() + 1;
+                if (stack.isEmpty()) {
+                    max_dep = Math.max(max_dep, dep);
+                }else {
+                    stack.add(Math.max(stack.removeLast(), dep));
+                }
+            }
+        }
+        return max_dep;
+    }
+}
+```
+
+```java
+class Solution {
+    public int maxDepth(String s) {
+        int max_dep = 0;
+        int dep = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                dep += 1;
+            }
+            if (ch == ')') {
+                dep -= 1;
+            }
+            max_dep = Math.max(max_dep, dep);
+        }
+        return max_dep;
+    }
+}
+```
+
+
+
 ## 1/6/2022
 
 [71. 简化路径](https://leetcode-cn.com/problems/simplify-path/)
