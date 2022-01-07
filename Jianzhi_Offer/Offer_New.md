@@ -1120,3 +1120,195 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 029. 排序的循环链表](https://leetcode-cn.com/problems/4ueAj6/)
+
++ 判断是否能插入在cur和next之间
++ 需要额外考虑插入值比最大值大或者比最小值小
++ 需要额外考虑所有元素相同，且与插入值不同，此时cur会回到head，break掉之后，随意插入即可
+
+```java
+class Solution {
+    public Node insert(Node head, int insertVal) {
+        Node newnode = new Node(insertVal);
+        if (head == null) {
+            newnode.next = newnode;
+            return newnode;
+        }
+        if (head == head.next) {
+            head.next = newnode;
+            newnode.next = head;
+            return head;
+        }
+        Node cur = head; 
+        Node next = cur.next;
+        while (true) {
+            if (cur.val <= next.val) {
+                if (cur.val <= insertVal && insertVal <= next.val) {
+                    cur.next = newnode;
+                    newnode.next = next;
+                    return head;
+                }
+            }else {
+                if (insertVal > cur.val || insertVal < next.val) {
+                    cur.next = newnode;
+                    newnode.next = next;
+                    return head;
+                }
+            }
+            cur = cur.next;
+            next = next.next;
+            if (cur == head) break;
+        }
+        cur.next = newnode;
+        newnode.next = next;
+        return head;
+    }
+}
+```
+
+```java
+class Solution {
+    public Node insert(Node head, int insertVal) {
+        Node newnode = new Node(insertVal);
+        if (head == null) {
+            newnode.next = newnode;
+            return newnode;
+        }
+        if (head == head.next) {
+            helper(head, head, newnode);
+            return head;
+        }
+        Node cur = head; 
+        Node next = cur.next;
+        while (true) {
+            if (cur.val <= next.val) {
+                if (cur.val <= insertVal && insertVal <= next.val) {
+                    helper(cur, next, newnode);
+                    return head;
+                }
+            }else {
+                if (insertVal > cur.val || insertVal < next.val) {
+                    helper(cur, next, newnode);
+                    return head;
+                }
+            }
+            cur = cur.next;
+            next = next.next;
+            if (cur == head) break;
+        }
+        helper(cur, next, newnode);
+        return head;
+    }
+
+    private void helper(Node cur, Node next, Node newnode) {
+        cur.next = newnode;
+        newnode.next = next;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 030. 插入、删除和随机访问都是 O(1) 的容器](https://leetcode-cn.com/problems/FortPu/)
+
++ 哈希表存储存储值到索引的映射
++ 动态数组存储元素值
++ 将要删除元素和最后一个元素交换, 将最后一个元素删除
++ Java 中 的 `Random` 实现返回随机val
+
+```java
+class RandomizedSet {
+    Map<Integer, Integer> val2idx;
+    List<Integer> list;
+    Random random;
+
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+        val2idx = new HashMap<>();
+        list = new ArrayList<>();
+        random = new Random();
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        if (val2idx.containsKey(val)) {
+            return false;
+        }
+        // 加入到list, 加入val - list.length() - 1 到map
+        list.add(val);
+        val2idx.put(val, list.size() - 1);
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if (!val2idx.containsKey(val)) {
+            return false;
+        }
+        // 把val换到list末尾并删除
+        int val_idx = val2idx.get(val);
+        int last_idx = list.size() - 1;
+        // 把当前末尾元素对应的idx改成val_idx， 交换位置，删除val(list, val2idx)
+        int temp = list.get(last_idx);
+        val2idx.put(temp, val_idx);
+        // 不需要set，之后要删除  list.set(last_idx, val);
+        list.set(val_idx, temp);
+        list.remove(last_idx);
+        val2idx.remove(val);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+        int idx = random.nextInt(list.size());
+        return list.get(idx);
+    }
+}
+```
+
+
+
+```python
+import random
+
+class RandomizedSet:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.map = dict()
+        self.list = []
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the set. Returns true if the set did not already contain the specified element.
+        """
+        if val in self.map:
+            return False
+        self.list.append(val)
+        self.map[val] = len(self.list) - 1
+        return True
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the set. Returns true if the set contained the specified element.
+        """
+        if val not in self.map:
+            return False 
+        val_idx = self.map.get(val)
+        self.map[self.list[-1]] = val_idx 
+        self.list[val_idx], self.list[-1] = self.list[-1], self.list[val_idx]
+        self.list.pop()
+        self.map.pop(val)
+        return True
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the set.
+        """
+        return random.choice(self.list)
+```
+
