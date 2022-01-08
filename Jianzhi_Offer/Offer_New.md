@@ -1312,3 +1312,149 @@ class RandomizedSet:
         return random.choice(self.list)
 ```
 
+
+
+
+
+## [剑指 Offer II 032. 有效的变位词](https://leetcode-cn.com/problems/dKk3P7/)
+
+```java
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length() || s.equals(t)) return false;
+
+        Map<Character, Integer> cnt = new HashMap<>(64);
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            cnt.put(ch, cnt.getOrDefault(ch, 0) + 1);
+        }
+
+        for (int i = 0; i < t.length(); i++) {
+            char ch = t.charAt(i);
+            if (!cnt.containsKey(ch)) return false;
+            cnt.put(ch, cnt.get(ch) - 1);
+            if (cnt.get(ch) < 0) return false;
+        }
+        return true;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 033. 变位词组](https://leetcode-cn.com/problems/sfvd7V/)
+
++ 暴力遍历, 判断是否是变位词
+
+```java
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> ans = new ArrayList<>();
+        List<String> head = new ArrayList<>();
+        for (String word : strs) {
+            boolean new_head = true;
+            for (int i = 0; i < head.size(); i++) {
+                if (!isAnagram(head.get(i), word)) continue;
+                ans.get(i).add(word);
+                new_head = false;
+                break;
+            }
+            if (new_head) {
+                head.add(word);
+                List<String> temp = new ArrayList<>();
+                temp.add(word);
+                ans.add(temp);
+            }
+        }
+        return ans;
+
+    }
+
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) return false;
+
+        Map<Character, Integer> cnt = new HashMap<>(64);
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            cnt.put(ch, cnt.getOrDefault(ch, 0) + 1);
+        }
+
+        for (int i = 0; i < t.length(); i++) {
+            char ch = t.charAt(i);
+            if (!cnt.containsKey(ch)) return false;
+            cnt.put(ch, cnt.get(ch) - 1);
+            if (cnt.get(ch) < 0) return false;
+        }
+        return true;
+    }
+}
+```
+
+
+
++ 先对所有字符串排序
++ 哈希表记录排序后相同的字符串
+
+```java
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String s : strs) {
+            char[] arr = s.toCharArray();
+            Arrays.sort(arr);
+            String key = new String(arr);
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<String>());
+            }
+            map.get(key).add(s);
+        }
+        return new ArrayList<List<String>>(map.values());
+    }
+}
+```
+
+```python
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        Map = collections.defaultdict(list)
+        for s in strs:
+            key = ''.join(sorted(s))
+            Map[key].append(s)
+        
+        return list(Map.values())
+```
+
+
+
+## [剑指 Offer II 034. 外星语言是否排序](https://leetcode-cn.com/problems/lwyVBB/)
+
+```java
+class Solution {
+    Map<Character, Integer> map;
+
+    public boolean isAlienSorted(String[] words, String order) {
+        map = new HashMap<>(50);
+        for (int i = 0; i < order.length(); i++) {
+            map.put(order.charAt(i), i);
+        }
+
+        for (int i = 0; i < words.length - 1; i++) {
+            if (!isordered(words[i], words[i + 1])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    boolean isordered(String s1, String s2) {
+        for (int i = 0; i < Math.min(s1.length(), s2.length()); i++) {
+            char ch1 = s1.charAt(i);
+            char ch2 = s2.charAt(i);
+            if (map.get(ch1) < map.get(ch2)) return true;
+            if (map.get(ch1) > map.get(ch2)) return false;
+        }
+        return s1.length() <= s2.length();
+    }
+}
+```
+
