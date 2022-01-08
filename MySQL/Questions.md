@@ -1186,3 +1186,19 @@ from (
 where T.rk = 2;
 ```
 
+
+
+## [1445. 苹果和桔子](https://leetcode-cn.com/problems/apples-oranges/)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    s1.sale_date, 
+    (s1.sold_num - s2.sold_num) as diff
+from Sales as s1
+join Sales as s2
+on s1.sale_date = s2.sale_date
+and s1.fruit = 'apples'
+and s2.fruit = 'oranges';
+```
+
