@@ -2,6 +2,54 @@
 
 # 1/2022
 
+## 1/8/2022
+
+[89. 格雷编码](https://leetcode-cn.com/problems/gray-code/)
+
++ 设 n 阶格雷码集合为 G(n)，其中数字为n-1位二进制表示
++ 将G(n)反转，每个数最前面加上二进制1，放在G(n)后面得到G(n+1)
+
+```java
+class Solution {
+    public List<Integer> grayCode(int n) {
+        List<Integer> code = new ArrayList<>();
+        code.add(0);
+        code.add(1);
+        int add = 2;
+        for (int l = 0; l < n - 1; l++) {
+            int i = code.size() - 1;
+            while (i >= 0) {
+                int val = code.get(i);
+                code.add(val + add);
+                i -= 1;
+            }
+            add = add << 1;
+        }
+        return code;
+    }
+}
+```
+
+**Python**
+
+```python
+class Solution:
+    def grayCode(self, n: int) -> List[int]:
+        code = [0, 1]
+        add = 2
+        for _ in range(n - 1):
+            for val in reversed(code):
+                code.append(val + add)
+            add = add << 1
+        return code
+```
+
+
+
+
+
+
+
 ## 1/7/2022
 
 [1614. 括号的最大嵌套深度](https://leetcode-cn.com/problems/maximum-nesting-depth-of-the-parentheses/)
