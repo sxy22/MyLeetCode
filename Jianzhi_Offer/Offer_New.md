@@ -1316,6 +1316,106 @@ class RandomizedSet:
 
 
 
+## [剑指 Offer II 031. 最近最少使用缓存](https://leetcode-cn.com/problems/OrIXps/)
+
++ 定长双向链表+哈希表
++ 需要四个方法
++ add_to_head
++ move_to_head
++ remove_tail
++ remove_node
++ 用两个dummy node 标记head, tail
+
+```java
+class LinkedNode {
+    int key;
+    int val;
+    LinkedNode prev;
+    LinkedNode next;
+
+    public LinkedNode() {}
+    public LinkedNode(int _key, int _val) {
+        key = _key;
+        val = _val;
+    }
+}
+
+class LRUCache {
+    int size;
+    int capacity;
+    LinkedNode head;
+    LinkedNode tail;
+    Map<Integer, LinkedNode> map;
+
+    public LRUCache(int capacity) {
+        this.size = 0;
+        this.capacity = capacity;
+        head = new LinkedNode();
+        tail = new LinkedNode();
+        head.next = tail;
+        tail.prev = head;
+        map = new HashMap<>();
+    }
+    
+    public int get(int key) {
+        if (map.containsKey(key)) {
+            LinkedNode node = map.get(key);
+            moveToHead(node);
+            return node.val;
+        }
+        return -1;
+    }
+    
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {
+            LinkedNode node = map.get(key);
+            node.val = value;
+            moveToHead(node);
+        }else {
+            LinkedNode newnode = new LinkedNode(key, value);
+            if (++size > capacity) {
+                // 删除尾结点，同时删除map中的key
+                int tail_key = removeTail();
+                map.remove(tail_key);
+                size -= 1;
+            }
+            // 加入node，同时加入map
+            map.put(key, newnode);
+            addToHead(newnode);
+            //System.out.println(map.toString());
+        }
+
+    }
+
+    void addToHead(LinkedNode node) {
+        head.next.prev = node;
+        node.next = head.next;
+        node.prev = head;
+        head.next = node;
+    }
+
+    void removeNode(LinkedNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    int removeTail() {
+        int key = tail.prev.key;
+        removeNode(tail.prev);
+        return key;
+    }
+
+    void moveToHead(LinkedNode node) {
+        removeNode(node);
+        addToHead(node);
+    }
+}
+```
+
+
+
+
+
 ## [剑指 Offer II 032. 有效的变位词](https://leetcode-cn.com/problems/dKk3P7/)
 
 ```java
@@ -1458,3 +1558,46 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 035. 最小时间差](https://leetcode-cn.com/problems/569nqc/)
+
++ 按时间排序，计算相邻时间差
++ 注意把最小的时间加1440放在最后
+
+```java
+class Solution {
+    public int findMinDifference(List<String> timePoints) {
+        if (timePoints.size() >= 1440) return 0;
+        int min_diff = 1440;
+        List<Integer> minutes = new ArrayList<>();
+        for (String t : timePoints) {
+            minutes.add(minute(t));
+        }
+
+        Collections.sort(minutes);
+        minutes.add(1440 + minutes.get(0));
+
+        for (int i = 1; i < minutes.size(); i++) {
+            min_diff = Math.min(min_diff, minutes.get(i) - minutes.get(i - 1));
+        }
+        return min_diff;
+
+
+    }
+
+    int minute(String t) {
+        int h = Integer.parseInt(t.substring(0, 2));
+        int m = Integer.parseInt(t.substring(3));
+        return h * 60 + m;
+    }
+}
+```
+
+
+
+
+
++ `1440`分钟，开一个`1440`长度的布尔数组模拟哈希表，把时间换算成`0~1439`之间的数值，将数值对应数组中的位置设置为`true`
++ 遍历数组，找离得最近的两个时间点, 就不需要排序了
++ 注意把最小的时间加1440放在最后

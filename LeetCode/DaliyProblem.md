@@ -2,6 +2,44 @@
 
 # 1/2022
 
+## 1/9/2022
+
+[1629. 按键持续时间最长的键](https://leetcode-cn.com/problems/slowest-key/)
+
+```java
+class Solution {
+    public char slowestKey(int[] releaseTimes, String keysPressed) {
+        char max_key = keysPressed.charAt(0);
+        int max_time = releaseTimes[0];
+        for (int i = 1; i < keysPressed.length(); i++) {
+            char key = keysPressed.charAt(i);
+            int time = releaseTimes[i] - releaseTimes[i - 1];
+            if (time > max_time || (time == max_time && key > max_key)) {
+                max_key = key;
+                max_time = time;
+            }
+        }
+        return max_key;
+    }
+}
+```
+
+```python
+class Solution:
+    def slowestKey(self, releaseTimes: List[int], keysPressed: str) -> str:
+        max_key = keysPressed[0]
+        max_time = releaseTimes[0]
+        for i in range(1, len(releaseTimes)):
+            key = keysPressed[i]
+            time = releaseTimes[i] - releaseTimes[i - 1]
+            if time > max_time or (time == max_time and key > max_key):
+                max_key = key
+                max_time = time
+        return max_key
+```
+
+
+
 ## 1/8/2022
 
 [89. 格雷编码](https://leetcode-cn.com/problems/gray-code/)
