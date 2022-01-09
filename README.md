@@ -64,6 +64,7 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/9/2022   | [1629. 按键持续时间最长的键](https://leetcode-cn.com/problems/slowest-key/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#192022) | Easy   |
 | 1/8/2022   | [89. 格雷编码](https://leetcode-cn.com/problems/gray-code/)  | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#182022) | Medium |
 | 1/7/2022   | [1614. 括号的最大嵌套深度](https://leetcode-cn.com/problems/maximum-nesting-depth-of-the-parentheses/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#172022) | Easy   |
 | 1/6/2022   | [71. 简化路径](https://leetcode-cn.com/problems/simplify-path/) | [Python, Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#162022) | Medium |
