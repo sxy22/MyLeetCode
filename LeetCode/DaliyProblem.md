@@ -2,6 +2,44 @@
 
 # 1/2022
 
+## 1/10/2022
+
+[306. 累加数](https://leetcode-cn.com/problems/additive-number/)
+
+```python
+class Solution:
+    def isAdditiveNumber(self, num: str) -> bool:
+        self.num = num
+        if len(num) < 3:
+            return False
+        for i in range(len(self.num) // 2):
+            fir = int(self.num[:i + 1])
+            for j in range(i + 1, len(self.num) - 1):
+                sec = int(self.num[i + 1: j + 1])
+                if self.isValid(fir, sec, j + 1):
+                    return True
+                if self.num[i + 1] == "0":
+                    break
+            if self.num[0] == "0":
+                break
+        return False
+        
+
+    def isValid(self, fir: int, sec: int, start):
+        if start == len(self.num):
+            return True
+        third = str(fir + sec)
+        if len(third) > len(self.num) - start:
+            return False
+        for i in range(len(third)):
+            if third[i] != self.num[start]:
+                return False
+            start += 1 
+        return self.isValid(sec, fir + sec, start)
+```
+
+
+
 ## 1/9/2022
 
 [1629. 按键持续时间最长的键](https://leetcode-cn.com/problems/slowest-key/)
