@@ -1202,3 +1202,20 @@ and s1.fruit = 'apples'
 and s2.fruit = 'oranges';
 ```
 
+
+
+## [1454. 活跃用户](https://leetcode-cn.com/problems/active-users/)
+
+```mysql
+select 
+    distinct A.id, A.name
+from Logins as L1
+join Logins as L2
+on DATEDIFF(L1.login_date, L2.login_date) between 0 and 4 
+and L1.id = L2.id
+join Accounts as A 
+on L1.id = A.id
+group by L1.id, L1.login_date
+having count(distinct L2.login_date) = 5;
+```
+
