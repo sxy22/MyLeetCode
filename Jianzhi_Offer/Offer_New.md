@@ -1601,3 +1601,126 @@ class Solution {
 + `1440`分钟，开一个`1440`长度的布尔数组模拟哈希表，把时间换算成`0~1439`之间的数值，将数值对应数组中的位置设置为`true`
 + 遍历数组，找离得最近的两个时间点, 就不需要排序了
 + 注意把最小的时间加1440放在最后
+
+
+
+
+
+## [剑指 Offer II 036. 后缀表达式](https://leetcode-cn.com/problems/8Zf90G/)
+
+逆波兰表达式是一种后缀表达式，所谓后缀就是指算符写在后面。
+
++ 平常使用的算式则是一种中缀表达式，如 ( 1 + 2 ) * ( 3 + 4 ) 
++ 该算式的逆波兰表达式写法为 ( ( 1 2 + ) ( 3 4 + ) * ) 
+
+逆波兰表达式主要有以下两个优点：
+
++ 去掉括号后表达式无歧义，上式即便写成 1 2 + 3 4 + * 也可以依据次序计算出正确结果。
++ 适合用栈操作运算：遇到数字则入栈；遇到算符则取出栈顶两个数字进行计算，并将结果压入栈中。
+
+```java
+class Solution {
+    public int evalRPN(String[] tokens) {
+        LinkedList<Integer> stack = new LinkedList<>();
+        for (String s : tokens) {
+            if (is_ops(s)) {
+                int sec = stack.removeLast();
+                int fir = stack.removeLast();
+                if (s.equals("+")) {
+                    stack.addLast(fir + sec);
+                }else if (s.equals("-")) {
+                    stack.addLast(fir - sec);
+                }else if (s.equals("*")) {
+                    stack.addLast(fir * sec);
+                }else {
+                    stack.addLast(fir / sec);
+                }
+            }else {
+                stack.addLast(Integer.parseInt(s));
+            }
+        }
+        return stack.removeLast();
+    }
+
+    boolean is_ops(String s) {
+        return s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/");
+    }
+}
+```
+
+
+
+## [剑指 Offer II 037. 小行星碰撞](https://leetcode-cn.com/problems/XagZNi/)
+
++ 注释
++ 要想清楚碰撞的情况
+
+```java
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        Deque<Integer> stack = new LinkedList<>();
+
+        for (int i = 0; i < asteroids.length; i++) {
+            int ast = asteroids[i];
+            // 大于0不会和stack中的ast碰撞，stack为空直接加入
+            if (ast > 0 || stack.isEmpty()) {
+                stack.addLast(ast);
+            }else {
+                while (!stack.isEmpty() && stack.getLast() > 0) {
+                    int last = stack.removeLast();
+                    if (last > -ast) { // ast消失，把last放回去，结束while
+                        ast = 0;
+                        stack.addLast(last);
+                        break;
+                    }else if (last == -ast) { // 都消失, 直接结束while
+                        ast = 0;
+                        break;
+                    }
+                    // 还有一种情况，last消失，继续while循环即可
+                }
+                // 若 ast != 0， 说明stack空，需要加入ast
+                if (ast != 0) stack.addLast(ast);
+            }
+        }
+        int[] ans = new int[stack.size()];
+        int i = 0;
+        for (int ast : stack) {
+            ans[i] = ast;
+            i += 1;
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 038. 每日温度](https://leetcode-cn.com/problems/iIQa4I/)
+
++ 单调栈
++ 从后往前，若当前temp大于stack[-1]，则stack[-1]不需要留下了，因为有更高且更靠前的temp
+
+```java
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        Deque<Integer> stack = new LinkedList<>();
+        int[] ans = new int[temperatures.length];
+        for (int i = temperatures.length - 1; i >= 0; i--) {
+            int temp = temperatures[i];
+            while (!stack.isEmpty() && temperatures[stack.getLast()] <= temp) {
+                stack.removeLast();
+            }
+            if (stack.isEmpty()) {
+                ans[i] = 0;
+            }else {
+                ans[i] = stack.getLast() - i;
+            }
+            stack.addLast(i);
+        }
+        return ans;
+    }
+}
+```
+
+
+
