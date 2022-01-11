@@ -1724,3 +1724,182 @@ class Solution {
 
 
 
+## [84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+
++ 需要从每个位置向左找到第一个更小的index
++ 向右找到第一个更小的index， 就确定了高和宽边
++ 两个单调stack，栈尾部元素最大，遇到大于等于的可以弹出，因为当前元素更小，会是更接近的小元素
+
+```java
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length; 
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            int h = heights[i];
+            while (!stack.isEmpty() && heights[stack.getLast()] >= h) {
+                stack.removeLast();
+            }
+            if (stack.isEmpty()) {
+                left[i] = -1;
+            }else {
+                left[i] = stack.getLast();
+            }
+            stack.add(i);
+        }
+        stack.clear();
+        for (int i = n - 1; i >= 0; i--) {
+            int h = heights[i];
+            while (!stack.isEmpty() && heights[stack.getLast()] >= h) {
+                stack.removeLast();
+            }
+            if (stack.isEmpty()) {
+                right[i] = n;
+            }else {
+                right[i] = stack.getLast();
+            }
+            stack.add(i);
+        }
+        
+        int max_area = -1;
+        for (int i = 0; i < n; i++) {
+            max_area = Math.max(max_area, (right[i] - left[i] - 1) * heights[i]);
+        }
+
+        return max_area;
+    }
+}
+```
+
+
+
++ 只遍历一次
++ 一个元素弹出时，就找到了它右边第一个小元素
+
+```java
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length; 
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            int h = heights[i];
+            while (!stack.isEmpty() && heights[stack.getLast()] >= h) {
+                int last = stack.removeLast();
+                right[last] = i;
+            }
+            if (stack.isEmpty()) {
+                left[i] = -1;
+            }else {
+                left[i] = stack.getLast();
+            }
+            stack.add(i);
+        }
+
+        int max_area = -1;
+        for (int i = 0; i < n; i++) {
+            max_area = Math.max(max_area, (right[i] - left[i] - 1) * heights[i]);
+        }
+
+        return max_area;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 041. 滑动窗口的平均值](https://leetcode-cn.com/problems/qIsx9U/)
+
++ 维护一个deque
++ 超出size则removeleft
+
+```python
+class MovingAverage:
+
+    def __init__(self, size: int):
+        self.size = size
+        self.len = 0
+        self.deque = collections.deque()
+        self.sum = 0
+
+    def next(self, val: int) -> float:
+        self.len += 1
+        self.deque.append(val)
+        self.sum += val
+        if self.len > self.size:
+            self.len -= 1
+            self.sum -= self.deque.popleft()
+        return self.sum / self.len
+```
+
+
+
+```java
+class MovingAverage {
+    int size;
+    int length = 0;
+    double sum = 0.0;
+    Deque<Integer> deque = new LinkedList<>();
+
+    /** Initialize your data structure here. */
+    public MovingAverage(int size) {
+        this.size = size;
+    }
+    
+    public double next(int val) {
+        length += 1;
+        sum += val;
+        deque.addLast(val);
+        if (length > size) {
+            sum -= deque.removeFirst();
+            length -= 1;
+        }
+        return sum / length;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 042. 最近请求次数](https://leetcode-cn.com/problems/H8086Q/)
+
++ 维护deque
++ 每次去掉 < t - 3000 的头部元素
+
+```python
+class RecentCounter:
+
+    def __init__(self):
+        self.deque = collections.deque()
+
+    def ping(self, t: int) -> int:
+        self.deque.append(t)
+        while self.deque[0] < t - 3000:
+            self.deque.popleft()
+        return len(self.deque)
+```
+
+
+
+```java
+class RecentCounter {
+    Deque<Integer> deque;
+
+    public RecentCounter() {
+        deque = new LinkedList<>();
+    }
+    
+    public int ping(int t) {
+        deque.addLast(t);
+        while (deque.getFirst() < t - 3000) {
+            deque.removeFirst();
+        }
+        return deque.size();
+    }
+}
+```
+
