@@ -1219,3 +1219,24 @@ group by L1.id, L1.login_date
 having count(distinct L2.login_date) = 5;
 ```
 
+
+
+## [1479. 周内每天的销售情况](https://leetcode-cn.com/problems/sales-by-day-of-the-week/)
+
+```mysql
+select
+    I.item_category as Category,
+    IFNULL(SUM(IF(DATE_FORMAT(O.order_date, '%w') = '1', O.quantity, 0)), 0) as Monday,
+    IFNULL(SUM(IF(DATE_FORMAT(O.order_date, '%w') = '2', O.quantity, 0)), 0) as Tuesday,
+    IFNULL(SUM(IF(DATE_FORMAT(O.order_date, '%w') = '3', O.quantity, 0)), 0) as Wednesday,
+    IFNULL(SUM(IF(DATE_FORMAT(O.order_date, '%w') = '4', O.quantity, 0)), 0) as Thursday,
+    IFNULL(SUM(IF(DATE_FORMAT(O.order_date, '%w') = '5', O.quantity, 0)), 0) as Friday,
+    IFNULL(SUM(IF(DATE_FORMAT(O.order_date, '%w') = '6', O.quantity, 0)), 0) as Saturday,
+    IFNULL(SUM(IF(DATE_FORMAT(O.order_date, '%w') = '0', O.quantity, 0)), 0) as Sunday
+from Items as I 
+left join Orders as O 
+on I.item_id = O.item_id
+group by I.item_category
+order by I.item_category;
+```
+
