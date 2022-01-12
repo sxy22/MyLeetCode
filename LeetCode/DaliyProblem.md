@@ -2,7 +2,7 @@
 
 # 1/2022
 
-## 1/11/2022
+## 1/12/2022
 
 [334. 递增的三元子序列](https://leetcode-cn.com/problems/increasing-triplet-subsequence/)
 
