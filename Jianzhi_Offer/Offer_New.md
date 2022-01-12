@@ -1724,7 +1724,7 @@ class Solution {
 
 
 
-## [84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+## [剑指 Offer II 039. 直方图最大矩形面积](https://leetcode-cn.com/problems/0ynMMM/)
 
 + 需要从每个位置向左找到第一个更小的index
 + 向右找到第一个更小的index， 就确定了高和宽边
@@ -1809,6 +1809,67 @@ class Solution {
     }
 }
 ```
+
+
+
+## [85. 最大矩形](https://leetcode-cn.com/problems/maximal-rectangle/)
+
++ 以每一行为底，看作柱状图，计算heights
+
+```java
+class Solution {
+    public int maximalRectangle(String[] matrix) {
+        int m = matrix.length;
+        if (m == 0) return 0;
+        int n = matrix[0].length();
+        if (n == 0) return 0;
+        int[] heights = new int[n];
+        int max_area = 0;
+        for (String row : matrix) {
+            for (int j = 0; j < n; j++) {
+                if (row.charAt(j) == '0') {
+                    heights[j] = 0;
+                }else {
+                    heights[j] += 1;
+                }
+            }
+            int area = largestRectangleArea(heights);
+            max_area = Math.max(max_area, area);
+        }
+        return max_area;
+    }
+
+    int largestRectangleArea(int[] heights) {
+        int n = heights.length; 
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            int h = heights[i];
+            while (!stack.isEmpty() && heights[stack.getLast()] >= h) {
+                int last = stack.removeLast();
+                right[last] = i;
+            }
+            if (stack.isEmpty()) {
+                left[i] = -1;
+            }else {
+                left[i] = stack.getLast();
+            }
+            stack.add(i);
+        }
+
+        int max_area = -1;
+        for (int i = 0; i < n; i++) {
+            max_area = Math.max(max_area, (right[i] - left[i] - 1) * heights[i]);
+        }
+
+        return max_area;
+    }
+}
+```
+
+
 
 
 
