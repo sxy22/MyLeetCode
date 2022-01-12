@@ -2,6 +2,36 @@
 
 # 1/2022
 
+## 1/11/2022
+
+[334. 递增的三元子序列](https://leetcode-cn.com/problems/increasing-triplet-subsequence/)
+
++ 判断当前的数之前以后没有比它更小的数，称为第二大数，需要维护一个min_val
++ 维护当前最小的第二大数
+
+```java
+class Solution {
+    public boolean increasingTriplet(int[] nums) {
+        if (nums.length < 3) return false;
+        int n = nums.length;
+        int min_val = Integer.MAX_VALUE;
+        int min_sec = Integer.MAX_VALUE;
+        for (int val : nums) {
+            // 判断val是否> min_sec
+            if (val > min_sec) return true;
+            // 更新
+            if (val > min_val && val < min_sec) {
+                min_sec = val;
+            }
+            min_val = Math.min(min_val, val);
+        }
+        return false;
+    }
+}
+```
+
+
+
 ## 1/10/2022
 
 [306. 累加数](https://leetcode-cn.com/problems/additive-number/)
