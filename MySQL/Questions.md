@@ -2,12 +2,6 @@
 
 ## [175. 组合两个表](https://leetcode-cn.com/problems/combine-two-tables/)
 
-<img src="https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211213221543084.png" alt="image-20211213221543084" style="zoom:80%;" />
-
-编写一个 SQL 查询，满足条件：无论 person 是否有地址信息，都需要基于上述两表提供 person 的以下信息：
-
-FirstName, LastName, City, State
-
 ```mysql
 # Write your MySQL query statement below
 select P.FirstName, P.LastName, A.City, A.State
@@ -19,8 +13,6 @@ on P.PersonId = A.PersonId;
 
 
 ## [176. 第二高的薪水](https://leetcode-cn.com/problems/second-highest-salary/)
-
-![image-20211213221901837](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211213221901837.png)
 
 ```mysql
 select ifnull((
@@ -40,10 +32,6 @@ where Salary < (select max(Salary) from Employee);
 
 
 ## [178. 分数排名(window)](https://leetcode-cn.com/problems/rank-scores/)
-
-![image-20211215213404018](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211215213404018.png)
-
-![image-20211215213414097](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211215213414097.png)
 
 + 常规，统计大于等于改行的distinct个数，就是排名
 
@@ -73,8 +61,6 @@ order by `RANK`;
 
 ## [180. 连续出现的数字](https://leetcode-cn.com/problems/consecutive-numbers/)
 
-![image-20211215214202832](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211215214202832.png)
-
 ```mysql
 # Write your MySQL query statement below
 select distinct L1.Num as ConsecutiveNums
@@ -90,8 +76,6 @@ having count(L2.Id) = 3;
 
 ## [181. 超过经理收入的员工](https://leetcode-cn.com/problems/employees-earning-more-than-their-managers/)
 
-![image-20211215214434481](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211215214434481.png)
-
 ```mysql
 select
     e1.Name as Employee
@@ -105,8 +89,6 @@ where e1.Salary > e2.Salary;
 
 ## [182. 查找重复的电子邮箱](https://leetcode-cn.com/problems/duplicate-emails/)
 
-![image-20211216203108580](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216203108580.png)
-
 ```mysql
 # Write your MySQL query statement below
 select 
@@ -119,10 +101,6 @@ having count(Id) > 1;
 
 
 ## [183. 从不订购的客户](https://leetcode-cn.com/problems/customers-who-never-order/)
-
-![image-20211216203244080](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216203244080.png)
-
-
 
 + left join
 
@@ -148,10 +126,6 @@ where Id not in (select CustomerId from Orders)
 
 ## [184. 部门工资最高的员工](https://leetcode-cn.com/problems/department-highest-salary/)
 
-![image-20211216204818757](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204818757.png)
-
-![image-20211216204826370](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204826370.png)
-
 ```mysql
 select 
     d.Name as "Department", 
@@ -171,10 +145,6 @@ on e.DepartmentId = d.Id
 
 
 ## [185. 部门工资前三高的所有员工](https://leetcode-cn.com/problems/department-top-three-salaries/)
-
-![image-20211216204846709](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204846709.png)
-
-![image-20211216204856309](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216204856309.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -201,10 +171,6 @@ where T.rk <= 3;
 
 ## [197. 上升的温度](https://leetcode-cn.com/problems/rising-temperature/)
 
-![image-20211216205050037](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216205050037.png)
-
-![image-20211216205116693](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211216205116693.png)
-
 ```mysql
 select w1.id
 from Weather as w1
@@ -216,10 +182,6 @@ where w1.Temperature > w2.Temperature;
 
 
 ## [511. 游戏玩法分析 I](https://leetcode-cn.com/problems/game-play-analysis-i/)
-
-![image-20211217210740533](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217210740533.png)
-
-![image-20211217210749485](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217210749485.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -233,8 +195,6 @@ group by player_id;
 
 
 ## [512. 游戏玩法分析 II](https://leetcode-cn.com/problems/game-play-analysis-ii/)
-
-![image-20211217210919062](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217210919062.png)
 
 ```mysql
 select A.player_id, A.device_id
@@ -286,8 +246,6 @@ from Activity;
 
 ## [550. 游戏玩法分析 IV](https://leetcode-cn.com/problems/game-play-analysis-iv/)
 
-![image-20211217211549996](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217211549996.png)
-
 ```mysql
 # Write your MySQL query statement below
 select 
@@ -307,8 +265,6 @@ and DATEDIFF(A.event_date, T.first_date) = 1;
 
 ## [570. 至少有5名直接下属的经理](https://leetcode-cn.com/problems/managers-with-at-least-5-direct-reports/)
 
-![image-20211217212014696](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211217212014696.png)
-
 ```mysql
 # Write your MySQL query statement below
 select
@@ -323,8 +279,6 @@ having count(E2.Id) >=5;
 
 
 ## [574. 当选者](https://leetcode-cn.com/problems/winning-candidate/)
-
-![image-20211218201758825](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211218201758825.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -341,8 +295,6 @@ limit 1;
 
 
 ## [577. 员工奖金](https://leetcode-cn.com/problems/employee-bonus/)
-
-![image-20211218204253679](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211218204253679.png)
 
 ```mysql
 select `name`, bonus
@@ -367,8 +319,6 @@ where (case
 
 ## [578. 查询回答率最高的问题](https://leetcode-cn.com/problems/get-highest-answer-rate-question/)
 
-![image-20211218205116473](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211218205116473.png)
-
 ```mysql
 select 
     question_id as survey_log
@@ -381,8 +331,6 @@ limit 1;
 
 
 ## [579. 查询员工的累计薪水](https://leetcode-cn.com/problems/find-cumulative-salary-of-an-employee/)
-
-![image-20211219194650303](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194650303.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -405,12 +353,6 @@ order by E1.Id, E1.Month DESC;
 
 ## [580. 统计各专业学生人数](https://leetcode-cn.com/problems/count-student-number-in-departments/)
 
-![image-20211219194925811](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194925811.png)
-
-![image-20211219194939735](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194939735.png)
-
-![image-20211219194953272](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219194953272.png)
-
 ```mysql
 # Write your MySQL query statement below
 select
@@ -426,8 +368,6 @@ order by student_number DESC, de.dept_name;
 
 
 ## [584. 寻找用户推荐人](https://leetcode-cn.com/problems/find-customer-referee/)
-
-![image-20211219195153698](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211219195153698.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -447,8 +387,6 @@ where ( case
 
 
 ## [585. 2016年的投资](https://leetcode-cn.com/problems/investments-in-2016/)
-
-![image-20211220211658807](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211220211658807.png)
 
 ```mysql
 select round(sum(TIV_2016),2) as TIV_2016
@@ -485,8 +423,6 @@ where T.cnt1 >1 and T.cnt2 = 1;
 
 ## [586. 订单最多的客户](https://leetcode-cn.com/problems/customer-placing-the-largest-number-of-orders/)
 
-![image-20211220212835065](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211220212835065.png)
-
 ```mysql
 # Write your MySQL query statement below
 select
@@ -500,8 +436,6 @@ limit 1;
 
 
 ## [596. 超过5名学生的课](https://leetcode-cn.com/problems/classes-more-than-5-students/)
-
-![image-20211220213043680](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211220213043680.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -526,8 +460,6 @@ select round( ifnull((select count(distinct requester_id, accepter_id) from requ
 
 ## [602. 好友申请 II ：谁有最多的好友](https://leetcode-cn.com/problems/friend-requests-ii-who-has-the-most-friends/)
 
-![image-20211221203111893](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211221203111893.png)
-
 ```mysql
 # Write your MySQL query statement below
 select id, count(*) as num
@@ -543,8 +475,6 @@ limit 1;
 
 
 ## [603. 连续空余座位](https://leetcode-cn.com/problems/consecutive-available-seats/)
-
-![image-20211221203718619](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211221203718619.png)
 
 ```java
 # Write your MySQL query statement below
@@ -563,8 +493,6 @@ order by seat_id;
 
 
 ## [608. 树节点](https://leetcode-cn.com/problems/tree-node/)
-
-![image-20211221205013748](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211221205013748.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -586,8 +514,6 @@ group by t1.id;
 
 ## [614. 二级关注者](https://leetcode-cn.com/problems/second-degree-follower/)
 
-![image-20211222204053595](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211222204053595.png)
-
 ```mysql
 # Write your MySQL query statement below
 select
@@ -603,8 +529,6 @@ order by f1.follower;
 
 
 ## [619. 只出现一次的最大数字](https://leetcode-cn.com/problems/biggest-single-number/)
-
-![image-20211222204845763](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211222204845763.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -623,8 +547,6 @@ select (
 
 ## [620. 有趣的电影](https://leetcode-cn.com/problems/not-boring-movies/)
 
-![image-20211222205337321](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211222205337321.png)
-
 ```mysql
 # Write your MySQL query statement below
 select
@@ -639,8 +561,6 @@ order by rating DESC;
 
 ## [627. 变更性别](https://leetcode-cn.com/problems/swap-salary/)
 
-![image-20211223204710871](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211223204710871.png)
-
 ```mysql
 # Write your MySQL query statement below
 
@@ -651,8 +571,6 @@ set sex = IF(sex = "f", "m", "f");
 
 
 ## [1045. 买下所有产品的客户](https://leetcode-cn.com/problems/customers-who-bought-all-products/)
-
-![image-20211223204957955](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211223204957955.png)
 
 ```mysql
 select 
@@ -666,8 +584,6 @@ having count(distinct product_key) = (select count(*) from Product);
 
 ## [1050. 合作过至少三次的演员和导演](https://leetcode-cn.com/problems/actors-and-directors-who-cooperated-at-least-three-times/)
 
-![image-20211223205135215](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211223205135215.png)
-
 ```mysql
 # Write your MySQL query statement below
 select 
@@ -680,8 +596,6 @@ having count(`timestamp`) >= 3;
 
 
 ## [1077. 项目员工 III](https://leetcode-cn.com/problems/project-employees-iii/)
-
-![image-20211224210153146](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224210153146.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -704,8 +618,6 @@ where T.rk = 1;
 
 ## [1082. 销售分析 I(group window) ](https://leetcode-cn.com/problems/sales-analysis-i/)
 
-![image-20211224210951272](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224210951272.png)
-
 ```mysql
 # Write your MySQL query statement below
 select
@@ -724,8 +636,6 @@ where T.rk = 1;
 
 ## [1083. 销售分析 II](https://leetcode-cn.com/problems/sales-analysis-ii/)
 
-![image-20211224211301178](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224211301178.png)
-
 ```mysql
 # Write your MySQL query statement below
 
@@ -743,8 +653,6 @@ and SUM(IF(p.product_name = "iPhone", 1, 0)) = 0;
 
 ## [1084. 销售分析III](https://leetcode-cn.com/problems/sales-analysis-iii/)
 
-![image-20211224211535638](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211224211535638.png)
-
 ```mysql
 # Write your MySQL query statement below
 select 
@@ -760,8 +668,6 @@ having sum(s.sale_date not between '2019-01-01' and '2019-03-31') = 0;
 
 
 ## [1107. 每日新用户统计](https://leetcode-cn.com/problems/new-users-daily-count/)
-
-![image-20211225220836558](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211225220836558.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -787,8 +693,6 @@ group by T.fd;
 
 ## [1112. 每位学生的最高成绩](https://leetcode-cn.com/problems/highest-grade-for-each-student/)
 
-![image-20211225221110977](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211225221110977.png)
-
 ```mysql
 # Write your MySQL query statement below
 
@@ -808,8 +712,6 @@ where T.rk = 1;
 
 
 ## [1126. 查询活跃业务](https://leetcode-cn.com/problems/active-businesses/)
-
-![image-20211226195910562](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211226195910562.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -854,8 +756,6 @@ from (
 
 ## [1141. 查询近30天活跃用户数](https://leetcode-cn.com/problems/user-activity-for-the-past-30-days-i/)
 
-![image-20211226202149751](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211226202149751.png)
-
 ```mysql
 # Write your MySQL query statement below
 
@@ -871,8 +771,6 @@ group by activity_date;
 
 ## [1148. 文章浏览 I](https://leetcode-cn.com/problems/article-views-i/)
 
-![image-20211227195831044](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211227195831044.png)
-
 ```mysql
 # Write your MySQL query statement below
 
@@ -886,8 +784,6 @@ order by id;
 
 
 ## [1149. 文章浏览 II](https://leetcode-cn.com/problems/article-views-ii/)
-
-![image-20211227200846249](D:\software\Typora\Typora_image\image-20211227200846249.png)
 
 ```mysql
 # Write your MySQL query statement below
@@ -922,8 +818,6 @@ group by U.user_id;
 
 ## [1159. 市场分析 II](https://leetcode-cn.com/problems/market-analysis-ii/)
 
-![image-20211227203714431](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211227203714431.png)
-
 ```mysql
 select
     U.user_id as seller_id,
@@ -953,8 +847,6 @@ on T.item_id = I.item_id;
 
 ## [1174. 即时食物配送 II](https://leetcode-cn.com/problems/immediate-food-delivery-ii/)
 
-![image-20211228211304606](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211228211304606.png)
-
 ```mysql
 # Write your MySQL query statement below
 
@@ -975,8 +867,6 @@ where (customer_id, order_date) in (
 
 ## [1193. 每月交易 I](https://leetcode-cn.com/problems/monthly-transactions-i/)
 
-![image-20211229191351931](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229191351931.png)
-
 ```mysql
 # Write your MySQL query statement below
 
@@ -994,12 +884,6 @@ group by country, LEFT(trans_date, 7);
 
 
 ## [1194. 锦标赛优胜者](https://leetcode-cn.com/problems/tournament-winners/)
-
-![image-20211229192435148](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229192435148.png)
-
-![image-20211229192446628](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229192446628.png)
-
-![image-20211229192455141](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211229192455141.png)
 
 ```mysql
 select 
