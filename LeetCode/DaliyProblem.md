@@ -2,6 +2,38 @@
 
 # 1/2022
 
+# 1/13/2022
+
+[47. 至少是其他数字两倍的最大数](https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/)
+
+```java
+class Solution {
+    public int dominantIndex(int[] nums) {
+        if (nums.length == 1) return 0;
+        int fir_idx = 0;
+        int sec_idx = 1;
+        if (nums[0] < nums[1]) {
+            fir_idx = 1;
+            sec_idx = 0;
+        }
+        for (int i = 2; i < nums.length; i++) {
+            if (nums[i] > nums[fir_idx]) {
+                sec_idx = fir_idx;
+                fir_idx = i;
+            }else if (nums[i] > nums[sec_idx]) {
+                sec_idx = i;
+            }
+        }
+        if (nums[fir_idx] >= 2 * nums[sec_idx]) {
+            return fir_idx;
+        }
+        return -1;
+    }
+}
+```
+
+
+
 ## 1/12/2022
 
 [334. 递增的三元子序列](https://leetcode-cn.com/problems/increasing-triplet-subsequence/)
