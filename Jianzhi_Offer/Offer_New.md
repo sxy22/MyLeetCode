@@ -1964,3 +1964,422 @@ class RecentCounter {
 }
 ```
 
+
+
+## [剑指 Offer II 043. 往完全二叉树添加节点](https://leetcode-cn.com/problems/NaqhDT/)
+
++ 先深度优先遍历将子节点没填满的node按顺序插入deque
++ 将新节点作为deque第一个元素的子节点
++ 若填满则removefirst
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class CBTInserter {
+    TreeNode root;
+    Deque<TreeNode> deque;
+
+    public CBTInserter(TreeNode root) {
+        this.root = root;
+        deque = new LinkedList<>();
+        Deque<TreeNode> bfs_deque = new LinkedList<>();
+        bfs_deque.addLast(root);
+        while (!bfs_deque.isEmpty()) {
+            TreeNode node = bfs_deque.removeFirst();
+            if (node.left != null) bfs_deque.addLast(node.left);
+            if (node.right != null) bfs_deque.addLast(node.right);
+            if (node.right == null) deque.addLast(node);
+        }
+    }
+    
+    public int insert(int v) {
+        TreeNode node = new TreeNode(v);
+        TreeNode parent = deque.getFirst();
+        if (parent.left == null) {
+            parent.left = node;
+        }else {
+            parent.right = node;
+            deque.removeFirst();
+        }
+        deque.addLast(node);
+        return parent.val;
+    } 
+    
+    public TreeNode get_root() {
+        return root;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 044. 二叉树每层的最大值](https://leetcode-cn.com/problems/hPov7L/)
+
++ 分层BFS
++ 记录每层最大值
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        if (root == null) return new ArrayList();
+        List<Integer> ans = new ArrayList<>();
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.addLast(root);
+        while (!queue.isEmpty()) {
+            int max = Integer.MIN_VALUE;
+            int L = queue.size();
+            for (int l = 0; l < L; l++) {
+                TreeNode node = queue.removeFirst();
+                max = Math.max(node.val, max);
+                if (node.left != null) queue.addLast(node.left);
+                if (node.right != null) queue.addLast(node.right);
+            }
+            ans.add(max);
+        }
+        return ans;
+    }
+}
+```
+
+
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        if root is None:
+            return []
+        ans = []
+        queue = collections.deque()
+        queue.append(root)
+        min_val = -1 << 31
+        while queue:
+            layer_max = min_val
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                layer_max = max(layer_max, node.val)
+                if node.left is not None:
+                    queue.append(node.left)
+                if node.right is not None:
+                    queue.append(node.right)
+            ans.append(layer_max)
+        return ans
+```
+
+
+
+## [剑指 Offer II 045. 二叉树最底层最左边的值](https://leetcode-cn.com/problems/LwUNpT/)
+
++ BFS
++ 遍历每一层时记录下第一个val
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int findBottomLeftValue(TreeNode root) {
+        int ans = -1;
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.addLast(root);
+        while (!queue.isEmpty()) {
+            int L = queue.size();
+            ans = queue.getFirst().val;
+            for (int l = 0; l < L; l++) {
+                TreeNode node = queue.removeFirst();
+                if (node.left != null) queue.addLast(node.left);
+                if (node.right != null) queue.addLast(node.right);
+            }
+        }
+        return ans;
+    }
+}
+```
+
+
+
++ DFS求二叉树深度的思路
++ 每一次遍历到最底层遇到的node为答案
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        self.depth = 0
+        self.ans = -1
+        self.dfs(root, 1)
+        return self.ans 
+    
+    def dfs(self, node, level):
+        if node is None:
+            return 
+        if level > self.depth:
+            self.depth = level 
+            self.ans = node.val
+        self.dfs(node.left, level + 1)
+        self.dfs(node.right, level + 1)
+```
+
+
+
+## [剑指 Offer II 046. 二叉树的右侧视图](https://leetcode-cn.com/problems/WNC0Lk/)
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        if (root == null) return new ArrayList();
+        List<Integer> ans = new ArrayList<>();
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.addLast(root);
+        while (!queue.isEmpty()) {
+            int L = queue.size();
+            for (int l = 0; l < L; l++) {
+                TreeNode node = queue.removeFirst();
+                if (node.left != null) queue.addLast(node.left);
+                if (node.right != null) queue.addLast(node.right);
+                if (l == L - 1) {
+                    ans.add(node.val);
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 047. 二叉树剪枝](https://leetcode-cn.com/problems/pOCWxh/)
+
++ DFS
++ 判断左右子树是否是全0，若是全0则改成null，再根据node值返回该节点是否为全0给上一层
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode pruneTree(TreeNode root) {
+        boolean is_empty = dfs(root);
+        if (is_empty) {
+            return null;
+        }
+        return root;
+    }
+
+    // 检查node是否为全0子树
+    boolean dfs(TreeNode node) {
+        if (node == null) return true;
+        boolean left = dfs(node.left);
+        boolean right = dfs(node.right);
+        if (left) {
+            node.left = null;
+        }
+        if (right) {
+            node.right = null;
+        }
+        if (left && right && node.val == 0) {
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+
+
++ 改进
++ 若全0则返回nulll，否则返回node
++ 这样不需要单独写一个dfs
+
+```java
+class Solution {
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null) return null;
+        root.left = pruneTree(root.left);
+        root.right = pruneTree(root.right);
+        if (root.left == null && root.right == null && root.val == 0) {
+            return null;
+        }
+        return root;
+    }
+}
+```
+
+
+
+
+
+
+
+## [剑指 Offer II 049. 从根节点到叶节点的路径数字之和](https://leetcode-cn.com/problems/3Etpl5/)
+
++ DFS
++ 乘以10 加上当前结点
++ 遇到叶子结点累加到sum上
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int sum = 0;
+
+    public int sumNumbers(TreeNode root) {
+        dfs(root, 0);
+        return sum;
+    }
+
+    private void dfs(TreeNode node, int cur_sum) {
+        cur_sum = cur_sum * 10 + node.val;
+        if (node.left == null && node.right == null) {
+            sum += cur_sum;
+            return;
+        }
+        if (node.left != null) dfs(node.left, cur_sum);
+        if (node.right != null) dfs(node.right, cur_sum);
+    }
+
+}
+```
+
+
+
+## [剑指 Offer II 050. 向下的路径节点之和](https://leetcode-cn.com/problems/6eUYwP/)
+
++ 维护前缀和计数的map
++ dfs的性质，可以公用一个前缀map，注意遍历完node要删除node的prefix
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int cnt = 0;
+    Map<Integer, Integer> prefix;
+
+    public int pathSum(TreeNode root, int targetSum) {
+        prefix = new HashMap<>();
+        // 无前缀，0
+        prefix.put(0, 1);
+        dfs(root, targetSum, 0);
+        return cnt;
+    }
+
+    public void dfs(TreeNode node, int targetSum, int sum) {
+        if (node == null) return;
+        sum += node.val;
+        int pre_cnt = prefix.getOrDefault(sum - targetSum, 0);
+        cnt += pre_cnt;
+        //加入 prefix
+        prefix.put(sum, prefix.getOrDefault(sum, 0) + 1);
+        // 遍历left right
+        dfs(node.left, targetSum, sum);
+        dfs(node.right, targetSum, sum);
+        // node遍历结束, 删除prefix
+        prefix.put(sum, prefix.get(sum) - 1);
+    }
+}
+```
+
