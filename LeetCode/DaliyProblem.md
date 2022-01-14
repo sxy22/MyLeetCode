@@ -2,6 +2,22 @@
 
 # 1/2022
 
+## 1/15/2022
+
+[1716. 计算力扣银行的钱](https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/)
+
+```python
+class Solution:
+    def totalMoney(self, n: int) -> int:
+        week = n // 7
+        day = n % 7
+        week_sum = (28 + (28 + 7 * (week - 1))) * week // 2
+        day_sum = day * (day + 1) // 2 + week * day
+        return week_sum + day_sum
+```
+
+
+
 ## 1/14/2022
 
 [373. 查找和最小的K对数字](https://leetcode-cn.com/problems/find-k-pairs-with-smallest-sums/)
