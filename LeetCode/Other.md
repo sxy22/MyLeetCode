@@ -314,3 +314,68 @@ class Solution:
         board[i][j] = ch
 ```
 
+
+
+## [373. 查找和最小的K对数字 ](https://leetcode-cn.com/problems/find-k-pairs-with-smallest-sums/)多路归并
+
+![image-20220113211001257](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220113211001257.png)
+
+```java
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums1.length, m = nums2.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return nums1[o1[0]] + nums2[o1[1]] - nums1[o2[0]] - nums2[o2[1]];
+            }
+        });
+        for (int i = 0; i < n; i++) {
+            pq.add(new int[]{i, 0});
+        }
+        while (k-- > 0 && !pq.isEmpty()) {
+            int[] first = pq.poll();
+            int i = first[0], j = first[1];
+            List<Integer> pair = Arrays.asList(nums1[i], nums2[j]);
+            ans.add(pair);
+            if (j + 1 < m) {
+                pq.add(new int[]{i, j + 1});
+            }
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [786. 第 K 个最小的素数分数 ](https://leetcode-cn.com/problems/k-th-smallest-prime-fraction/)多路归并
+
+```python
+class Frac:
+    def __init__(self, idx: int, idy: int, x: int, y: int) -> None:
+        self.idx = idx
+        self.idy = idy
+        self.x = x
+        self.y = y
+
+    def __lt__(self, other: "Frac") -> bool:
+        return self.x * other.y < self.y * other.x
+
+
+class Solution:
+    def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
+        n = len(arr)
+        q = [Frac(0, i, arr[0], arr[i]) for i in range(1, n)]
+        heapq.heapify(q)
+
+        for _ in range(k - 1):
+            frac = heapq.heappop(q)
+            i, j = frac.idx, frac.idy
+            if i + 1 < j:
+                heapq.heappush(q, Frac(i + 1, j, arr[i + 1], arr[j]))
+        frac = heapq.heappop(q)
+        return [frac.x, frac.y]
+```
+
