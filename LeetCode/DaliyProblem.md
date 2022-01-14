@@ -2,7 +2,41 @@
 
 # 1/2022
 
-# 1/13/2022
+## 1/14/2022
+
+[373. 查找和最小的K对数字](https://leetcode-cn.com/problems/find-k-pairs-with-smallest-sums/)
+
+```java
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums1.length, m = nums2.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return nums1[o1[0]] + nums2[o1[1]] - nums1[o2[0]] - nums2[o2[1]];
+            }
+        });
+        for (int i = 0; i < n; i++) {
+            pq.add(new int[]{i, 0});
+        }
+        while (k-- > 0 && !pq.isEmpty()) {
+            int[] first = pq.poll();
+            int i = first[0], j = first[1];
+            List<Integer> pair = Arrays.asList(nums1[i], nums2[j]);
+            ans.add(pair);
+            if (j + 1 < m) {
+                pq.add(new int[]{i, j + 1});
+            }
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## 1/13/2022
 
 [47. 至少是其他数字两倍的最大数](https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/)
 
