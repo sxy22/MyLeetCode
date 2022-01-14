@@ -1124,3 +1124,59 @@ group by I.item_category
 order by I.item_category;
 ```
 
+
+
+## [1517. 查找拥有有效邮箱的用户](https://leetcode-cn.com/problems/find-users-with-valid-e-mails/)
+
+```mysql
+select
+    * 
+from Users
+where mail regexp '^[A-Za-z][A-Za-z0-9\\_\\.\\/\\-]*@leetcode\\.com$'
+```
+
+
+
+
+
+## [1549. 每件商品的最新订单](https://leetcode-cn.com/problems/the-most-recent-orders-for-each-product/)
+
++ 先查询每件商品的最新日期，再join
+
+```mysql
+select P.product_name, O.product_id, O.order_id, O.order_date
+from Orders as O
+join (
+    select product_id, MAX(order_date) as MRD
+    from Orders
+    group by product_id
+) as T
+on O.product_id = T.product_id and O.order_date = T.MRD
+join Products as P 
+on T.product_id = P.product_id
+order by P.product_name, O.product_id, order_id
+```
+
+
+
++ window func
+
+```mysql
+select
+    T.product_name,
+    T.product_id,
+    T.order_id,
+    T.order_date
+from (
+    select
+        O.*,
+        P.product_name,
+        DENSE_RANK() over(partition by O.product_id order by O.order_date DESC) as rk
+    from Orders as O 
+    join Products as P 
+    on O.product_id = P.product_id
+) as T
+where T.rk = 1
+order by T.product_name, T.product_id, T.order_id;
+```
+
