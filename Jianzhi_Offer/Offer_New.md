@@ -2287,6 +2287,55 @@ class Solution {
 
 ## [剑指 Offer II 048. 序列化与反序列化二叉树](https://leetcode-cn.com/problems/h54YBf/)
 
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+    StringBuilder data;
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        data = new StringBuilder();
+        recurserialize(root);
+        return data.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        String[] list = data.split(",");
+        Deque<String> datalist = new LinkedList<>(Arrays.asList(list));
+        return recurdeserialize(datalist);
+    }
+
+    public void recurserialize(TreeNode root) {
+        if (root == null) {
+            data.append("None,");
+            return;
+        }
+        data.append(String.valueOf(root.val) + ",");
+        recurserialize(root.left);
+        recurserialize(root.right);
+    }
+
+    public TreeNode recurdeserialize(Deque<String> datalist) {
+        String fir = datalist.removeFirst();
+        if ("None".equals(fir)) return null;
+        TreeNode node = new TreeNode(Integer.parseInt(fir));
+        node.left = recurdeserialize(datalist);
+        node.right = recurdeserialize(datalist);
+        return node;
+    }
+
+}
+```
+
 
 
 ## [剑指 Offer II 049. 从根节点到叶节点的路径数字之和](https://leetcode-cn.com/problems/3Etpl5/)
@@ -2379,6 +2428,154 @@ class Solution {
         dfs(node.right, targetSum, sum);
         // node遍历结束, 删除prefix
         prefix.put(sum, prefix.get(sum) - 1);
+    }
+}
+```
+
+
+
+## [剑指 Offer II 051. 节点之和最大的路径](https://leetcode-cn.com/problems/jC7MId/)
+
+
+
+
+
+## [剑指 Offer II 052. 展平二叉搜索树](https://leetcode-cn.com/problems/NYBBNL/)
+
++ 递归
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    TreeNode prehead;
+    TreeNode res;
+    public TreeNode increasingBST(TreeNode root) {
+        prehead = new TreeNode(-1);
+        res = prehead;
+        dfs(root);
+        return res.right;
+    }
+
+    void dfs(TreeNode node) {
+        if (node == null) return;
+        dfs(node.left);
+        prehead.right = node;
+        prehead = prehead.right;
+        node.left = null;
+        dfs(node.right);
+    }
+}
+
+```
+
+
+
++ 迭代
+
+```java
+class Solution {
+    TreeNode prehead;
+    TreeNode res;
+    public TreeNode increasingBST(TreeNode root) {
+        prehead = new TreeNode(-1);
+        res = prehead;
+        Deque<TreeNode> stack = new LinkedList<>();
+
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.addLast(root);
+                root = root.left;
+            }
+            TreeNode head = stack.removeLast();
+            head.left = null;
+            prehead.right = head;
+            prehead = prehead.right;
+            root = head.right;
+        }
+        return res.right;
+    }
+}
+```
+
+
+
+
+
+## [剑指 Offer II 053. 二叉搜索树中的中序后继](https://leetcode-cn.com/problems/P5rCT8/)
+
++ DFS
++ 注意left之后要判断是否return
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    TreeNode pre_node = null;
+    TreeNode ans = null;
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        dfs(root, p);
+        return ans;
+    }
+
+    void dfs(TreeNode root, TreeNode p) {
+        if (ans != null || root == null) return;
+        dfs(root.left, p);
+        // 注意
+        if (ans != null) return;
+        if (pre_node == p) {
+            ans = root;
+            return;
+        }else {
+            pre_node = root;
+        }
+        dfs(root.right, p);
+    }
+}
+```
+
+
+
+```java
+class Solution {
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        TreeNode pre_node = null;
+
+        Deque<TreeNode> stack = new LinkedList<>();
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.addLast(root);
+                root = root.left;
+            }
+            TreeNode head = stack.removeLast();
+            if (pre_node == p) {
+                return head;
+            }else {
+                pre_node = head;
+            }
+            root = head.right;
+        }
+        return null;
     }
 }
 ```
