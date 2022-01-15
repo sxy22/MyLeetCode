@@ -2436,6 +2436,40 @@ class Solution {
 
 ## [剑指 Offer II 051. 节点之和最大的路径](https://leetcode-cn.com/problems/jC7MId/)
 
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int maxsum = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        dfs(root);
+        return maxsum;
+    }
+
+    int dfs(TreeNode node) {
+        if (node == null) return 0;
+        int left = Math.max(dfs(node.left), 0);
+        int right = Math.max(dfs(node.right), 0);
+        maxsum = Math.max(maxsum, node.val + left + right);
+        return node.val + Math.max(left, right);
+    }
+}
+```
+
 
 
 
@@ -2576,6 +2610,171 @@ class Solution {
             root = head.right;
         }
         return null;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 054. 所有大于等于节点的值之和](https://leetcode-cn.com/problems/w6cpku/)
+
++ 二叉搜索数，右中左 则是倒序
++ 用sum记录，右中左 DFS
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int sum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        dfs(root);
+        return root;
+    }
+
+    void dfs(TreeNode node) {
+        if (node == null) return;
+        dfs(node.right);
+        sum += node.val;
+        node.val = sum;
+        dfs(node.left);
+    }
+}
+```
+
+
+
+## [剑指 Offer II 055. 二叉搜索树迭代器](https://leetcode-cn.com/problems/kTOapQ/)
+
++ 迭代中序遍历的思路
++ 每次hasnext，出栈后将node.right 及所有左节点加入stack
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class BSTIterator {
+    Deque<TreeNode> stack = new LinkedList<>();
+
+    public BSTIterator(TreeNode root) {
+        instack(root);
+    }
+    
+    public int next() {
+        TreeNode node = stack.removeLast();
+        instack(node.right);
+        return node.val;
+    }
+    
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    private void instack(TreeNode node) {
+        while (node != null) {
+            stack.addLast(node);
+            node = node.left;
+        }
+    }
+}
+```
+
+
+
+## [剑指 Offer II 056. 二叉搜索树中两个节点之和](https://leetcode-cn.com/problems/opLdQZ/)
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    Set<Integer> hset = new HashSet<>();
+    boolean ans = false;
+
+    public boolean findTarget(TreeNode root, int k) {
+        dfs(root, k);
+        return ans;
+    }
+
+    public void dfs(TreeNode node, int k) {
+        if (ans == true || node == null) return;
+        if (hset.contains(k - node.val)) {
+            ans = true;
+            return;
+        }
+        hset.add(node.val);
+        dfs(node.left, k);
+        if (ans == true) return;
+        dfs(node.right, k);
+    }
+}
+```
+
+
+
+
+
+
+
+## [剑指 Offer II 059. 数据流的第 K 大数值](https://leetcode-cn.com/problems/jBjn9C/)
+
++ 维护长度为k的小根堆
+
+```java
+class KthLargest {
+    PriorityQueue<Integer> pq;
+    int k;
+
+    public KthLargest(int k, int[] nums) {
+        this.k = k;
+        pq = new PriorityQueue<>();
+        for (int val : nums) {
+            pq.add(val);
+            if (pq.size() > k) pq.poll();
+        }
+    }
+    
+    public int add(int val) {
+        pq.add(val);
+        if (pq.size() > k) pq.poll();
+        return pq.peek();
     }
 }
 ```
