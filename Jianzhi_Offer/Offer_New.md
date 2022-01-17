@@ -2846,3 +2846,89 @@ class KthLargest {
 }
 ```
 
+
+
+## [剑指 Offer II 060. 出现频率最高的 k 个数字](https://leetcode-cn.com/problems/g5c51o/)
+
++ 先map记录每个数字的出现此次数
++ 维护长度为k的小根堆
++ 自定义一个pair类，重写compareTo 方法
+
+```java
+class Pair implements Comparable<Pair>{
+    public int key;
+    public int value;
+
+    public Pair(int k, int v) {
+        key = k;
+        value = v;
+    }
+
+    @Override 
+    public int compareTo​(Pair o) {
+        return value - o.value;
+    }
+}
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int num : nums) {
+            cnt.put(num, 1 + cnt.getOrDefault(num, 0));
+        }
+
+        for (int num : cnt.keySet()) {
+            Pair pair = new Pair(num, cnt.get(num));
+            if (pq.size() < k) {
+                pq.add(pair);
+                continue;
+            }
+            if (pair.value > pq.peek().value) {
+                pq.poll();
+                pq.add(pair);
+            }
+        }
+        int[] ans = new int[k];
+        int i = 0;
+        for (Pair pair : pq) {
+            ans[i] = pair.key;
+            i += 1;
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 061. 和最小的 k 个数对](https://leetcode-cn.com/problems/qn8gGX/)
+
+```java
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums1.length, m = nums2.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return nums1[o1[0]] + nums2[o1[1]] - nums1[o2[0]] - nums2[o2[1]];
+            }
+        });
+        for (int i = 0; i < Math.min(n, k); i++) {
+            pq.add(new int[]{i, 0});
+        }
+        while (k-- > 0 && !pq.isEmpty()) {
+            int[] first = pq.poll();
+            int i = first[0], j = first[1];
+            List<Integer> pair = Arrays.asList(nums1[i], nums2[j]);
+            ans.add(pair);
+            if (j + 1 < m) {
+                pq.add(new int[]{i, j + 1});
+            }
+        }
+        return ans;
+    }
+}
+```
+
