@@ -64,7 +64,8 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
-| 1/15/2022  | [1716. 计算力扣银行的钱](https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/) | [Python]([1716. 计算力扣银行的钱](https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/)) | Easy   |
+| 1/16/2022  | [1220. 统计元音字母序列的数目](https://leetcode-cn.com/problems/count-vowels-permutation/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1162022) | Hard   |
+| 1/15/2022  | [1716. 计算力扣银行的钱](https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/) | [python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1152022) | Easy   |
 | 1/14/2022  | [373. 查找和最小的K对数字](https://leetcode-cn.com/problems/find-k-pairs-with-smallest-sums/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1142022) | Medium |
 | 1/13/2022  | [47. 至少是其他数字两倍的最大数](https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1132022) | Easy   |
 | 1/12/2022  | [334. 递增的三元子序列](https://leetcode-cn.com/problems/increasing-triplet-subsequence/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1112022) | Medium |
