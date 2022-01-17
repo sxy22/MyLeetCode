@@ -2749,6 +2749,73 @@ class Solution {
 
 
 
+## [剑指 Offer II 057. 值和下标之差都在给定的范围内](https://leetcode-cn.com/problems/7WqeDu/)
+
+![image-20220116152503753](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220116152503753.png)
+
+![image-20220116152519323](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220116152519323.png)
+
+如果当前有序集合中存在相同元素，那么此时程序将直接返回 true\。因此本题中的有序集合无需处理相同元素的情况。
+
+```java
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        int n = nums.length;
+        long longt = (long) t;
+        TreeSet<Long> set = new TreeSet<>();
+        for (int i = 0; i < n; i++) {
+            long x = (long) nums[i];
+            // 目标是范围是[x-t, x+t], 找到大于等于x-t的最小数, 再判断是否小于x+t
+            Long ceil = set.ceiling(x - longt);
+            if (ceil != null && ceil <= x + longt) {
+                return true;
+            };
+            set.add(x);
+            if (set.size() > k) {
+                set.remove((long) nums[i - k]);
+            }
+        }
+        return false;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 058. 日程表](https://leetcode-cn.com/problems/fi9suh/)
+
++ TreeMap start:key
++ 二分查找日程安排的情况来检查新日常安排是否可以预订
+
+```java
+class MyCalendar {
+    TreeMap<Integer, Integer> map;
+
+    public MyCalendar() {
+        map = new TreeMap<>();
+    }
+    
+    public boolean book(int start, int end) {
+        Integer s;
+        // 先找<=start 的最大s
+        s = map.floorKey(start);
+        if (s != null && start < map.get(s)) {
+            // start >= e 才不会重合
+            return false;
+        }
+        // 找>=start 的最小s
+        s = map.ceilingKey(start);
+        if (s != null && end > s) {
+            // end <= s 才不会重合
+            return false;
+        }
+        // 可以添加，加入map后return true
+        map.put(start, end);
+        return true;
+    }
+}
+```
+
 
 
 

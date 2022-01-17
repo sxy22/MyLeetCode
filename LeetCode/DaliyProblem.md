@@ -2,6 +2,31 @@
 
 # 1/2022
 
+### 1/16/2022
+
+[1220. 统计元音字母序列的数目](https://leetcode-cn.com/problems/count-vowels-permutation/)
+
+```python
+class Solution:
+    def countVowelPermutation(self, n: int) -> int:
+        M = 1000000007
+        a, e, i, o, u = 1, 1, 1, 1, 1
+        for _ in range(n - 1):
+            ta = e + i + u
+            te = a + i
+            ti = e + o
+            to = i
+            tu = i + o
+            a = ta % M
+            e = te % M
+            i = ti % M
+            o = to % M
+            u = tu % M
+        return (a + e + i + o + u) % M
+```
+
+
+
 ## 1/15/2022
 
 [1716. 计算力扣银行的钱](https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/)
