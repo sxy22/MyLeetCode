@@ -2,7 +2,42 @@
 
 # 1/2022
 
-### 1/16/2022
+## 1/18/2022
+
+[539. 最小时间差](https://leetcode-cn.com/problems/minimum-time-difference/)
+
+```java
+class Solution {
+    public int findMinDifference(List<String> timePoints) {
+        if (timePoints.size() >= 1440) return 0;
+        int min_diff = 1440;
+        List<Integer> minutes = new ArrayList<>();
+        for (String t : timePoints) {
+            minutes.add(minute(t));
+        }
+
+        Collections.sort(minutes);
+        minutes.add(1440 + minutes.get(0));
+
+        for (int i = 1; i < minutes.size(); i++) {
+            min_diff = Math.min(min_diff, minutes.get(i) - minutes.get(i - 1));
+        }
+        return min_diff;
+
+
+    }
+
+    int minute(String t) {
+        int h = Integer.parseInt(t.substring(0, 2));
+        int m = Integer.parseInt(t.substring(3));
+        return h * 60 + m;
+    }
+}
+```
+
+
+
+## 1/16/2022
 
 [1220. 统计元音字母序列的数目](https://leetcode-cn.com/problems/count-vowels-permutation/)
 
