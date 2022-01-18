@@ -1180,3 +1180,34 @@ where T.rk = 1
 order by T.product_name, T.product_id, T.order_id;
 ```
 
+
+
+## [1555. 银行账户概要](https://leetcode-cn.com/problems/bank-account-summary/)
+
+```mysql
+# Write your MySQL query statement below
+
+select
+    U.user_id,
+    U.user_name,
+    U.credit + IFNULL(p1.amount, 0) + IFNULL(p2.amount, 0) as credit,
+    IF(U.credit + IFNULL(p1.amount, 0) + IFNULL(p2.amount, 0) < 0, "Yes", "No") as credit_limit_breached 
+from Users as U 
+left join (
+    select 
+        paid_by,
+        -SUM(amount) as amount
+    from Transactions
+    group by paid_by
+) as p1
+on U.user_id = p1.paid_by
+left join (
+    select 
+        paid_to,
+        SUM(amount) as amount
+    from Transactions
+    group by paid_to
+) as p2 
+on U.user_id = p2.paid_to;
+```
+
