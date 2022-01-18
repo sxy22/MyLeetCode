@@ -2932,3 +2932,252 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 062. 实现前缀树](https://leetcode-cn.com/problems/QC3q1f/)
+
++ 向子节点的指针数组 children
++ 布尔字段 isEnd，表示该节点是否为字符串的结尾
+
+```java
+class Trie {
+    private Trie[] children;
+    private boolean isEnd;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                node.children[idx] = new Trie();
+            }
+            node = node.children[idx];
+        }
+        // 插入结束后会停在最后一个char处
+        node.isEnd = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = this;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                return false;
+            }
+            node = node.children[idx];
+        }
+        return node.isEnd;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        Trie node = this;
+        for (int i = 0; i < prefix.length(); i++) {
+            char ch = prefix.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                return false;
+            }
+            node = node.children[idx];
+        }
+        return true;
+    }
+}
+```
+
+
+
++ 重复结构封装
+
+```java
+class Trie {
+    private Trie[] children;
+    private boolean isEnd;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                node.children[idx] = new Trie();
+            }
+            node = node.children[idx];
+        }
+        // 插入结束后会停在最后一个char处
+        node.isEnd = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie node = prefix(word);
+        return node != null && node.isEnd;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        Trie node = prefix(prefix);
+        return node != null;
+    }
+
+    // 返回 最后一个word最后一个char对应的结点
+    private Trie prefix(String word) {
+        Trie node = this;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                return null;
+            }
+            node = node.children[idx];
+        }
+        return node;   
+    }
+}
+```
+
+
+
+## [剑指 Offer II 063. 替换单词](https://leetcode-cn.com/problems/UhWRSj/)
+
++ 建立前缀树加入词根
++ 每个word找最短的前缀,不存在则加入原word
+
+```java
+class Trie {
+    private Trie[] children;
+    private boolean isEnd;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie node = this;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                node.children[idx] = new Trie();
+            }
+            node = node.children[idx];
+        }
+        // 插入结束后会停在最后一个char处
+        node.isEnd = true;
+    }
+
+    // 返回 最短prefix
+    public String shortestPrefix(String word) {
+        Trie node = this;
+        StringBuilder prefix = new StringBuilder();
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                return null;
+            }
+            prefix.append(ch);
+            node = node.children[idx];
+            if (node.isEnd) {
+                return prefix.toString();
+            }
+        }
+        return null;
+    }
+}
+
+class Solution {
+    public String replaceWords(List<String> dictionary, String sentence) {
+
+        // 建立Trie
+        Trie mytrie = new Trie();
+        for (String root : dictionary) {
+            mytrie.insert(root);
+        }
+        String[] words = sentence.split(" ");
+        String[] ans = new String[words.length];
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            //System.out.println(word);
+            String prefix = mytrie.shortestPrefix(word);
+            if (prefix == null) {
+                ans[i] = word;
+            }else {
+                ans[i] = prefix;
+            }
+        }
+        return String.join(" ", ans);
+    }
+}
+```
+
+
+
+## [剑指 Offer II 064. 神奇的字典](https://leetcode-cn.com/problems/US1pGT/)
+
++ 建立map 长度 - 》 word list
++ 根据searchword的长度，注意判断是否只差一个单词
+
+```java
+class MagicDictionary {
+    Map<Integer, List<String>> map;
+
+    /** Initialize your data structure here. */
+    public MagicDictionary() {
+        map = new HashMap<>();
+    }
+    
+    public void buildDict(String[] dictionary) {
+        for (String word : dictionary) {
+            int l = word.length();
+            if (!map.containsKey(l)) {
+                map.put(l, new ArrayList<String>());
+            }
+            map.get(l).add(word);
+        }
+    }
+    
+    public boolean search(String searchWord) {
+        List<String> target = map.get(searchWord.length());
+        if (target == null) return false;
+        for (String t : target) {
+            if (distOne(searchWord, t)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean distOne(String s1, String s2) {
+        int cnt = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                cnt += 1;
+            }
+            if (cnt > 1) return false;
+        }
+        return cnt == 1;
+    }
+}
+```
+
