@@ -2,6 +2,29 @@
 
 # 1/2022
 
+## 1/19/2022
+
+[219. 存在重复元素 II](https://leetcode-cn.com/problems/contains-duplicate-ii/)
+
+```java
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (set.contains(num)) return true;
+            set.add(num);
+            if (i - k >= 0) {
+                set.remove(nums[i - k]);
+            }
+        }
+        return false;
+    }
+}
+```
+
+
+
 ## 1/18/2022
 
 [539. 最小时间差](https://leetcode-cn.com/problems/minimum-time-difference/)
