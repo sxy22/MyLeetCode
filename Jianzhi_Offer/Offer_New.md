@@ -3181,3 +3181,201 @@ class MagicDictionary {
 }
 ```
 
+
+
+## [剑指 Offer II 065. 最短的单词编码](https://leetcode-cn.com/problems/iSwD2y/)
+
++ 倒序后插入字典树
++ 然后计算所有叶结点对应的string的长度，再加上叶结点的个数
++ 每次插入，记录最后一个节点的到map
++ 检查叶结点是否有child
+
+```java
+class Trie {
+    public Trie[] children;
+    public boolean hasChild;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        hasChild = false;
+    }
+    
+    /** Inserts a word into the trie. */
+    public Trie insert(String word) {
+        Trie node = this;
+        // 倒序字符串
+        for (int i = word.length() - 1; i >= 0; i--) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                node.children[idx] = new Trie();
+                node.hasChild = true;
+            }
+            node = node.children[idx];
+        }
+        // 插入结束后会停在最后一个char处
+        return node;
+    }
+}
+
+class Solution {
+    public int minimumLengthEncoding(String[] words) {
+        Trie mytrie = new Trie();
+        Map<Trie, Integer> len = new HashMap<>();
+        int ans = 0;
+        for (String word : words) {
+            Trie node = mytrie.insert(word);
+            len.put(node, word.length() + 1);
+        }
+        
+        for (Trie node : len.keySet()) {
+            if (node.hasChild == false) {
+                ans += len.get(node);
+            }
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 066. 单词之和](https://leetcode-cn.com/problems/z1R5dt/)
+
++ Trie tree
++ insert 时每路过一个结点使其cnt += val
++ 更新key value时，应该为 val - old_value
++ 返回prefix对应最后一个node的cnt
+
+```java
+class MapSum {
+    Trie mytrie;
+    Map<String, Integer> map;
+    /** Initialize your data structure here. */
+    public MapSum() {
+        mytrie = new Trie();
+        map = new HashMap<>();
+    }
+    
+    public void insert(String key, int val) {
+        int pre_val = map.getOrDefault(key, 0);
+        mytrie.insert(key, val - pre_val);
+        map.put(key, val);
+    }
+    
+    public int sum(String prefix) {
+        return mytrie.sum(prefix);
+    }
+}
+
+class Trie {
+    private Trie[] children;
+    private int pre_cnt;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        children = new Trie[26];
+        pre_cnt = 0;
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word, int val) {
+        Trie node = this;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                node.children[idx] = new Trie();
+            }
+            node = node.children[idx];
+            node.pre_cnt += val;
+        }
+    }
+
+    // 返回 prefix 最后一个结点的cnt
+    public int sum(String prefix) {
+        Trie node = this;
+        for (int i = 0; i < prefix.length(); i++) {
+            char ch = prefix.charAt(i);
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                return 0;
+            }
+            node = node.children[idx];
+        }
+        return node.pre_cnt;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 067. 最大的异或](https://leetcode-cn.com/problems/ms70jA/)
+
+```java
+class Solution {
+    final int HIGH_BIT = 30;
+    BiTrie mytrie;
+
+    public int findMaximumXOR(int[] nums) {
+        mytrie = new BiTrie();
+        int maximum = 0;
+        for (int num : nums) {
+            insert(num);
+            maximum = Math.max(maximum, maxXOR(num));
+        }
+        return maximum;
+    }
+
+    void insert(int num) {
+        BiTrie node = mytrie;
+        for (int k = HIGH_BIT; k >= 0; k--) {
+            int digit = (num >> k) & 1;
+            if (digit == 0 && node.zero == null) {
+                node.zero = new BiTrie();
+            }
+            if (digit == 1 && node.one == null) {
+                node.one = new BiTrie();
+            }
+            if (digit == 0) {
+                node = node.zero;
+            }else {
+                node = node.one;
+            }
+        }
+    }
+
+    int maxXOR(int num) {
+        int max = 0;
+        BiTrie node = mytrie;
+        for (int k = HIGH_BIT; k >= 0; k--) {
+            int digit = (num >> k) & 1;
+            if (digit == 0) {
+                // 找1
+                if (node.one != null) {
+                    max += (1 << k);
+                    node = node.one;
+                }else {
+                    node = node.zero;
+                }
+            }else {
+                // 找0
+                if (node.zero != null) {
+                    max += (1 << k);
+                    node = node.zero;
+                }else {
+                    node = node.one;
+                }
+            }
+        }
+        return max;
+    }
+}
+
+class BiTrie {
+    BiTrie zero = null;
+    BiTrie one = null;
+}
+```
+
