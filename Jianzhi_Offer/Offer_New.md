@@ -3379,3 +3379,180 @@ class BiTrie {
 }
 ```
 
+
+
+## [剑指 Offer II 068. 查找插入位置](https://leetcode-cn.com/problems/N6YdxV/)
+
+```java
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int i = 0, j = nums.length;
+        int mid;
+        while (i < j) {
+            mid = (i + j) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }else if (nums[mid] < target) {
+                i = mid + 1;
+            }else {
+                j = mid;
+            }
+        }
+        return i;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 069. 山峰数组的顶部](https://leetcode-cn.com/problems/B1IidL/)
+
+```java
+class Solution {
+    public int peakIndexInMountainArray(int[] arr) {
+        int i = 0;
+        int j = arr.length - 1;
+        while (i < j) {
+            int mid = (i + j) / 2;
+            //System.out.println(arr[mid]);
+            if (arr[mid] < arr[mid - 1]) {
+                j = mid;
+            }else if (arr[mid] > arr[mid + 1]) {
+                return mid;
+            }else {
+                i = mid + 1;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 070. 排序数组中只出现一次的数字](https://leetcode-cn.com/problems/skFtm2/)
+
++ 异或O(n)
+
+```java
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int ans = 0;
+        for (int num : nums) {
+            ans = ans ^ num;
+        }
+        return ans;
+    }
+}
+```
+
+
+
++ 二分
++ 包含单个出现元素的长度为奇数
+
+```java
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            int mid = (i + j) / 2;
+            // i - j 至少有三个数，所以mid必然左右都有数，不会越界
+            if (nums[mid] == nums[mid - 1]) {
+                // i -- mid-2, mid+1 -- j
+                if (((mid - i - 1) & 1) == 1) {
+                    j = mid - 2;
+                }else {
+                    i = mid + 1;
+                }
+            }else if (nums[mid] == nums[mid + 1]) {
+                // i -- mid-1, mid+2 -- j
+                if (((mid - i) & 1) == 1) {
+                    j = mid - 1;
+                }else {
+                    i = mid + 2;
+                }
+            }else {
+                return nums[mid];
+            }
+        }
+        return nums[i];
+    }
+}
+```
+
+
+
+
+
+## [剑指 Offer II 071. 按权重生成随机数](https://leetcode-cn.com/problems/cuyjEf/)
+
++ 前缀和
++ 二分查找
+
+```java
+class Solution {
+    Random rand = new Random();
+    int[] presum;
+    int sum;
+
+    public Solution(int[] w) {
+        presum = new int[w.length];
+        sum = 0;
+        for (int i = 0; i < w.length; i++) {
+            sum += w[i];
+            presum[i] = sum;
+        }
+    }
+    
+    public int pickIndex() {
+        int r = rand.nextInt(sum) + 1;
+        return bisect(r);
+    }
+
+    int bisect(int num) {
+        int lo = 0;
+        int hi = presum.length - 1;
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (num <= presum[mid]) {
+                hi = mid;
+            }else {
+                lo = mid + 1;
+            }
+        }
+        return lo;
+    }
+}
+```
+
+
+
+
+
+## [剑指 Offer II 072. 求平方根](https://leetcode-cn.com/problems/jJ0w9p/)
+
+```java
+class Solution {
+    public int mySqrt(int x) {
+        if (x <= 1) return x;
+        int lo = 1;
+        int hi = Math.min(x, 46340);
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2 + 1;
+            int mul = mid * mid;
+            if (mul == x) {
+                return mid;
+            }else if (mul > x) {
+                hi = mid - 1;
+            }else {
+                lo = mid;
+            }
+        }
+        return lo;
+    }
+}
+```
+
+
+
