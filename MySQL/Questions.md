@@ -1211,3 +1211,25 @@ left join (
 on U.user_id = p2.paid_to;
 ```
 
+
+
+## [1596. 每位顾客最经常订购的商品](https://leetcode-cn.com/problems/the-most-frequently-ordered-products-for-each-customer/)
+
+```mysql
+# Write your MySQL query statement below
+select 
+    T.customer_id, 
+    T.product_id, 
+    P.product_name
+from (
+    select 
+        customer_id, product_id,
+    RANK() over(partition by customer_id order by count(order_id) desc) as rk
+    from Orders
+    group by customer_id, product_id
+) as T
+join Products as P
+on T.product_id = P.product_id
+where T.rk = 1;
+```
+
