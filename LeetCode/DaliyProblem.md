@@ -2,6 +2,61 @@
 
 # 1/2022
 
+## 1/21/2022
+
+[1345. 跳跃游戏 IV](https://leetcode-cn.com/problems/jump-game-iv/)
+
+```java
+class Solution {
+    public int minJumps(int[] arr) {
+        //if (arr.length == 1) return 0;
+        Set<Integer> visited = new HashSet<>();
+        Map<Integer, List<Integer>> val2idx = new HashMap<>();
+        Deque<Integer> deque = new LinkedList<>();
+        deque.add(0);
+        visited.add(0);
+        int n = arr.length;
+        int step = 0;
+        for (int i = 0; i < n; i++) {
+            int val = arr[i];
+            if (!val2idx.containsKey(val)) {
+                val2idx.put(val, new ArrayList<>());
+            }
+            val2idx.get(val).add(i);
+        }
+        //System.out.println(val2idx.toString());
+        while (!deque.isEmpty()) {
+            int l = deque.size();
+            for (int i = 0; i < l; i++) {
+                int idx = deque.removeFirst();
+                if (idx == n - 1) return step;
+                if (idx - 1 >= 0 && !visited.contains(idx - 1)) {
+                    deque.add(idx - 1);
+                    visited.add(idx - 1);
+                }
+                if (idx + 1 < n && !visited.contains(idx + 1)) {
+                    deque.add(idx + 1);
+                    visited.add(idx + 1);
+                }
+                if (val2idx.containsKey(arr[idx])) {
+                    for (int next : val2idx.get(arr[idx])) {
+                        if (!visited.contains(next)) {
+                            deque.add(next);
+                            visited.add(next);
+                        }
+                    }         
+                    val2idx.remove(arr[idx]);           
+                }
+            }
+            step += 1;
+        }
+        return -1;
+    }
+}
+```
+
+
+
 ## 1/19/2022
 
 [219. 存在重复元素 II](https://leetcode-cn.com/problems/contains-duplicate-ii/)
