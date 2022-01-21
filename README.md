@@ -64,6 +64,8 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/21/2022  | [1345. 跳跃游戏 IV](https://leetcode-cn.com/problems/jump-game-iv/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1212022) | Hard   |
+| 1/19/2022  | [219. 存在重复元素 II](https://leetcode-cn.com/problems/contains-duplicate-ii/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1192022) | Easy   |
 | 1/18/2022  | [539. 最小时间差](https://leetcode-cn.com/problems/minimum-time-difference/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1182022) | Medium |
 | 1/16/2022  | [1220. 统计元音字母序列的数目](https://leetcode-cn.com/problems/count-vowels-permutation/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1162022) | Hard   |
 | 1/15/2022  | [1716. 计算力扣银行的钱](https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/) | [python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1152022) | Easy   |
