@@ -135,3 +135,178 @@ def bisect_left(a, x, lo=0, hi=None):
     return lo
 ```
 
+
+
+# 堆排序
+
++ python
+
+```python
+#基于堆的优先队列
+class PriorQueueError(ValueError):
+    pass
+
+class PriQueHeap():
+    def __init__(self, elist=[]):
+        self._elem = []
+        self.buildheap(list(elist))
+        
+    def is_empty(self):
+        return not self._elem
+    
+    def peek(self):
+        if self.is_empty():
+            raise PriorQueueError('in peek')
+        return self._elem[0]
+    
+    #入队
+    def enqueue(self, e):
+        self._elem.append(e)
+        self.siftup()
+    
+    
+    
+    #向上筛选，从最后一个元素
+    def siftup(self):
+        child = len(self._elem) - 1
+        while child > 0:
+            parent = (child - 1) // 2 #父节点的关系
+            if self._elem[parent] > self._elem[child]:
+                self._elem[parent], self._elem[child] = self._elem[child], self._elem[parent]
+                child = parent
+            else:
+                break
+    
+    #弹出元素
+    def dequeue(self):
+        if self.is_empty():
+            raise PriorQueueError('in peek')
+        
+        head_val = self._elem[0]
+        self._elem[0] = self._elem[-1]#把最后一个点放在头上
+        self._elem.pop()#把最后一个弹出去
+        self.siftdown()#向下筛选一次
+        return head_val
+        
+    def siftdown(self):
+        parent = 0
+        lth = len(self._elem) - 1
+        
+        while 2 * parent + 1 <= lth:
+            left_child = 2 * parent + 1
+            right_child = 2 * parent + 2
+            #没有右节点，只需要和左节点再比较一次
+            if right_child > lth and self._elem[parent] > self._elem[left_child]:
+                self._elem[parent], self._elem[left_child] = self._elem[left_child], self._elem[parent]
+                break
+            #parent 最小，直接结束
+            if self._elem[parent] <= self._elem[left_child] and self._elem[parent] <= self._elem[right_child]:
+                break
+            #找left 和 right 中小的那一个
+            elif self._elem[left_child] <= self._elem[right_child]:#left 小
+                self._elem[parent], self._elem[left_child] = self._elem[left_child], self._elem[parent]
+                parent = left_child
+            else:
+                self._elem[parent], self._elem[right_child] = self._elem[right_child], self._elem[parent]
+                parent = right_child
+    #构建堆
+    def buildheap(self, lst):
+        for val in lst:
+            self.enqueue(val)
+```
+
+
+
++ Java
+
+```java
+public class HeapTest {
+    public static void main(String[] args) {
+        int[] arr = new int[]{3,5,7,8,1,1,2,4,4,10,20};
+        PriQue pq = new PriQue(100);
+        for (int num : arr) {
+            pq.add(num);
+        }
+        while (!pq.isEmpty()) {
+            System.out.println(pq.poll());
+        }
+    }
+}
+
+
+// int 型
+class PriQue {
+    int size;
+    int[] arr;
+    int max_size;
+
+    public PriQue(int _max_size) {
+        size = 0;
+        max_size = _max_size;
+        arr = new int[max_size];
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int peek() {
+        if (isEmpty()) {
+            throw new RuntimeException("empty");
+        }
+        return arr[0];
+    }
+
+    public void add(int x) {
+        arr[size] = x;
+        size += 1;
+        siftup();
+    }
+
+    public int poll() {
+        if (isEmpty()) {
+            throw new RuntimeException("empty");
+        }
+        int min = arr[0];
+        arr[0] = arr[size - 1];
+        size -= 1;
+        siftdown();
+        return min;
+    }
+
+    void siftup() {
+        int child = size - 1;
+        while (child > 0) {
+            int parent = (child - 1) / 2;
+            if (arr[parent] > arr[child]) {
+                int temp = arr[parent];
+                arr[parent] = arr[child];
+                arr[child] = temp;
+            }else {
+                break;
+            }
+            child = parent;
+        }
+    }
+
+    void siftdown() {
+        int parent = 0;
+        while (2 * parent + 1 < size) {
+            int left_child = 2 * parent + 1;
+            int right_child = 2 * parent + 2;
+            int small_child = left_child;
+            if (right_child < size && arr[right_child] < arr[left_child]) {
+                small_child = right_child;
+            }
+            if (arr[parent] <= arr[small_child]) {
+                break;
+            }
+            int temp = arr[parent];
+            arr[parent] = arr[small_child];
+            arr[small_child] = temp;
+            parent = small_child;
+        }
+    }
+}
+```
+
