@@ -3690,3 +3690,175 @@ class Solution:
         return arr1
 ```
 
+
+
+## [剑指 Offer II 076. 数组中的第 k 大的数字](https://leetcode-cn.com/problems/xx4gT2/)
+
++ 小根堆
+
+```java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(k * 2);
+        for (int num : nums) {
+            if (pq.size() < k) {
+                pq.add(num);
+            }else if (num > pq.peek()) {
+                pq.poll();
+                pq.add(num);
+            }
+        }
+        return pq.peek();
+    }
+}
+```
+
++ 快排思想
+
+
+```java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int n = nums.length;
+        qsort(nums, 0, n - 1, k);
+        return nums[n - k];
+
+    }
+
+    void qsort(int[] nums, int l, int r, int k) {
+        if (r <= l) return;
+        int i = l, j = r;
+        int temp = nums[l];
+        while (i < j) {
+            while (i < j && nums[j] >= temp) {
+                j -= 1;
+            }
+            nums[i] = nums[j];
+            while (i < j && nums[i] <= temp) {
+                i += 1;
+            }
+            nums[j] = nums[i];
+        }
+        nums[i] = temp;
+        if (r - i + 1 == k) {
+            return;
+        }else if (r - i + 1 < k) {
+            qsort(nums, l, i - 1, k - r + i - 1);
+        }else {
+            qsort(nums, i + 1, r, k);
+        }
+    }
+}
+```
+
+
++ 快排，随机取pivot
++ 可以防止极端用例速度过慢
+
+```java
+class Solution {
+    Random rand = new Random();
+
+    public int findKthLargest(int[] nums, int k) {
+        int n = nums.length;
+        qsort(nums, 0, n - 1, k);
+        return nums[n - k];
+
+    }
+
+    void qsort(int[] nums, int l, int r, int k) {
+        if (r <= l) return;
+        int i = l, j = r;
+        // 随机将 l 处的元素与范围中的一个元素交换
+        int randidx = l + rand.nextInt(r - l + 1);
+        swap(nums, l, randidx);
+        int temp = nums[l];
+        while (i < j) {
+            while (i < j && nums[j] >= temp) {
+                j -= 1;
+            }
+            nums[i] = nums[j];
+            while (i < j && nums[i] <= temp) {
+                i += 1;
+            }
+            nums[j] = nums[i];
+        }
+        nums[i] = temp;
+        if (r - i + 1 == k) {
+            return;
+        }else if (r - i + 1 < k) {
+            qsort(nums, l, i - 1, k - r + i - 1);
+        }else {
+            qsort(nums, i + 1, r, k);
+        }
+    }
+
+    void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+```
+
+
+
+
+
+## [剑指 Offer II 078. 合并排序链表](https://leetcode-cn.com/problems/vvXgSW/)
+
++ 小根堆 + 多路归并
+
+```java
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(new Comparator<ListNode>() {
+            @Override
+            public int compare(ListNode n1, ListNode n2) {
+                return n1.val - n2.val;
+            }
+        });
+        for (ListNode node : lists) {
+            if (node != null) pq.add(node);
+        }
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+
+        while (!pq.isEmpty()) {
+            ListNode node = pq.poll();
+            cur.next = node;
+            cur = cur.next;
+            if (node.next != null) pq.add(node.next);
+        } 
+        return dummy.next;
+    }
+}
+```
+
+
+
++ python中注意要给ListNode 类写一个\_\_le\_\_ 方法
+
+```python
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        # le方法
+        def __lt__(self, other):
+            return self.val < other.val
+        ListNode.__lt__ = __lt__
+        pq = []
+        for node in lists:
+            if node is not None:
+                heapq.heappush(pq, node)
+        dummy = ListNode(-1)
+        cur = dummy
+
+        while pq:
+            node = heapq.heappop(pq)
+            cur.next = node
+            cur = cur.next
+            if node.next is not None:
+                heapq.heappush(pq, node.next) 
+        return dummy.next
+```
+
