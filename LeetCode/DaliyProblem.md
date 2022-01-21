@@ -2,6 +2,32 @@
 
 # 1/2022
 
+## 1/22/2022
+
+[1332. 删除回文子序列](https://leetcode-cn.com/problems/remove-palindromic-subsequences/)
+
++ 只有 a b
++ 本身是回文串则删除一次
++ 否则所有a组成回文，所有b组成，删除两次
+
+```java
+class Solution {
+    public int removePalindromeSub(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return 2;
+            }
+            i += 1;
+            j -= 1;
+        }
+        return 1;
+    }
+}
+```
+
+
+
 ## 1/21/2022
 
 [1345. 跳跃游戏 IV](https://leetcode-cn.com/problems/jump-game-iv/)
