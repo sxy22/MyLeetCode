@@ -3556,3 +3556,137 @@ class Solution {
 
 
 
+## [剑指 Offer II 073. 狒狒吃香蕉](https://leetcode-cn.com/problems/nZZqjQ/)
+
++ 二分
++ O(N)判断是否能吃完
+
+```java
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int lo = 1;
+        int hi = 1000000000;
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (valid(mid, h, piles)) {
+                hi = mid;
+            }else {
+                lo = mid + 1;
+            }
+        }
+        return lo;
+    }
+
+    private boolean valid(int k, int h, int[] piles) {
+        int cnt = 0;
+        for (int pile : piles) {
+            cnt += (pile - 1) / k + 1;
+        }
+        return cnt <= h;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 074. 合并区间](https://leetcode-cn.com/problems/SsGoHC/)
+
++ 排序后逐个检查是否相邻
+
+```java
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] l1, int[] l2) {
+                return l1[0] - l2[0];
+            }
+        });
+        List<int[]> ans = new ArrayList<>();
+        for (int i = 0; i < intervals.length; i++) {
+            int l = intervals[i][0];
+            int r = intervals[i][1];
+            if (ans.isEmpty() || l > ans.get(ans.size() - 1)[1]) {
+                ans.add(intervals[i]);
+            }else {
+                ans.get(ans.size() - 1)[1] = Math.max(r, ans.get(ans.size() - 1)[1]);
+            }
+        }
+        return ans.toArray(new int[0][]);
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals = sorted(intervals, key=lambda x : x[0])
+        ans = []
+        for l, r in intervals:
+            if len(ans) == 0 or l > ans[-1][1]:
+                ans.append([l, r])
+            else:
+                ans[-1][1] = max(ans[-1][1], r)
+        return ans
+```
+
+
+
+## [剑指 Offer II 075. 数组相对排序](https://leetcode-cn.com/problems/0H97ZC/)
+
++ 自定义排序
++ 注意java中Integer 不能对int 进行排序
+
+```java
+import java.util.Comparator;
+
+class Solution {
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        int n = arr2.length;
+        Map<Integer, Integer> order = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            order.put(arr2[i], i);
+        }
+        List<Integer> arr = new ArrayList<>();
+        for (int num : arr1) {
+            arr.add(num);
+        }
+        Comparator<Integer> comp = new Comparator<>() {
+            @Override
+            public int compare(Integer x1, Integer x2) {
+                int o1 = order.getOrDefault(x1, n + x1);
+                int o2 = order.getOrDefault(x2, n + x2);
+                return o1 - o2;
+            }
+        };
+        Collections.sort(arr, comp);
+        for (int i = 0; i < arr1.length; i++) {
+            arr1[i] = arr.get(i);
+        }
+        return arr1;
+    }
+}
+```
+
+
+
+```python
+from functools import cmp_to_key
+
+class Solution:
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        def comp(x1, x2):
+            o1 = order.get(x1, x1 + n)
+            o2 = order.get(x2, x2 + n)
+            return o1 - o2
+
+        n = len(arr2)
+        order = dict()
+        for i, num in enumerate(arr2):
+            order[num] = i
+        arr1 = sorted(arr1, key=cmp_to_key(comp))
+        return arr1
+```
+
