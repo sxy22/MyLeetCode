@@ -3862,3 +3862,271 @@ class Solution:
         return dummy.next
 ```
 
+
+
+
+
+## [剑指 Offer II 079. 所有子集](https://leetcode-cn.com/problems/TVdhkn/)
+
++ 无重复元素
++ dfs回溯，要求元素下标要递增
++ 不需要visited
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> cur;
+
+    public List<List<Integer>> subsets(int[] nums) {
+        ans = new ArrayList<>();
+        cur = new ArrayList<>();
+        dfs_backtrack(nums, -1);
+        return ans;
+    }
+
+    void dfs_backtrack(int[] nums, int last_idx) {
+        ans.add(new ArrayList<Integer>(cur));
+        for (int i = last_idx + 1; i < nums.length; i++) {
+            cur.add(nums[i]);
+            dfs_backtrack(nums, i);
+            cur.remove(cur.size() - 1);
+        }
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        self.ans = []
+        self.cur = []
+        self.dfs_backtrack(nums, -1)
+        return self.ans 
+
+    def dfs_backtrack(self, nums, last_idx):
+        self.ans.append(self.cur.copy())
+        for i in range(last_idx + 1, len(nums)):
+            self.cur.append(nums[i])
+            self.dfs_backtrack(nums, i)
+            self.cur.pop()
+```
+
+
+
+## [剑指 Offer II 080. 含有 k 个元素的组合](https://leetcode-cn.com/problems/uUsW3B/)
+
++ dfs回溯
++ 要求数字递增
++ 长度为k时停止
++ 可以加入剪枝
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> track;
+
+    public List<List<Integer>> combine(int n, int k) {
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        dfs_backtrack(n, k, 0);
+        return ans;
+    }
+
+    void dfs_backtrack(int n, int k, int last) {
+        if (track.size() == k) {
+            ans.add(new ArrayList<>(track));
+            return;
+        }
+        // 剪枝
+        if (n - last < k - track.size()) {
+            return;
+        }
+        for (int next = last + 1; next <= n; next++) {
+            track.add(next);
+            dfs_backtrack(n, k, next);
+            track.remove(track.size() - 1);
+        }
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        self.track = []
+        self.ans = []
+        self.backtrack(0, n, k)
+        return self.ans 
+
+    def backtrack(self, last, n, k):
+        if len(self.track) == k:
+            self.ans.append(self.track.copy())
+            return 
+        # 剪枝
+        if k - len(self.track) > n - last:
+            return 
+        for num in range(last + 1, n + 1):
+            self.track.append(num)
+            self.backtrack(num, n, k)
+            self.track.pop()
+        return 
+```
+
+
+
+## [剑指 Offer II 081. 允许重复选择元素的组合](https://leetcode-cn.com/problems/Ygoe9J/)
+
++ dfs回溯
++ sum超出时停止
++ 控制track中元素递增来保证唯一性
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> track;
+    int[] candidates;
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        this.candidates = candidates;
+        dfs_backtrack(0, target, -1);
+        return ans;
+    }
+
+    void dfs_backtrack(int sum, int target, int last) {
+        if (sum > target) return;
+        if (sum == target) {
+            ans.add(new ArrayList<>(track));
+            return;
+        }
+        for (int next : candidates) {
+            if (next < last) continue;
+            track.add(next);
+            dfs_backtrack(sum + next, target, next);
+            track.remove(track.size() - 1);
+        }
+    }
+}
+```
+
+
+
++ 先排序，可以更有效率的剪枝
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> track;
+    int[] candidates;
+    
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        Arrays.sort(candidates);
+        this.candidates = candidates;
+        dfs_backtrack(0, target, 0);
+        return ans;
+    }
+
+    void dfs_backtrack(int sum, int target, int last_idx) {
+        if (sum == target) {
+            ans.add(new ArrayList<>(track));
+            return;
+        }
+        for (int idx = last_idx; idx < candidates.length; idx++) {
+            int val = candidates[idx];
+            if (sum + val > target) break;
+            track.add(val);
+            dfs_backtrack(sum + val, target, idx);
+            track.remove(track.size() - 1);
+        }
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        self.track = []
+        self.ans = []
+        self.candidates = sorted(candidates)
+        self.dfs_backtrack(0, target, 0)
+        return self.ans 
+
+    def dfs_backtrack(self, sum, target, last_idx):
+        if sum == target:
+            self.ans.append(self.track.copy())
+            return 
+        # 剪枝
+        for idx in range(last_idx, len(self.candidates)):
+            val = self.candidates[idx]
+            if (val + sum > target):
+                break 
+            self.track.append(val)
+            self.dfs_backtrack(sum + val, target, idx)
+            self.track.pop()
+        return 
+```
+
+
+
+## [剑指 Offer II 082. 含有重复元素集合的组合](https://leetcode-cn.com/problems/4sjJUc/)
+
++ 会有重复元素，且每个元素只能选择一次
++ map记录每个元素的剩余可用次数
+
++ 寻找下一个数字时要遍历dict.keys()  即无重复数组
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> track;
+    Map<Integer, Integer> cnt;
+    int[] unicand;
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        cnt = new HashMap<>();
+
+        for (int val : candidates) {
+            cnt.put(val, cnt.getOrDefault(val, 0) + 1);
+        }
+
+        unicand = new int[cnt.size()];
+        int i = 0;
+        for (int cand : cnt.keySet()) {
+            unicand[i++] = cand;
+        }
+        Arrays.sort(unicand);
+
+        dfs_backtrack(0, target, 0);
+        return ans;
+    }
+
+    void dfs_backtrack(int sum, int target, int last_idx) {
+        if (sum == target) {
+            ans.add(new ArrayList<>(track));
+            return;
+        }
+        for (int idx = last_idx; idx < unicand.length; idx++) {
+            int val = unicand[idx];
+            int rest = cnt.get(val);
+            if (rest == 0) continue;
+            if (sum + val > target) break;
+            track.add(val);
+            cnt.put(val, rest - 1);
+            dfs_backtrack(sum + val, target, idx);
+            track.remove(track.size() - 1);
+            cnt.put(val, rest);
+        }
+    }
+}
+```
+
