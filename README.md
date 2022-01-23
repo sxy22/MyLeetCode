@@ -64,6 +64,8 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/23/2022  | [2034. 股票价格波动](https://leetcode-cn.com/problems/stock-price-fluctuation/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1232022) | Medium |
+| 1/22/2022  | [1332. 删除回文子序列](https://leetcode-cn.com/problems/remove-palindromic-subsequences/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1222022) | Easy   |
 | 1/21/2022  | [1345. 跳跃游戏 IV](https://leetcode-cn.com/problems/jump-game-iv/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1212022) | Hard   |
 | 1/19/2022  | [219. 存在重复元素 II](https://leetcode-cn.com/problems/contains-duplicate-ii/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1192022) | Easy   |
 | 1/18/2022  | [539. 最小时间差](https://leetcode-cn.com/problems/minimum-time-difference/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1182022) | Medium |
