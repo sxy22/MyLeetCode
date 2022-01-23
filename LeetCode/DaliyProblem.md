@@ -2,6 +2,53 @@
 
 # 1/2022
 
+## 1/23/2022
+
+[2034. 股票价格波动](https://leetcode-cn.com/problems/stock-price-fluctuation/)
+
++ treemap
+
+```java
+class StockPrice {
+    int maxtimestap;
+    Map<Integer, Integer> time2price;
+    TreeMap<Integer, Integer> pricecnt;
+    
+    public StockPrice() {
+        maxtimestap = 0;
+        time2price = new HashMap<>();
+        pricecnt = new TreeMap<>();
+    }
+    
+    public void update(int timestamp, int price) {
+        maxtimestap = Math.max(maxtimestap, timestamp);
+        int oldprice = time2price.getOrDefault(timestamp, -1);
+        time2price.put(timestamp, price);
+        if (oldprice != -1) {
+            pricecnt.put(oldprice, pricecnt.get(oldprice) - 1);
+            if (pricecnt.get(oldprice) == 0) {
+                pricecnt.remove(oldprice);
+            }
+        }
+        pricecnt.put(price, pricecnt.getOrDefault(price, 0) + 1);
+    }
+    
+    public int current() {
+        return time2price.get(maxtimestap);
+    }
+    
+    public int maximum() {
+        return pricecnt.lastKey();
+    }
+    
+    public int minimum() {
+        return pricecnt.firstKey();
+    }
+}
+```
+
+
+
 ## 1/22/2022
 
 [1332. 删除回文子序列](https://leetcode-cn.com/problems/remove-palindromic-subsequences/)
