@@ -2,6 +2,25 @@
 
 # 1/2022
 
+## 1/24/2022
+
+[1688. 比赛中的配对次数](https://leetcode-cn.com/problems/count-of-matches-in-tournament/)
+
+```java
+class Solution {
+    public int numberOfMatches(int n) {
+        int ans = 0;
+        while (n > 1) {
+            ans += n >> 1;
+            n = (n >> 1) + (n & 1);
+        }
+        return ans;
+    }
+}
+```
+
+
+
 ## 1/23/2022
 
 [2034. 股票价格波动](https://leetcode-cn.com/problems/stock-price-fluctuation/)
