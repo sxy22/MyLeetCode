@@ -4130,3 +4130,501 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 083. 没有重复元素集合的全排列](https://leetcode-cn.com/problems/VvJkup/)
+
++ 无重复元素的全排列
++ dfs_backtrack
++ 需要visited记录
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> track;
+    boolean[] visited;
+
+    public List<List<Integer>> permute(int[] nums) {
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        int n = nums.length;
+        visited = new boolean[n];
+        dfs_backtrack(nums, n);
+        return ans;
+    }
+
+    private void dfs_backtrack(int[] nums, int n) {
+        if (track.size() == n) {
+            ans.add(new ArrayList<Integer>(track));
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            if (visited[i] == false) {
+                track.add(nums[i]);
+                visited[i] = true;
+                dfs_backtrack(nums, n);
+                track.remove(track.size() - 1);
+                visited[i] = false;
+            }
+        }
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        self.res = []
+        self.visited = set()
+        self.track = []
+        self.backtrack(nums)
+        return self.res 
+    
+    def backtrack(self, nums):
+        if len(self.track) == len(nums):
+            self.res.append(self.track.copy())
+            return 
+        for num in nums:
+            if num not in self.visited:
+                self.track.append(num)
+                self.visited.add(num)
+                self.backtrack(nums)
+                self.track.pop()
+                self.visited.remove(num)
+```
+
+
+
+## [剑指 Offer II 084. 含有重复元素集合的全排列 ](https://leetcode-cn.com/problems/7p8L0Z/)
+
++ 有重复元素的全排列
++ dfs_backtrack
++ map记录个数, 每次遍历的时候遍历map的key 即不重复的元素
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> track;
+    Map<Integer, Integer> cnt;
+    Set<Integer> unival;
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        cnt = new HashMap<>();
+        int n = nums.length;
+        for (int num : nums) {
+            cnt.put(num, cnt.getOrDefault(num, 0) + 1);
+        }
+        unival = cnt.keySet();
+        dfs_backtrack(nums, n);
+        return ans;
+    }
+
+    private void dfs_backtrack(int[] nums, int n) {
+        if (track.size() == n) {
+            ans.add(new ArrayList<Integer>(track));
+            return;
+        }
+        for (int num : unival) {
+            if (cnt.get(num) > 0) {
+                track.add(num);
+                cnt.put(num, cnt.get(num) - 1);
+                dfs_backtrack(nums, n);
+                track.remove(track.size() - 1);
+                cnt.put(num, cnt.get(num) + 1);
+            }
+        }
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        self.res = []
+        self.cnt = collections.defaultdict(int)
+        for num in nums:
+            self.cnt[num] += 1
+        self.track = []
+        self.backtrack(len(nums))
+        return self.res 
+        
+    def backtrack(self, n):
+        if len(self.track) == n:
+            self.res.append(self.track.copy())
+            return 
+        for num in self.cnt:
+            if self.cnt[num] > 0:
+                self.track.append(num)
+                self.cnt[num] -= 1
+                self.backtrack(n)
+                self.track.pop()
+                self.cnt[num] += 1
+```
+
+
+
+## [剑指 Offer II 085. 生成匹配的括号](https://leetcode-cn.com/problems/IDBivT/)
+
+```java
+class Solution {
+    List<String> ans;
+    StringBuilder track;
+
+    public List<String> generateParenthesis(int n) {
+        ans = new ArrayList<>();
+        track = new StringBuilder();
+        dfs_backtrack(0, 0, n);
+        return ans;
+    }
+
+    private void dfs_backtrack(int left, int right, int n) {
+        if (left < right) return;
+        if (right == n) {
+            ans.add(track.toString());
+            return;
+        }
+        if (left < n) {
+            track.append("(");
+            dfs_backtrack(left + 1, right, n);
+            track.deleteCharAt(track.length() - 1);
+        }
+        track.append(")");
+        dfs_backtrack(left, right + 1, n);
+        track.deleteCharAt(track.length() - 1);        
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans = []
+        track = []
+        self.dfs_backtrack(0, 0 ,track, ans, n)
+        return ans
+
+    def dfs_backtrack(self, left, right, track, ans, n):
+        if left < right:
+            return
+        if right == n:
+            ans.append(''.join(track))
+            return
+        if (left < n):
+            track.append('(')
+            self.dfs_backtrack(left + 1, right, track, ans, n)
+            track.pop()
+        if (right < n):
+            track.append(')')
+            self.dfs_backtrack(left, right + 1, track, ans, n)
+            track.pop()
+```
+
+
+
+## [剑指 Offer II 086. 分割回文子字符串](https://leetcode-cn.com/problems/M99OJA/)
+
++ 先用动态规划建立isPal， i - j是否是回文串
++ 再dfs_backtrack
++ 起始点为i，找遍历j ，是回文串则作为下一个
+
+```java
+class Solution {
+    List<String[]> ans;
+    List<String> track;
+    boolean[][] isPal;
+
+    public String[][] partition(String s) {
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        int n = s.length();
+        isPal = new boolean[n][n];
+        constructPal(s);
+        dfs_backtrack(0, n, s);
+        
+        return ans.toArray(new String[ans.size()][]);
+    }
+
+    private void dfs_backtrack(int idx, int n, String s) {
+        if (idx == n) {
+            ans.add(track.toArray(new String[track.size()]));
+            return;
+        }
+        for (int next = idx; next < n; next++) {
+            if (isPal[idx][next]) {
+                track.add(s.substring(idx, next + 1));
+                dfs_backtrack(next + 1, n , s);
+                track.remove(track.size() - 1);
+            }
+        }
+    }   
+
+    private void constructPal(String s) {
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(isPal[i], true);
+        }
+        for (int l = 2; l <= n; l++) {
+            for (int i = 0; i + l - 1 < n; i++) {
+                int j = i + l - 1;
+                isPal[i][j] = (s.charAt(i) == s.charAt(j)) && isPal[i + 1][j - 1];
+            }
+        }
+    }
+
+}
+```
+
+
+
+## [剑指 Offer II 087. 复原 IP ](https://leetcode-cn.com/problems/0on3uN/)
+
++ dfs_backtrack
++ 判断是否再 0 - 255之间
++ 注意java中track生成字符串
++ 注意java中用了一个数组，不需要在回溯时改变最后位置的元素
++ dfs会自动修改之前的元素
+
+```java
+class Solution {
+    List<String> ans;
+    String[] track;
+
+    public List<String> restoreIpAddresses(String s) {
+        ans = new ArrayList<>();
+        track = new String[4];
+        dfs_backtrack(0, 0, s.length(), s);
+        return ans;
+    }
+
+    private void dfs_backtrack(int len, int idx, int n, String s) {
+        if (len == 4) {
+            if (idx == n) {
+                ans.add(String.join(".", track));
+            }
+            return;
+        }
+        int remain = n - idx; // 2
+        int need = 4 - len; // 1
+        if (need > remain || need * 3 < remain) return;
+        for (int next_idx = idx + 1; next_idx <= Math.min(idx + 3, n); next_idx++) {
+
+            String code = s.substring(idx, next_idx);
+            if (inRange(code)) {
+                track[len] = code;
+                dfs_backtrack(len + 1, next_idx, n, s);
+            }
+        }
+    }
+
+    private boolean inRange(String num) {
+        int n = num.length();
+        if (n == 1) return true;
+        if (num.charAt(0) == '0') return false;
+        if (n == 2) return true;
+        return num.compareTo("255") <= 0;
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        ans = []
+        track = []
+        self.dfs_backtrack(0, 0, track, ans, len(s), s)
+        return ans 
+
+    def dfs_backtrack(self, len, idx, track, ans, n, s):
+        if len == 4:
+            if idx == n:
+                ans.append('.'.join(track))
+            return
+        for next_idx in range(idx + 1, min(n, idx + 3) + 1):
+            code = s[idx: next_idx]
+            if (self.inRange(code)):
+                track.append(code)
+                self.dfs_backtrack(len + 1, next_idx, track, ans, n, s)
+                track.pop()
+
+    def inRange(self, s):
+        n = len(s)
+        if n == 1:
+            return True
+        if s[0] == '0':
+            return False
+        if n == 2:
+            return True
+        return s <= '255'
+```
+
+
+
+## [剑指 Offer II 088. 爬楼梯的最少成本](https://leetcode-cn.com/problems/GzCJIP/)
+
++ dp
++ dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
+
+```java
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int n = cost.length;
+        if (n <= 1) return 0;
+        int[] dp = new int[n + 1];
+        for (int i = 2; i < n + 1; i++) {
+            dp[i] = Math.min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
+        }
+        return dp[n];
+    }
+}
+```
+
+
+
+## [剑指 Offer II 089. 房屋偷盗](https://leetcode-cn.com/problems/Gu0c2T/)
+
++ dp[i]表示前 i 间房屋能偷窃到的最高总金额
++ dp[i] = Math.max(dp[i - 1], nums[i - 1] + dp[i - 2])
+
+```java
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n + 1];
+        dp[1] = nums[0];
+        for (int i = 2; i < n + 1; i++) {
+            dp[i] = Math.max(dp[i - 1], nums[i - 1] + dp[i - 2]);
+        }
+        return dp[n];
+    }
+}
+```
+
++ 只依赖前两个，可以省去数组的空间开销
+
+```java
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int pre = 0, cur = nums[0];
+        int temp;
+        for (int i = 1; i < n; i++) {
+            temp = Math.max(cur, pre + nums[i]);
+            pre = cur;
+            cur = temp;
+        }
+        return cur;
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        pre, cur = 0, nums[0]
+        for i in range(1, len(nums)):
+            pre, cur = cur, max(cur, pre + nums[i])
+        return cur
+```
+
+
+
+## [剑指 Offer II 090. 环形房屋偷盗](https://leetcode-cn.com/problems/PzWKhm/)
+
++ 分成偷不偷最后一个房子
++ 分别是两个无环问题
++ 封装一个helper函数
+
+```java
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        }
+        return Math.max(helper(0, n - 1, nums), helper(1, n, nums));
+    }
+
+    private int helper(int start, int end, int[] nums) {
+        int pre = 0, cur = nums[start];
+        int temp;
+        for (int i = start + 1; i < end; i++) {
+            temp = Math.max(cur, pre + nums[i]);
+            pre = cur;
+            cur = temp;
+        }
+        return cur;
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return nums[0]
+        return max(self.helper(0, n - 1, nums), self.helper(1, n, nums))
+
+    def helper(self, start, end, nums):
+        pre, cur = 0, nums[start]
+        for i in range(start + 1, end):
+            pre, cur = cur, max(cur, pre + nums[i])
+        return cur
+```
+
+
+
+## [剑指 Offer II 091. 粉刷房子](https://leetcode-cn.com/problems/JEj789/)
+
++ 当前房子有三种情况，根据前一间房子的情况计算出三种粉刷的最小花费
++ newred = Math.min(blue, green) + r
++ newblue = Math.min(red, green) + b
++ newgreen = Math.min(red, blue) + g
+
+```java
+class Solution {
+    public int minCost(int[][] costs) {
+        int red = costs[0][0];
+        int blue = costs[0][1];
+        int green = costs[0][2];
+        int newred, newblue, newgreen, r, b, g;
+        for (int i = 1; i < costs.length; i++) {
+            r = costs[i][0];
+            b = costs[i][1];
+            g = costs[i][2];
+            newred = Math.min(blue, green) + r;
+            newblue = Math.min(red, green) + b;
+            newgreen = Math.min(red, blue) + g;
+            red = newred; blue = newblue; green = newgreen;
+        }
+        return Math.min(Math.min(red, blue), green);
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def minCost(self, costs: List[List[int]]) -> int:
+        red, green, blue = costs[0][0], costs[0][1], costs[0][2]
+        for i in range(1, len(costs)):
+            r, g, b = costs[i][0], costs[i][1], costs[i][2]
+            red, green, blue = min(green, blue) + r, min(red, blue) + g, min(green, red) + b
+        return min(red, green, blue)
+```
+
