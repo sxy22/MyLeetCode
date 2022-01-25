@@ -2,7 +2,58 @@
 
 # 1/2022
 
-## 1/24/2022
+## 1/26/2022
+
+[2013. 检测正方形](https://leetcode-cn.com/problems/detect-squares/)
+
+```java
+class DetectSquares {
+    Map<Integer, Map<Integer, Integer>> cnt;
+
+    public DetectSquares() {
+        cnt = new HashMap<>();
+    }
+    
+    public void add(int[] point) {
+        int x = point[0], y = point[1];
+        if (!cnt.containsKey(x)) {
+            cnt.put(x, new HashMap<>());
+        }
+        Map<Integer, Integer> row = cnt.get(x);
+        row.put(y, 1 + row.getOrDefault(y, 0));
+    }
+    
+    public int count(int[] point) {
+        int ans = 0;
+        int r = point[0], c1 = point[1];
+        if (!cnt.containsKey(r)) return 0;
+        Set<Integer> colset = cnt.get(r).keySet();
+        if (colset == null) return 0;
+        for (int c2 : colset) {
+            if (c2 != c1) {
+                int num = getCnt(r, c2);
+                int l = Math.abs(c1 - c2);
+                ans += num * getCnt(r - l, c1) * getCnt(r - l, c2);
+                ans += num * getCnt(r + l, c1) * getCnt(r + l, c2);
+            }
+        } 
+        return ans;
+    }
+
+    int getCnt(int r, int c) {
+        if (!cnt.containsKey(r)) return 0;
+        return cnt.get(r).getOrDefault(c, 0);
+    }
+
+    // String toString(int x, int y) {
+    //     return x + "," + y;
+    // }
+}
+```
+
+
+
+## 1/25/2022
 
 [1688. 比赛中的配对次数](https://leetcode-cn.com/problems/count-of-matches-in-tournament/)
 
