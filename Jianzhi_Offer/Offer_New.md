@@ -4797,3 +4797,128 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 095. 最长公共子序列](https://leetcode-cn.com/problems/qJnOS7/)
+
+![image-20220126112723390](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220126112723390.png)
+
+```java
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length(), n = text2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i < m + 1; i++) {
+            for (int j = 1; j < n + 1; j++) {
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                }else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        m = len(text1)
+        n = len(text2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+        return dp[-1][-1]
+```
+
+
+
+## [剑指 Offer II 096. 字符串交织](https://leetcode-cn.com/problems/IY6buf/)
+
+![image-20220126120451255](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220126120451255.png)
+
++ 注意i j 等于0 时，代码的技巧
+
+```java
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int m = s1.length(), n = s2.length();
+        if (m + n != s3.length()) return false;
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+        for (int i = 0; i < m + 1; i++) {
+            for (int j = 0; j < n + 1; j++) {
+                if (i > 0) {
+                    dp[i][j] = s1.charAt(i - 1) == s3.charAt(i + j - 1) && dp[i - 1][j];
+                }
+                if (j > 0) {
+                    dp[i][j] = dp[i][j] || s2.charAt(j - 1) == s3.charAt(i + j - 1) && dp[i][j - 1];
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
+```
+
+
+
+## [剑指 Offer II 097. 子序列的数目](https://leetcode-cn.com/problems/21dk04/)
+
++ `dp[i][j]`表示 s前i子串中有多少个t前j子串
++ 注意初始化，`dp[i][0] = 1`
++ `dp[i][j] = dp[i-1][j]`， 若`s[i-1] == t[j - 1]` , 则还要加上`dp[i-1][j-1]`
++ `j <= i` 时合理，否则直接是0
+
+```java
+class Solution {
+    public int numDistinct(String s, String t) {
+        int n1 = s.length();
+        int n2 = t.length();
+        if (n1 < n2) return 0;
+        int[][] dp = new int[n1 + 1][n2 + 1];
+        for (int i = 0; i < n1 + 1; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i < n1 + 1; i++) {
+            for (int j = 1; j <= Math.min(i, n2); j++) {
+                dp[i][j] = dp[i - 1][j];
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[i][j] += dp[i - 1][j - 1];
+                }
+            }
+        }
+        return dp[n1][n2];
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        n1 = len(s)
+        n2 = len(t)
+        if n1 < n2:
+            return 0
+        dp = [[0] * (n2 + 1) for _ in range(n1 + 1)]
+        for i in range(n1 + 1):
+            dp[i][0] = 1
+        for i in range(1, n1 + 1):
+            for j in range(1, min(i, n2) + 1):
+                dp[i][j] = dp[i - 1][j]
+                if (s[i - 1] == t[j - 1]):
+                    dp[i][j] += dp[i - 1][j - 1]
+        return dp[-1][-1]
+```
+
