@@ -2,6 +2,51 @@
 
 # 1/2022
 
+## 1/27/2022
+
+[2047. 句子中的有效单词数](https://leetcode-cn.com/problems/number-of-valid-words-in-a-sentence/)
+
+```java
+class Solution {
+    public int countValidWords(String sentence) {
+        String[] tokens = sentence.split(" ");
+        System.out.println(Arrays.toString(tokens));
+        int cnt = 0;
+        for (String token : tokens) {
+            cnt += isValid(token);
+        }
+        return cnt;
+    }
+
+    private int isValid(String token) {
+        if (token.length() == 0) return 0;
+        int j = token.length() - 1;
+        if (isMark(token.charAt(j))) {
+            j -= 1;
+        }
+        if (j < 0) return 1;
+        if (token.charAt(0) == '-' || token.charAt(j) == '-') return 0;
+        int dash = 0;
+        for (int i = 0; i <= j; i++) {
+            char ch = token.charAt(i);
+            if (ch == '-') {
+                dash += 1;
+                if (dash > 1) return 0;
+            }
+            if (Character.isDigit(ch) || isMark(ch)) return 0;
+        }
+        return 1;
+    }
+
+    private boolean isMark(char s) {
+        if (s == '!' || s == '.' || s == ',') return true;
+        return false;
+    }
+}
+```
+
+
+
 ## 1/26/2022
 
 [2013. 检测正方形](https://leetcode-cn.com/problems/detect-squares/)
