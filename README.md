@@ -64,6 +64,8 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/26/2022  | [2013. 检测正方形](https://leetcode-cn.com/problems/detect-squares/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1262022) | Medium |
+| 1/25/2022  | [1688. 比赛中的配对次数](https://leetcode-cn.com/problems/count-of-matches-in-tournament/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1252022) | Easy   |
 | 1/23/2022  | [2034. 股票价格波动](https://leetcode-cn.com/problems/stock-price-fluctuation/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1232022) | Medium |
 | 1/22/2022  | [1332. 删除回文子序列](https://leetcode-cn.com/problems/remove-palindromic-subsequences/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1222022) | Easy   |
 | 1/21/2022  | [1345. 跳跃游戏 IV](https://leetcode-cn.com/problems/jump-game-iv/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1212022) | Hard   |
@@ -130,6 +132,4 @@
 | 11/2/2021  | [237. 删除链表中的节点](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1122021) | Easy   |
 | 11/1/2021  | [575. 分糖果](https://leetcode-cn.com/problems/distribute-candies/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1112021) | Easy   |
 | 10/31/2021 | [500. 键盘行](https://leetcode-cn.com/problems/keyboard-row/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#10312021) | Easy   |
-
-
 
