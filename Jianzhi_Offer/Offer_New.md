@@ -4628,3 +4628,172 @@ class Solution:
         return min(red, green, blue)
 ```
 
+
+
+## [剑指 Offer II 092. 翻转字符](https://leetcode-cn.com/problems/cyJERH/)
+
++ dp
++ 记录前一个位置以0结尾的最小翻转次数，和以1结尾的最小翻转次数
++ 根据当前位置更新
+
+```java
+class Solution {
+    public int minFlipsMonoIncr(String s) {
+        int zero = 0;
+        int one = 1;
+        if (s.charAt(0) == '1') {
+            zero = 1;
+            one = 0;
+        }
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == '0') {
+                one = 1 + Math.min(zero, one);
+            }else {
+                int tmpzero = 1 + zero;
+                one = Math.min(zero, one);
+                zero = tmpzero;
+            }
+        }
+        return Math.min(zero, one);
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def minFlipsMonoIncr(self, s: str) -> int:
+        zero, one = 0, 1
+        if s[0] == '1':
+            zero, one = 1, 0
+        for i in range(1, len(s)):
+            if s[i] == '0':
+                one = 1 + min(zero, one)
+            else:
+                zero, one = 1 + zero, min(zero, one)
+        return min(zero, one)
+```
+
+
+
++ 记录前缀和
++ 遍历每一个位置，以该位置为最后一个0
++ 计算左边的1的个数和右边的0的个数，加起来就是翻转次数
++ 注意可以全是1，presume要多留一个位置
+
+```java
+class Solution {
+    public int minFlipsMonoIncr(String s) {
+        int n = s.length();
+        int[] presum = new int[n + 1];
+        for (int i = 1; i < n + 1; i++) {
+            presum[i] = presum[i - 1];
+            if (s.charAt(i - 1) == '1') {
+                presum[i] += 1;
+            }
+        }
+        int min = n + 1;
+        for (int i = 0; i < n + 1; i++) {
+            int leftone = presum[i];
+            int rightzero = n - i - (presum[n] - presum[i]);
+            min = Math.min(min, leftone + rightzero);
+        }
+        return min;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 093. 最长斐波那契数列](https://leetcode-cn.com/problems/Q91FMA/)
+
++ dp\[i\]\[j\] ：以arr i 和 arr j 为最后两个元素的最长 *斐波那契式*  长度
++ hashmap计算上一个数的下标，z， 若存在，则dp\[i\]\[j\] = dp\[z\]\[i\] + 1
++ 不存在则设置为2，即为初始化 斐波那契
+
+```java
+class Solution {
+    public int lenLongestFibSubseq(int[] arr) {
+        Map<Integer, Integer> val2idx = new HashMap<>();
+        int n = arr.length;
+        int[][] dp = new int[n][n];
+        int longest = 2;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int pre_val = arr[j] - arr[i];
+                int pre_idx = val2idx.getOrDefault(pre_val, -1);
+                if (pre_idx != -1) {
+                    dp[i][j] = 1 + dp[pre_idx][i];
+                }else {
+                    dp[i][j] = 2;
+                }
+                longest = Math.max(longest, dp[i][j]);
+            }
+            // 将i 处加入hashmap，可以被之后的循环查找
+            val2idx.put(arr[i], i);
+        }
+
+        if (longest < 3) return 0;
+        return longest;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+## [剑指 Offer II 094. 最少回文分割](https://leetcode-cn.com/problems/omKAoA/)
+
++ 动态规划简历isPal二维数组，判断两下标之间是否是回
+
+
+
+![image-20220125203837575](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220125203837575.png)
+
+```java
+class Solution {
+    boolean[][] isPal;
+
+    public int minCut(String s) {
+        int n = s.length();
+        isPal = new boolean[n][n];
+        constructPal(s);
+        int[] dp = new int[n];
+        for (int i = 1; i < n; i++) {
+            if (isPal[0][i]) {
+                dp[i] = 0;
+                continue;
+            }
+            int min = i + 1;
+            for (int st = 1; st <= i; st++) {
+                if (isPal[st][i]) {
+                    min = Math.min(min, dp[st - 1] + 1);
+                }
+            }
+            dp[i] = min;
+        }
+        return dp[n - 1];
+
+    }
+
+    private void constructPal(String s) {
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(isPal[i], true);
+        }
+        for (int l = 2; l <= n; l++) {
+            for (int i = 0; i + l - 1 < n; i++) {
+                int j = i + l - 1;
+                isPal[i][j] = (s.charAt(i) == s.charAt(j)) && isPal[i + 1][j - 1];
+            }
+        }
+    }
+}
+```
+
