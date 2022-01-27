@@ -4922,3 +4922,122 @@ class Solution:
         return dp[-1][-1]
 ```
 
+
+
+## [剑指 Offer II 098. 路径的数目](https://leetcode-cn.com/problems/2AoeFn/)
+
++ 动态规划
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m + 1][n + 1];
+        dp[0][1] = 1;
+        for (int i = 1; i < m + 1; i++) {
+            for (int j = 1; j < n + 1; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m][n];
+    }
+}
+```
+
+
+
++ 组合数，一共要走`m + n - 2` 步，其中`m - 1` 步向下
++ `C(m + n - 2, m - 1)`
++ 不能直接用阶乘算，会溢出
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        return comb(m + n - 2, Math.min(m, n) - 1);
+    }
+
+    int comb(int N, int k) {
+        long ans = 1;
+        for (int u = N - k + 1, d = 1; d <= k; u++, d++) {
+            ans = ans * u / d;
+        }
+        return (int)ans;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 099. 最小路径之和](https://leetcode-cn.com/problems/0i0mDW/)
+
++ dp
++ 可以在原数组上dp，节省空间
+
+```java
+class Solution {
+    
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int j = 1; j < n; j++) {
+            grid[0][j] += grid[0][j - 1];
+        }
+        for (int i = 1; i < m; i++) {
+            grid[i][0] += grid[i - 1][0];
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);
+            }
+        }
+        return grid[m - 1][n - 1];
+    }
+}
+```
+
+
+
+## [剑指 Offer II 100. 三角形中最小路径之和](https://leetcode-cn.com/problems/IlPe0q/)
+
++ 自顶向下dp
++ 原数组上直接修改
+
+```java
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        for (int i = 1; i < n; i++) {
+            List<Integer> cur = triangle.get(i);
+            List<Integer> up = triangle.get(i - 1);
+            for (int j = 0; j < cur.size(); j++) {
+                if (j == 0) {
+                    cur.set(j, cur.get(j) + up.get(j));
+                }else if (j == cur.size() - 1) {
+                    cur.set(j, cur.get(j) + up.get(j - 1));
+                }else {
+                    cur.set(j, cur.get(j) + Math.min(up.get(j), up.get(j - 1)));
+                }
+            }
+        }
+        int min = Integer.MAX_VALUE;
+        for (int val : triangle.get(n - 1)) {
+            min = Math.min(min, val);
+        }
+        return min;
+    }
+}
+```
+
+
+
++ 自底向上dp
+
+```python
+class Solution:
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        n = len(triangle)
+        for i in range(n - 2, -1, -1):
+            for j in range(0, len(triangle[i])):
+                triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1])
+        return triangle[0][0]
+```
+
