@@ -2,6 +2,68 @@
 
 # 1/2022
 
+## 1/28/2022
+
+[1996. 游戏中弱角色的数量](https://leetcode-cn.com/problems/the-number-of-weak-characters-in-the-game/)
+
++ 先按攻击力从小打到，防御力从到到小
++ 可以避免相同攻击力，防御力小的被记录为弱角色
++ 从后向前遍历，记录最大防御力
+
+```java
+class Solution {
+    public int numberOfWeakCharacters(int[][] properties) {
+        Comparator<int[]> cmp = new Comparator<>() {
+            @Override
+            public int compare(int[] p1, int[] p2) {
+                if (p1[0] != p2[0]) {
+                    return p1[0] - p2[0];
+                }
+                return p2[1] - p1[1];
+            }
+        };
+        Arrays.sort(properties, cmp);
+        // for (int[] p : properties) {
+        //     System.out.println(Arrays.toString(p));
+        // }
+        int cnt = 0;
+        int maxdef = -1;
+        for (int i = properties.length - 1; i >= 0; i--) {
+            int def = properties[i][1];
+            if (def < maxdef) {
+                cnt += 1;
+            }else {
+                maxdef = def;
+            }
+        }
+        return cnt;
+
+    }
+}
+```
+
++ cmp to key会显著的慢
+
+```python
+class Solution:
+    def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
+        # def cmp(p1, p2):
+        #     if p1[0] != p2[0]:
+        #         return p1[0] - p2[0]
+        #     return p2[1] - p1[1]
+        properties = sorted(properties, key=lambda x : (x[0], -x[1]))
+        cnt = 0
+        maxdef = -1
+        for _, d in reversed(properties):
+            if d < maxdef:
+                cnt += 1
+            else:
+                maxdef = d
+        return cnt
+```
+
+
+
 ## 1/27/2022
 
 [2047. 句子中的有效单词数](https://leetcode-cn.com/problems/number-of-valid-words-in-a-sentence/)
