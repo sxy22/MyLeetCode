@@ -2,6 +2,41 @@
 
 # 1/2022
 
+## 1/29/2022
+
+[1765. 地图中的最高点](https://leetcode-cn.com/problems/map-of-highest-peak/)
+
+```python
+class Solution:
+    def highestPeak(self, isWater: List[List[int]]) -> List[List[int]]:
+        self.visited = set()
+        self.deque = collections.deque()
+        m, n = len(isWater), len(isWater[0])
+        height = [[0] * n for _ in range(m)]
+        # 得从0开始, 把水面点加入 visited 和 deque
+        for i in range(m):
+            for j in range(n):
+                if isWater[i][j] == 1:
+                    self.visited.add((i, j))
+                    self.deque.append((i, j, 0))
+        while self.deque:
+            i, j, val = self.deque.popleft()
+            height[i][j] = val 
+            self.addAdj(i, j, m, n, val + 1)
+        
+        return height
+        
+    def addAdj(self, i, j, m, n, val):
+        # 把 i j 相邻位置加入，应该设置的高度为val
+        pair = ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1))
+        for x, y in pair:
+            if (x, y) not in self.visited and 0 <= x < m and 0 <= y < n:
+                self.visited.add((x, y))
+                self.deque.append((x, y, val))
+```
+
+
+
 ## 1/28/2022
 
 [1996. 游戏中弱角色的数量](https://leetcode-cn.com/problems/the-number-of-weak-characters-in-the-game/)
