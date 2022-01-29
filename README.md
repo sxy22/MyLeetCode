@@ -64,6 +64,9 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| 1/29/2022  | [1765. 地图中的最高点](https://leetcode-cn.com/problems/map-of-highest-peak/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1292022) | Medium |
+| 1/28/2022  | [1996. 游戏中弱角色的数量](https://leetcode-cn.com/problems/the-number-of-weak-characters-in-the-game/) | [Java, Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1282022) | Medium |
+| 1/27/2022  | [2047. 句子中的有效单词数](https://leetcode-cn.com/problems/number-of-valid-words-in-a-sentence/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1272022) | Easy   |
 | 1/26/2022  | [2013. 检测正方形](https://leetcode-cn.com/problems/detect-squares/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1262022) | Medium |
 | 1/25/2022  | [1688. 比赛中的配对次数](https://leetcode-cn.com/problems/count-of-matches-in-tournament/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1252022) | Easy   |
 | 1/23/2022  | [2034. 股票价格波动](https://leetcode-cn.com/problems/stock-price-fluctuation/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1232022) | Medium |
