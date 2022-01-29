@@ -5041,3 +5041,142 @@ class Solution:
         return triangle[0][0]
 ```
 
+
+
+## [剑指 Offer II 101. 分割等和子集](https://leetcode-cn.com/problems/NUPfPr/)
+
++ 0 - 1背包
++ 先计算sum，不是偶数则false
++ 之后需要在nums中找和为 `sum / 2` 的子序列
++ 以`sum / 2` 为背包size，看最大的和是否为`sum / 2` 
++ 要注意数组的交换
+
+```java
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        int max = -1;
+        int n = nums.length;
+        for (int num : nums) {
+            sum += num;
+            max = Math.max(max, num);
+        }
+        int target = sum >> 1;
+        if ((sum & 1) == 1 || target < max) return false;
+        if (target == max) return true;
+        // 初始化第一个元素
+        int[] pre = new int[target + 1];
+        for (int j = 0; j < target + 1; j++) {
+            pre[j] = nums[0] <= j ? nums[0] : 0;
+        }
+        int[] cur = new int[target + 1];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < target + 1; j++) {
+                cur[j] = pre[j];
+                if (j >= nums[i]) {
+                    cur[j] = Math.max(cur[j], pre[j - nums[i]] + nums[i]);
+                }
+            }
+            int[] tmp = pre;
+            pre = cur;
+            cur = tmp;
+        }
+        return pre[target] == target;
+    }
+}
+```
+
+
+
++ 其实应该用boolean数组
++ `dp[i][j]` 表示用前i个数字是否能正好凑出 sum j
+
+```python
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        sum_ = sum(nums)
+        max_ = max(nums)
+        n = len(nums)
+        target = sum_ >> 1
+        if (sum_ & 1) == 1 or target < max_:
+            return False
+        if target == max_:
+            return True
+        
+        pre = [False] * (target + 1)
+        cur = [False] * (target + 1)
+        pre[0] = True
+        for num in nums:
+            for j in range(target + 1):
+                if j < num:
+                    cur[j] = pre[j]
+                else:
+                    cur[j] = pre[j] or pre[j - num]
+            cur, pre = pre, cur  
+        return pre[-1]
+```
+
+
+
+## [剑指 Offer II 102. 加减的目标值](https://leetcode-cn.com/problems/YaVDxD/)
+
+![image-20220128175414482](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220128175414482.png)
+
++ 计算sum，选取若干元素总和neg
++ 转换为背包dp问题
++ `dp[i][j]`表示前 i 个数中选取元素，使得这些元素之和等于 j 的方案数
+
+```java
+class Solution {
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        int diff = sum - target;
+        if (diff < 0) return 0;
+        if ((diff & 1) == 1) return 0;
+        int negsum = (sum - target) / 2;
+        int n = nums.length;
+        int[][] dp = new int[n + 1][negsum + 1];
+        dp[0][0] = 1;
+
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 0; j < negsum + 1; j++) {
+                dp[i][j] = dp[i - 1][j];
+                if (j >= nums[i - 1]) {
+                    dp[i][j] += dp[i - 1][j - nums[i - 1]];
+                }
+            }
+        }
+        return dp[n][negsum];
+    }
+}
+```
+
+
+
++ 省一些空间
+
+```python
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        sum_ = sum(nums)
+        diff = sum_ - target
+        if diff < 0 or diff % 2 == 1:
+            return 0 
+        negsum = diff // 2
+        n = len(nums)
+        pre = [0] * (negsum + 1)
+        pre[0] = 1
+        cur = [0] * (negsum + 1)
+        for i in range(n):
+            num = nums[i]
+            for j in range(negsum + 1):
+                cur[j] = pre[j]
+                if j >= num:
+                    cur[j] += pre[j - num]
+            pre, cur = cur, pre 
+        return pre[-1]
+```
+
