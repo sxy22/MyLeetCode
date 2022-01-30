@@ -2,6 +2,44 @@
 
 # 1/2022
 
+## 1/31/2022
+
+[1342. 将数字变成 0 的操作次数](https://leetcode-cn.com/problems/number-of-steps-to-reduce-a-number-to-zero/)
+
++ 迭代
+
+```python
+class Solution:
+    def numberOfSteps(self, num: int) -> int:
+        if num == 0:
+            return 0
+        if num & 1 == 1:
+            return 1 + self.numberOfSteps(num - 1)
+        else:
+            return 1 + self.numberOfSteps(num // 2)
+```
+
++ 遍历
+
+```java
+class Solution {
+    public int numberOfSteps(int num) {
+        int step = 0;
+        while (num != 0) {
+            step += 1;
+            if ((num & 1) == 1) {
+                num -= 1;
+            }else {
+                num >>= 1;
+            }
+        }
+        return step;
+    }
+}
+```
+
+
+
 ## 1/30/2022
 
 [884. 两句话中的不常见单词](https://leetcode-cn.com/problems/uncommon-words-from-two-sentences/)
