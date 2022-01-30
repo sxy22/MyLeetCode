@@ -5269,3 +5269,201 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 105. 岛屿的最大面积](https://leetcode-cn.com/problems/ZL6zAn/)
+
++ DFS
+
+```java
+class Solution {
+    int cnt;
+    int[][] visited;
+
+    public int maxAreaOfIsland(int[][] grid) {
+        int maxarea = 0;
+        int m = grid.length, n = grid[0].length;
+        visited = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (visited[i][j] == 0 && grid[i][j] == 1) {
+                    cnt = 0;
+                    dfs(grid, i, j, m, n);
+                    maxarea = Math.max(maxarea, cnt);
+                }
+            }
+        }
+        return maxarea;
+    }
+
+    private void dfs(int[][] grid, int i, int j, int m, int n) {
+        if (i < 0 || j < 0 || i >= m || j >= n) return;
+        if (visited[i][j] == 1 || grid[i][j] == 0) return;
+        visited[i][j] = 1;
+        cnt += 1;
+        dfs(grid, i - 1, j, m, n);
+        dfs(grid, i + 1, j, m, n);
+        dfs(grid, i, j - 1, m, n);
+        dfs(grid, i, j + 1, m, n);
+    }
+}
+```
+
+
+
++ 遍历过1后将其改成0，可以省去visited数组的空间
+
+```python
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        max_area = 0
+        self.area = 0
+        m, n = len(grid), len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    self.area = 0
+                    self.dfs(grid, i, j, m, n)
+                    max_area = max(max_area, self.area)
+        return max_area
+
+    def dfs(self, grid, i, j, m, n):
+        if i < 0 or j < 0 or i >= m or j >= n:
+            return
+        if grid[i][j] == 0:
+            return 
+        self.area += 1
+        grid[i][j] = 0
+        for ni, nj in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+            self.dfs(grid, ni, nj, m, n)
+```
+
+
+
+
+
+## [剑指 Offer II 106. 二分图](https://leetcode-cn.com/problems/vEAB3K/)
+
++ 要注意 每个连通分支 是二分图才行
++ 类似广度优先
+
+```java
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int[] color = new int[n];
+        Arrays.fill(color, -1);
+        Deque<Integer> deque = new LinkedList<>();
+        for (int start = 0; start < n; start++) {
+            if (color[start] != -1) {
+                continue;
+            }
+            color[start] = 0;
+            deque.add(start);
+            while (!deque.isEmpty()) {
+                int node = deque.removeFirst();
+                int node_col = color[node];
+                for (int adj : graph[node]) {
+                    if (color[adj] == -1) {
+                        color[adj] = 1 - node_col;
+                        deque.add(adj);
+                    }else {
+                        if (1 - node_col != color[adj]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 107. 矩阵中的距离](https://leetcode-cn.com/problems/2bCMpM/)
+
++ BFS
++ 从所有0点开始遍历，加入adjacent
+
+```java
+class Solution {
+    boolean[][] visited;
+    Deque<int[]> deque;
+    int m;
+    int n;
+
+    public int[][] updateMatrix(int[][] mat) {
+        m = mat.length;
+        n = mat[0].length;
+        int[][] dist = new int[m][n];
+        visited = new boolean[m][n];
+        deque = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 0) {
+                    deque.add(new int[]{i, j, 0});
+                    visited[i][j] = true;
+                }
+            }
+        }
+        // bfs
+        while (!deque.isEmpty()) {
+            int[] pair = deque.removeFirst();
+            int i = pair[0], j = pair[1], val = pair[2];
+            dist[i][j] = val;
+            addAdj(i, j, val);
+        }
+        return dist;
+    }
+
+    private void addAdj(int i, int j, int cur_val) {
+        int[][] adj = {{i-1, j}, {i+1, j}, {i, j-1}, {i, j+1}};
+        for (int[] idx : adj) {
+            int ni = idx[0], nj = idx[1];
+            if (ni < 0 || nj < 0 || ni >= m || nj >= n) continue;
+            if (!visited[ni][nj]) {
+                visited[ni][nj] = true;
+                deque.add(new int[]{ni, nj, cur_val + 1});
+            }
+        }
+    }
+}
+```
+
+
+
++ python
+
+```python
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        m, n = len(mat), len(mat[0])
+        dist = [[0] * n for _ in range(m)]
+        visited = [[False] * n for _ in range(m)]
+        deque = collections.deque()
+        for i in range(m):
+            for j in range(n):
+                if (mat[i][j] == 0):
+                    deque.append((i, j))
+                    visited[i][j] = True 
+        
+        dire = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        step = 0
+        while deque:
+            for _ in range(len(deque)):
+                i, j = deque.popleft()
+                dist[i][j] = step
+                # 加入 adj
+                for dx, dy in dire:
+                    ni, nj = i + dx, j + dy 
+                    if ni < 0 or nj < 0 or ni >= m or nj >= n:
+                        continue
+                    if visited[ni][nj] is False:
+                        visited[ni][nj] = True
+                        deque.append((ni, nj))
+            step += 1
+        return dist 
+```
+
