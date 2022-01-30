@@ -5180,3 +5180,92 @@ class Solution:
         return pre[-1]
 ```
 
+
+
+## [剑指 Offer II 103. 最少的硬币数目](https://leetcode-cn.com/problems/gaM7Ch/)
+
++ 完全背包dp
++ `dp[i][j]`表示前i个coin，组成金额j的最小个数
++ `dp[i][j] = min(dp[i - 1][j], dp[i][j - nums[i]] + 1)`
++ 初始条件 `dp[0][0] = 1, dp[0][j] = -1`
+
+```java
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[][] dp = new int[n + 1][amount + 1];
+        Arrays.fill(dp[0], -1);
+        dp[0][0] = 0;
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 0; j < amount + 1; j++) {
+                if (j - coins[i - 1] < 0) {
+                    dp[i][j] = dp[i - 1][j];
+                    continue;
+                }
+                int without = dp[i - 1][j]; 
+                int with = dp[i][j - coins[i - 1]];
+                if (without == -1 && with == -1) {
+                    dp[i][j] = -1;
+                }else if (without == -1) {
+                    dp[i][j] = with + 1;
+                }else if (with == -1) {
+                    dp[i][j] = without;
+                }else {
+                    dp[i][j] = Math.min(without, with + 1);
+                }
+            }
+        }
+        return dp[n][amount];
+    }
+}
+```
+
+
+
++ 省空间
+
+```java
+class Solution {
+    static final int INF = Integer.MAX_VALUE;
+
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, INF);
+        dp[0] = 0;
+        for (int coin : coins) {
+            // System.out.println(Arrays.toString(dp));
+            for (int j = coin; j < amount + 1; j++) {
+                if (dp[j - coin] != INF) {
+                    dp[j] = Math.min(dp[j], dp[j - coin] + 1);
+                }
+            }
+        }
+        return dp[amount] == INF ? -1 : dp[amount];
+    }
+}
+```
+
+
+
+## [剑指 Offer II 104. 排列的数目](https://leetcode-cn.com/problems/D0F0SV/)
+
+![image-20220129165325573](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220129165325573.png)
+
+```java
+class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 1; i < target + 1; i++) {
+            for (int num : nums) {
+                if (i >= num) {
+                    dp[i] += dp[i - num];
+                }
+            }            
+        }
+        return dp[target];
+    }
+}
+```
+
