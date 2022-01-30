@@ -2,6 +2,35 @@
 
 # 1/2022
 
+## 1/30/2022
+
+[884. 两句话中的不常见单词](https://leetcode-cn.com/problems/uncommon-words-from-two-sentences/)
+
+```java
+class Solution {
+    public String[] uncommonFromSentences(String s1, String s2) {
+        Map<String, Integer> map = new HashMap<>();
+        String[] arr1 = s1.split(" ");
+        String[] arr2 = s2.split(" ");
+        for (String s : arr1) {
+            map.put(s, map.getOrDefault(s, 0) + 1);
+        }
+        for (String s : arr2) {
+            map.put(s, map.getOrDefault(s, 0) + 1);
+        }
+        List<String> ans = new ArrayList<>();
+        for (String s : map.keySet()) {
+            if (map.get(s) == 1) {
+                ans.add(s);
+            }
+        }
+        return ans.toArray(new String[ans.size()]);
+    }
+}
+```
+
+
+
 ## 1/29/2022
 
 [1765. 地图中的最高点](https://leetcode-cn.com/problems/map-of-highest-peak/)
