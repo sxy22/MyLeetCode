@@ -5467,3 +5467,101 @@ class Solution:
         return dist 
 ```
 
+
+
+## [剑指 Offer II 108. 单词演变](https://leetcode-cn.com/problems/om3reC/)
+
+
+
+![image-20220131154508718](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220131154508718.png)
+
+```java
+class Solution {
+    Map<String, List<String>> edge;
+
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        edge = new HashMap<>();
+        for (String word : wordList) {
+            addEdge(word);
+        }
+        addEdge(beginWord);
+        if (!edge.containsKey(endWord)) return 0;
+
+        //System.out.println(edge.toString());
+        Deque<Object[]> deque = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        deque.add(new Object[]{beginWord, 1});
+        visited.add(beginWord);
+        while (!deque.isEmpty()) {
+            Object[] pair = deque.removeFirst();
+            String word = (String)pair[0];
+            int len = (int)pair[1];
+            if (word.equals(endWord)) {
+                return (len + 1) / 2;
+            }
+            for (String next : edge.get(word)) {
+                if (!visited.contains(next)) {
+                    visited.add(next);
+                    deque.add(new Object[]{next, len + 1});
+                }
+            }
+        }
+        return 0;
+    }
+
+    void addEdge(String word) {
+        if (edge.containsKey(word)) return;
+        edge.put(word, new ArrayList<>());
+        char[] arr = word.toCharArray();
+        for (int i = 0; i < arr.length; i++) {
+            char temp = arr[i];
+            arr[i] = '#';
+            String mid = new String(arr);
+            if (!edge.containsKey(mid)) edge.put(mid, new ArrayList<>());
+            edge.get(word).add(mid);
+            edge.get(mid).add(word);
+            arr[i] = temp;
+        }
+    }
+}
+```
+
+
+
+```python
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        self.edge = collections.defaultdict(list)
+        for word in wordList:
+            self.addEdge(word)
+        self.addEdge(beginWord)
+        if endWord not in self.edge:
+            return 0 
+        
+        deque = collections.deque()
+        visited = set()
+        deque.append((beginWord, 1))
+        visited.add(beginWord)
+        while deque:
+            word, llen = deque.popleft()
+            if word == endWord:
+                return (llen + 1) // 2
+            for next_word in self.edge[word]:
+                if next_word not in visited:
+                    visited.add(next_word)
+                    deque.append((next_word, llen + 1))
+        return 0
+
+    def addEdge(self, word):
+        if word in self.edge:
+            return
+        char_lst = [s for s in word]
+        for i in range(len(word)):
+            temp = char_lst[i]
+            char_lst[i] = '#'
+            mid = ''.join(char_lst)
+            self.edge[word].append(mid)
+            self.edge[mid].append(word)
+            char_lst[i] = temp
+```
+
