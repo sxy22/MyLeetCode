@@ -2,9 +2,32 @@
 
 # 2/2022
 
-## 2/2/2022
+## 2/3/2022
 
-#### [2000. 反转单词前缀](https://leetcode-cn.com/problems/reverse-prefix-of-word/)
+[1414. 和为 K 的最少斐波那契数字数目](https://leetcode-cn.com/problems/find-the-minimum-number-of-fibonacci-numbers-whose-sum-is-k/)
+
+```python
+class Solution:
+    def findMinFibonacciNumbers(self, k: int) -> int:
+        arr = []
+        a, b = 1, 1
+        while (b <= k):
+            arr.append(b)
+            a, b = b, a + b
+        cnt = 0
+        i = len(arr) - 1
+        while k > 0:
+            if arr[i] <= k:
+                k -= arr[i]
+                cnt += 1
+            else:
+                i -= 1
+        return cnt
+```
+
+
+
+## 2/2/2022
 
 [2000. 反转单词前缀](https://leetcode-cn.com/problems/reverse-prefix-of-word/)
 
