@@ -1,5 +1,41 @@
 # Leetcode每日一题
 
+# 2/2022
+
+## 2/2/2022
+
+#### [2000. 反转单词前缀](https://leetcode-cn.com/problems/reverse-prefix-of-word/)
+
+[2000. 反转单词前缀](https://leetcode-cn.com/problems/reverse-prefix-of-word/)
+
+```java
+class Solution {
+    public String reversePrefix(String word, char ch) {
+        char[] arr = word.toCharArray();
+        int n = arr.length;
+        int j = 0;
+        while (j < n) {
+            if (arr[j] == ch) {
+                break;
+            }
+            j += 1;
+        }
+        if (j == n) return word;
+        int i = 0;
+        while (i < j) {
+            char temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i += 1;
+            j -= 1;
+        }
+        return new String(arr);
+    }
+}
+```
+
+
+
 # 1/2022
 
 ## 1/31/2022
