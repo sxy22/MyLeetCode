@@ -5565,3 +5565,137 @@ class Solution:
             char_lst[i] = temp
 ```
 
+
+
+## [剑指 Offer II 110. 所有路径](https://leetcode-cn.com/problems/bP4bmD/)
+
++ dfs
++ 无环图, 不需要visited 记录
+
+```java
+class Solution {
+    List<List<Integer>> ans;
+    List<Integer> track;
+
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        int n = graph.length;
+        ans = new ArrayList<>();
+        track = new ArrayList<>();
+        track.add(0);
+        dfs_backtrack(graph, 0, n);
+        return ans;
+    }
+
+    private void dfs_backtrack(int[][] graph, int pre_posi, int n) {
+        if (pre_posi == n - 1) {
+            ans.add(new ArrayList<Integer>(track));
+            return;
+        }
+        for (int next_posi : graph[pre_posi]) {
+            // if (visited[next_posi]) continue;
+            // 无环图, 不需要visited
+            track.add(next_posi);
+            dfs_backtrack(graph, next_posi, n);
+            track.remove(track.size() - 1);
+        }
+    }
+}
+```
+
+
+
++ python
+
+```python
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        self.ans = []
+        self.track = [0]
+        n = len(graph)
+        self.dfs_backtrack(graph, 0, n)
+        return self.ans
+
+
+    def dfs_backtrack(self, graph, pre_posi, n):
+        if pre_posi == n - 1:
+            self.ans.append(self.track.copy())
+            return 
+        for next_posi in graph[pre_posi]:
+            self.track.append(next_posi)
+            self.dfs_backtrack(graph, next_posi, n)
+            self.track.pop()
+```
+
+
+
+## [剑指 Offer II 111. 计算除法](https://leetcode-cn.com/problems/vlzXQL/)
+
++ 建立map
+
+```java
+class Solution {
+    Map<String, Map<String, Double>> map;
+    Set<String> visited;
+    double div;
+
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        int n = equations.size();
+        map = new HashMap<>();
+        visited = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            String s1 = equations.get(i).get(0);
+            String s2 = equations.get(i).get(1);
+            double val = values[i];
+            insert(s1, s2, val);
+            insert(s2, s1, 1.0 / val);
+        }
+        //System.out.println(map.get("b"));
+        double[] ans = new double[queries.size()];
+        for (int i = 0; i < ans.length; i++) {
+            String nume = queries.get(i).get(0);
+            String deno = queries.get(i).get(1);
+            if (!map.containsKey(nume) || !map.containsKey(deno)) {
+                ans[i] = -1.0;
+            }else {
+                ans[i] = calc(queries.get(i).get(0), queries.get(i).get(1));
+            }
+        }
+
+        return ans;
+    }
+
+
+    private double calc(String start, String end) {
+        div = -1.0;
+        visited.clear();
+        dfs(start, end, 1);
+        visited.add(start);
+        return div;
+    }
+
+    private void dfs(String pre, String end, double mul) {
+        if (div != -1.0) return;
+        if (pre.equals(end)) {
+            div = mul;
+            return; 
+        }
+        for (Map.Entry<String, Double> entry : map.get(pre).entrySet()) {
+            String next = entry.getKey();
+            if (visited.contains(next)) continue;
+            double val = entry.getValue();
+            visited.add(next);
+            dfs(next, end, mul * val);
+            visited.remove(next);
+        }
+    }
+   
+    
+    private void insert(String s1, String s2, double val) {
+        if (!map.containsKey(s1)) {
+            map.put(s1, new HashMap<>());
+        }
+        map.get(s1).put(s2, val);
+    }
+}
+```
+
