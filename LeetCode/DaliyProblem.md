@@ -2,6 +2,31 @@
 
 # 2/2022
 
+## 2/4/2022
+
+[1725. 可以形成最大正方形的矩形数目](https://leetcode-cn.com/problems/number-of-rectangles-that-can-form-the-largest-square/)
+
+```java
+class Solution {
+    public int countGoodRectangles(int[][] rectangles) {
+        int maxlen = 0;
+        int cnt = 0;
+        for (int[] rec : rectangles) {
+            int len = Math.min(rec[0], rec[1]);
+            if (len == maxlen) {
+                cnt += 1;
+            }else if (len > maxlen) {
+                maxlen = len;
+                cnt = 1;
+            }
+        }
+        return cnt;
+    }
+}
+```
+
+
+
 ## 2/3/2022
 
 [1414. 和为 K 的最少斐波那契数字数目](https://leetcode-cn.com/problems/find-the-minimum-number-of-fibonacci-numbers-whose-sum-is-k/)
