@@ -5699,3 +5699,88 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 112. 最长递增路径](https://leetcode-cn.com/problems/fpTFWP/)
+
++ dfs
++ 记忆化搜索
++ dfs 返回i， j 为起点的最长递增路径长度
+
+```python
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        self.dire = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        self.memo = [[-1] * n for _ in range(m)]
+        ans = 1
+        for i in range(m):
+            for j in range(n):
+                ans = max(ans, self.dfs(matrix, i, j, m, n))
+        # print(self.dfs(matrix, 0, 0, m, n))
+        return ans 
+
+    def dfs(self, matrix, i, j, m, n):
+        if self.memo[i][j] != -1:
+            return self.memo[i][j]
+        max_step = 1
+        for di, dj in self.dire:
+            ni, nj = i + di, j + dj
+            if ni < 0 or nj < 0 or ni >= m or nj >= n:
+                continue 
+            if matrix[ni][nj] > matrix[i][j]:
+                max_step = max(max_step, self.dfs(matrix, ni, nj, m, n) + 1)
+        self.memo[i][j] = max_step
+        return max_step
+        
+```
+
+
+
+## [剑指 Offer II 113. 课程顺序](https://leetcode-cn.com/problems/QA2IGt/)
+
++ 拓扑排序, bfs
++ 记录每个点的入度
++ 入度为0说明可以选择了，加入deque 进行dfs
++ 遍历到某一个点，将其连接的点的入度 -1 即可
+
+```java
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> edge = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            edge.add(new ArrayList<>());
+        }
+        int[] in_cnt = new int[numCourses];
+        for (int[] pair : prerequisites) {
+            int fir = pair[1];
+            int sec = pair[0];
+            in_cnt[sec] += 1;
+            edge.get(fir).add(sec);
+        }
+        Deque<Integer> deque = new LinkedList<>();
+        int[] ans = new int[numCourses];
+        int idx = 0;
+        for (int i = 0; i < numCourses; i++) {
+            if (in_cnt[i] == 0) {
+                deque.add(i);
+            }
+        }
+        while (!deque.isEmpty()) {
+            int top = deque.removeFirst();
+            ans[idx++] = top;
+            for (int next : edge.get(top)) {
+                in_cnt[next] -= 1;
+                if (in_cnt[next] == 0) {
+                    deque.add(next);
+                }
+            }
+        }
+        if (idx != numCourses) return new int[0];
+        return ans;
+    }
+}
+```
+
+
+
