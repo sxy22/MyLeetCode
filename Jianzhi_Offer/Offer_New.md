@@ -5784,3 +5784,188 @@ class Solution {
 
 
 
+## [剑指 Offer II 114. 外星文字典](https://leetcode-cn.com/problems/Jf1JuT/)
+
++ 类似拓扑排序
++ 先建立char之间的edge
++ bfs输出入度为0
+
+```python
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        edges = collections.defaultdict(list)
+        in_cnt = collections.defaultdict(int)
+        exist_pair = set()
+        char_set = set()
+        for word in words:
+            for ch in word:
+                char_set.add(ch)
+
+        for i in range(len(words) - 1):
+            s1, s2 = words[i], words[i + 1]
+            idx = self.fir_diff(s1, s2)
+            if idx == -1:
+                if len(s1) > len(s2):
+                    return ''
+                continue
+            ch1, ch2 = s1[idx], s2[idx]
+            if (ch1, ch2) not in exist_pair:
+                exist_pair.add((ch1, ch2))
+                in_cnt[ch2] += 1
+                edges[ch1].append(ch2)
+        n = len(char_set)
+        seq = []
+        deque = collections.deque()
+        for ch in char_set:
+            if in_cnt[ch] == 0:
+                deque.append(ch)
+
+        while deque:
+            top = deque.popleft()
+            seq.append(top)
+            for ch in edges[top]:
+                in_cnt[ch] -= 1
+                if in_cnt[ch] == 0:
+                    deque.append(ch)
+        if len(seq) == n:
+            return ''.join(seq)
+        return ''
+           
+    def fir_diff(self, s1, s2):
+        n = min(len(s1), len(s2))
+        for i in range(n):
+            if s1[i] != s2[i]:
+                return i 
+        return -1
+```
+
+
+
+## [剑指 Offer II 115. 重建序列](https://leetcode-cn.com/problems/ur2n8P/)
+
+```python
+class Solution:
+    def sequenceReconstruction(self, org: List[int], seqs: List[List[int]]) -> bool:
+        n = len(org)
+        edges = [[] for _ in range(n + 1)]
+        in_cnt = [0] * (n + 1)
+        exist_pair = set()
+        num_set = set()
+        for seq in seqs:
+            for num in seq:
+                if num > n or num < 1:
+                    return False
+                num_set.add(num)
+            self.add_seq(seq, edges, in_cnt, exist_pair)
+        if len(num_set) != n:
+            return False
+        i = 0
+        deque = []
+        for num in range(1, n + 1):
+            if in_cnt[num] == 0:
+                deque.append(num)
+        while deque:
+            if len(deque) != 1:
+                return False
+            top = deque.pop()
+            if top != org[i]:
+                return False
+            i += 1
+            for next_num in edges[top]:
+                in_cnt[next_num] -= 1
+                if in_cnt[next_num] == 0:
+                    deque.append(next_num)
+        if i != n:
+            return False
+        return True
+
+    def add_seq(self, seq, edges, in_cnt, exist_pair):
+        for i in range(len(seq) - 1):
+            n1, n2 = seq[i], seq[i + 1]
+            if (n1, n2) not in exist_pair:
+                exist_pair.add((n1, n2))
+                in_cnt[n2] += 1
+                edges[n1].append(n2)
+
+```
+
+
+
+## [剑指 Offer II 116. 省份数量](https://leetcode-cn.com/problems/bLyHh0/)
+
++ dfs思路
++ 找到一个未搜索的城市作为起点， cnt+=1
++ dfs将其所有联通的结点都加入visited
+
+```java
+class Solution {
+    Set<Integer> visited;
+
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        int cnt = 0;
+        visited = new HashSet<>();
+        for (int cur = 0; cur < n; cur++) {
+            if (!visited.contains(cur)) {
+                cnt += 1;
+                dfs(isConnected, cur, n);
+            }
+        }
+        return cnt;
+    }
+
+    private void dfs(int[][] isConnected, int cur, int n) {
+        if (visited.contains(cur)) return;
+        visited.add(cur);
+        for (int next = 0; next < n; next++) {
+            if (isConnected[cur][next] == 1) {
+                dfs(isConnected, next, n);
+            }
+        }
+    }
+}
+```
+
+
+
++ 并查集
+
+```java
+class Solution {
+    int[] parent;
+    int cnt;
+
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        cnt = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) parent[i] = i;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (isConnected[i][j] == 1) {
+                    union(i, j);
+                }
+            }
+        }
+        return cnt;
+    }
+
+    int findParent(int child) {
+        if (child != parent[child]) {
+            parent[child] = findParent(parent[child]);
+        }
+        return parent[child];
+    }
+
+    void union(int c1, int c2) {
+        int p1 = findParent(c1);
+        int p2 = findParent(c2);
+        if (p1 != p2) {
+            parent[p1] = p2;
+            cnt -= 1;
+        }
+    }
+}
+```
+
