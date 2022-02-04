@@ -64,6 +64,12 @@
 
 | 日期       | 题目                                                         | 题解                                                         | 难度   |
 | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+|            |                                                              |                                                              |        |
+| 2/4/2022   | [1725. 可以形成最大正方形的矩形数目](https://leetcode-cn.com/problems/number-of-rectangles-that-can-form-the-largest-square/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#242022) | Easy   |
+| 2/3/2022   | [1414. 和为 K 的最少斐波那契数字数目](https://leetcode-cn.com/problems/find-the-minimum-number-of-fibonacci-numbers-whose-sum-is-k/) | [Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#232022) | Medium |
+| 2/2/2022   | [2000. 反转单词前缀](https://leetcode-cn.com/problems/reverse-prefix-of-word/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#222022) | Easy   |
+| 1/31/2022  | [1342. 将数字变成 0 的操作次数](https://leetcode-cn.com/problems/number-of-steps-to-reduce-a-number-to-zero/) | [Java, Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1312022) | Easy   |
+| 1/30/2022  | [884. 两句话中的不常见单词](https://leetcode-cn.com/problems/uncommon-words-from-two-sentences/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1302022) | Easy   |
 | 1/29/2022  | [1765. 地图中的最高点](https://leetcode-cn.com/problems/map-of-highest-peak/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1292022) | Medium |
 | 1/28/2022  | [1996. 游戏中弱角色的数量](https://leetcode-cn.com/problems/the-number-of-weak-characters-in-the-game/) | [Java, Python](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1282022) | Medium |
 | 1/27/2022  | [2047. 句子中的有效单词数](https://leetcode-cn.com/problems/number-of-valid-words-in-a-sentence/) | [Java](https://github.com/sxy22/MyLeetCode/blob/master/LeetCode/DaliyProblem.md#1272022) | Easy   |
