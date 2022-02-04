@@ -1,3 +1,30 @@
+# 并查集
+
+```python
+class UnionFind():
+    def __init__(self, n):
+        self.parent = list(range(n))
+        # 记录分支数
+        self.count = n
+	# 寻找父节点
+    def find(self, node):
+        if node != self.parent[node]:
+            self.parent[node] = self.find(self.parent[node])
+        return self.parent[node]
+
+    def union(self, node1, node2):
+        self.parent[self.find(node1)] = self.find(node2)
+        self.count -= 1
+        return
+
+    def get_branch_count(self):
+        return self.count
+```
+
+
+
+
+
 # 记录
 
 ## [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
