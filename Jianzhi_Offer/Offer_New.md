@@ -5969,3 +5969,134 @@ class Solution {
 }
 ```
 
+
+
+## [剑指 Offer II 117. 相似的字符串](https://leetcode-cn.com/problems/H6lPxb/)
+
++ 并查集
++ 注意异位词的性质
+
+```java
+class Solution {
+    int[] parent;
+    int cnt;
+
+    public int numSimilarGroups(String[] strs) {
+        int n = strs.length;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) parent[i] = i; 
+        cnt = n;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                String s1 = strs[i];
+                String s2 = strs[j];
+                if (isSimilar(s1, s2)) {
+                    union(i, j);
+                }
+            }
+        } 
+        return cnt;
+    }
+
+    private boolean isSimilar(String s1, String s2) {
+        int diff = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                diff += 1;
+                if (diff > 2) return false;
+            }
+        }
+        return true;
+    }
+
+    private int findParent(int child) {
+        if (child != parent[child]) {
+            parent[child] = findParent(parent[child]);
+        }
+        return parent[child];
+    }
+
+    private void union(int c1, int c2) {
+        int p1 = findParent(c1);
+        int p2 = findParent(c2);
+        if (p1 != p2) {
+            cnt -= 1;
+            parent[p1] = p2;
+        }
+    }
+}
+```
+
+
+
+## [剑指 Offer II 118. 多余的边](https://leetcode-cn.com/problems/7LpjUW/)
+
++ 并查集
++ 一棵树有 n 个节点，则这棵树有 n−1 条边
++ 多了一条边会成环，删除环中任何一条边都满足条件，要求删除最后出现的边
++ 遍历每一条边，判断这条边连接的两个顶点是否属于相同的连通分量
++ 不同则连接，相同则说明已近连接，找到了答案
+
+```java
+class Solution {
+    int[] parent;
+
+    public int[] findRedundantConnection(int[][] edges) {
+        int n = edges.length;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) parent[i] = i; 
+
+        for (int[] edge : edges) {
+            int c1 = edge[0] - 1;
+            int c2 = edge[1] - 1;
+            if (findParent(c1) == findParent(c2)) {
+                return edge;
+            }else {
+                union(c1, c2);
+            }
+        }
+        return new int[0];
+
+    }
+
+    private int findParent(int child) {
+        if (child != parent[child]) {
+            parent[child] = findParent(parent[child]);
+        }
+        return parent[child];
+    }
+
+    private void union(int c1, int c2) {
+        int p1 = findParent(c1);
+        int p2 = findParent(c2);
+        parent[p1] = p2;
+    }
+}
+```
+
+
+
+## [剑指 Offer II 119. 最长连续序列](https://leetcode-cn.com/problems/WhsWhI/)
+
+```java
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int max = 0;
+        for (int num : nums) {
+            if (set.contains(num - 1)) continue;
+            int cnt = 0;
+            while (set.contains(num)) {
+                cnt += 1;
+                num += 1;
+            }
+            max = Math.max(max, cnt);
+        }
+        return max;
+    }
+}
+```
+
