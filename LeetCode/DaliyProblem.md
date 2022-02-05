@@ -2,6 +2,75 @@
 
 # 2/2022
 
+# 2/6/2022
+
+[1748. 唯一元素的和](https://leetcode-cn.com/problems/sum-of-unique-elements/)
+
+```python
+class Solution:
+    def sumOfUnique(self, nums: List[int]) -> int:
+        cnt = collections.defaultdict(int)
+        ans = 0
+        for num in nums:
+            if cnt[num] == 0:
+                ans += num
+                cnt[num] += 1
+            elif cnt[num] == 1:
+                ans -= num 
+                cnt[num] = -1
+        return ans 
+```
+
+
+
+## 2/5/2022
+
+[1219. 黄金矿工](https://leetcode-cn.com/problems/path-with-maximum-gold/)
+
+```java
+class Solution {
+    // boolean[][] visited;
+    int[][] dire = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    public int getMaximumGold(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        // visited = new boolean[m][n];
+        int max = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] != 0) {
+                    max = Math.max(max, dfs(grid, i, j, m, n));
+                }
+            }
+        }
+        return max;
+    }
+
+    private int dfs(int[][] grid, int i, int j, int m, int n) {
+        if (i < 0 || j < 0 || i >= m || j >= n || grid[i][j] == 0) {
+            return 0;
+        }
+        //visited[i][j] = true;
+        int copy = grid[i][j];
+        grid[i][j] = 0;
+        int max = 0;
+        for (int[] d : dire) {
+            int di = d[0], dj = d[1];
+            int ni = i + di, nj = j + dj;
+            max = Math.max(max, dfs(grid, ni, nj, m, n));
+        }
+        //visited[i][j] = false;
+        grid[i][j] = copy;
+        return max + grid[i][j];
+    }
+}
+```
+
+
+
+
+
 ## 2/4/2022
 
 [1725. 可以形成最大正方形的矩形数目](https://leetcode-cn.com/problems/number-of-rectangles-that-can-form-the-largest-square/)
