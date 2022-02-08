@@ -424,19 +424,20 @@ class Solution:
 
 + 和1 与操作， 可以得到最后一位的情况
 + 右移
++ 注意java中要用无符号右移>>>
 
 ```c++
-class Solution {
-public:
-    int hammingWeight(uint32_t n) {
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
         int ans = 0;
         while (n != 0) {
-            ans += n & 1;
-            n = n >> 1;
+            ans += (n & 1);
+            n = n >>> 1;
         }
         return ans;
     }
-};
+}
 ```
 
 
@@ -447,17 +448,17 @@ public:
 + 记录多少次操作会使n变为0
 
 ```java
-class Solution {
-public:
-    int hammingWeight(uint32_t n) {
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
         int ans = 0;
         while (n != 0) {
-            ans++;
+            ans += 1;
             n = n & (n - 1);
         }
         return ans;
     }
-};
+}
 ```
 
 
@@ -574,6 +575,29 @@ class Solution:
 
 
 
+```java
+class Solution {
+    public ListNode deleteNode(ListNode head, int val) {
+        ListNode pre_head = new ListNode(-1);
+        pre_head.next = head;
+        ListNode pre_head_copy = pre_head;
+
+        while (pre_head.next != null) {
+            if (pre_head.next.val == val) {
+                pre_head.next = pre_head.next.next;
+                break;
+            }
+            pre_head = pre_head.next;
+        }
+
+        return pre_head_copy.next;
+
+    }
+}
+```
+
+
+
 ## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 
 **思路**
@@ -585,20 +609,16 @@ class Solution {
     public int[] exchange(int[] nums) {
         int i = 0;
         int j = nums.length - 1;
-
         while (i < j) {
             // 找到从i开始第一个偶数
-            while (i < nums.length && (nums[i] & 1) == 1) {
+            while (i < j && (nums[i] & 1) == 1) {
                 i++;
             }
             // 找到从j开始向前第一个奇数
-            while (j >= 0 && (nums[j] & 1) == 0) {
+            while (j > i && (nums[j] & 1) == 0) {
                 j--;
             }
-            if (i >= j) {
-                break;
-            }
-            // 如 i < j 则交换
+            // i  j 则交换
             int temp = nums[j];
             nums[j] = nums[i];
             nums[i] = temp;
@@ -733,7 +753,7 @@ class Solution {
 }
 ```
 
-
+## here
 
 ## [剑指 Offer 26. 树的子结构](https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/)
 
