@@ -2,6 +2,93 @@
 
 # 2/2022
 
+## 2/8/2022
+
+```python
+class Solution:
+    def gridIllumination(self, n: int, lamps: List[List[int]], queries: List[List[int]]) -> List[int]:
+        self.dire = ((-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1))
+        self.n = n
+        self.row_cnt = collections.defaultdict(int)
+        self.col_cnt = collections.defaultdict(int)
+        self.dia_sum_cnt = collections.defaultdict(int)
+        self.dia_diff_cnt = collections.defaultdict(int)
+        self.lamp_set = set()
+        for i, j in lamps:
+            if (i, j) not in self.lamp_set:
+                self.lamp_set.add((i, j))
+                self.row_cnt[i] += 1
+                self.col_cnt[j] += 1
+                self.dia_sum_cnt[i + j] += 1
+                self.dia_diff_cnt[i - j] += 1
+        
+        ans = [0] * len(queries)
+        for idx in range(len(queries)):
+            i, j = queries[idx]
+            if self.is_open(i, j):
+                ans[idx] = 1
+            self.shut_adj(i, j)
+        return ans
+
+
+    def is_open(self, i, j):
+        return self.row_cnt[i] > 0 or self.col_cnt[j] > 0 or self.dia_sum_cnt[i + j] > 0 or self.dia_diff_cnt[i - j] > 0
+
+    def shut(self, i, j):
+        if i < 0 or j < 0 or i >= self.n or j >= self.n:
+            return 
+        if (i, j) not in self.lamp_set:
+            return
+        self.lamp_set.remove((i, j))
+        self.row_cnt[i] -= 1
+        self.col_cnt[j] -= 1
+        self.dia_sum_cnt[i + j] -= 1
+        self.dia_diff_cnt[i - j] -= 1
+
+    def shut_adj(self, i, j):
+        self.shut(i, j)
+        for di, dj in self.dire:
+            self.shut(i + di, j + dj)
+```
+
+
+
+## 2/7/2022
+
+```python
+class Solution:
+    def longestDiverseString(self, a: int, b: int, c: int) -> str:
+        cnt = [[a, 'a'], [b, 'b'], [c, 'c']]
+        ans = []
+        while 1:
+            cnt = sorted(cnt, key=lambda x : -x[0])
+            if len(ans) == 0 or ans[-1] != cnt[0][1]:
+                c, ch = cnt[0]
+                idx = 0
+            else:
+                c, ch = cnt[1]
+                idx = 1
+            if idx == 0:
+                if c == 0:
+                    break 
+                elif c == 1:
+                    ans.append(ch)
+                    cnt[idx][0] -= 1
+                else:
+                    ans.append(ch)
+                    ans.append(ch)
+                    cnt[idx][0] -= 2
+            else:
+                if c == 0:
+                    break 
+                else:
+                    ans.append(ch)
+                    cnt[idx][0] -= 1
+        return ''.join(ans)
+```
+
+
+
 # 2/6/2022
 
 [1748. 唯一元素的和](https://leetcode-cn.com/problems/sum-of-unique-elements/)
