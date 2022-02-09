@@ -2,6 +2,57 @@
 
 # 2/2022
 
+## 2/10/2022
+
+[1447. 最简分数](https://leetcode-cn.com/problems/simplified-fractions/)
+
++ 辗转相除法求a b的最大公因数gcd
+
+```java
+class Solution {
+    public List<String> simplifiedFractions(int n) {
+        List<String> ans = new ArrayList<>();
+        for (int deno = 2; deno <= n; deno++) {
+            for (int nume = 1; nume < deno; nume++) {
+                if (gcd(deno, nume) == 1) {
+                    ans.add(nume + "/" + deno);
+                }
+            }
+        }
+        return ans;
+    }
+
+    private int gcd(int a, int b) {
+        if (b == 0) return a;
+        int r = a % b;
+        if (r == 0) {
+            return b;
+        }
+        return gcd(b, r);
+    }
+}
+```
+
+
+
+## 2/9/2022
+
+[2006. 差的绝对值为 K 的数对数目](https://leetcode-cn.com/problems/count-number-of-pairs-with-absolute-difference-k/)
+
+```python
+class Solution:
+    def countKDifference(self, nums: List[int], k: int) -> int:
+        num_cnt = collections.defaultdict(int)
+        cnt = 0
+        for num in nums:
+            cnt += num_cnt[num - k]
+            cnt += num_cnt[num + k]
+            num_cnt[num] += 1
+        return cnt
+```
+
+
+
 ## 2/8/2022
 
 ```python
