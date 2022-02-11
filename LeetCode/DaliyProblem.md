@@ -2,6 +2,29 @@
 
 # 2/2022
 
+## 2/11/2022
+
+[1984. 学生分数的最小差值](https://leetcode-cn.com/problems/minimum-difference-between-highest-and-lowest-of-k-scores/)
+
+```java
+class Solution {
+    public int minimumDifference(int[] nums, int k) {
+        Arrays.sort(nums);
+        int i = 0;
+        int j = i + k - 1;
+        int min = Integer.MAX_VALUE;
+        while (j < nums.length) {
+            min = Math.min(min, nums[j] - nums[i]);
+            i += 1;
+            j += 1;
+        }
+        return min;
+    }
+}
+```
+
+
+
 ## 2/10/2022
 
 [1447. 最简分数](https://leetcode-cn.com/problems/simplified-fractions/)
