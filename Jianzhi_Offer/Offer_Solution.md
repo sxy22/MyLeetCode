@@ -753,7 +753,7 @@ class Solution {
 }
 ```
 
-## here
+
 
 ## [剑指 Offer 26. 树的子结构](https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/)
 
@@ -837,6 +837,20 @@ class Solution:
         root.right = self.mirrorTree(leftnode)
         return root
 ```
+
+```java
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        if (root == null) {return root;}
+        TreeNode left = root.left;
+        root.left = mirrorTree(root.right);
+        root.right = mirrorTree(left);
+        return root;
+    }
+}
+```
+
+
 
 
 
@@ -1015,6 +1029,52 @@ class MinStack:
 
 
 
+```java
+class MinStack {
+    Deque<Integer> stack;
+    Deque<Integer> min_stack;
+
+    /** initialize your data structure here. */
+    public MinStack() {
+        stack = new LinkedList<>();
+        min_stack = new LinkedList<>();
+    }
+
+    public void push(int x) {
+        stack.add(x);
+        if (min_stack.size() == 0) {
+            min_stack.add(x);
+        }
+        else {
+            int min = Math.min(x, min_stack.getLast());
+            min_stack.addLast(min);
+        }
+    }
+
+    public void pop() {
+        stack.removeLast();
+        min_stack.removeLast();
+    }
+    
+    public int top() {
+        return stack.getLast();
+    }
+
+    public int min() {
+        return min_stack.getLast();
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.min();
+ */
+```
+
 
 
 
@@ -1042,12 +1102,12 @@ class Solution:
 ```java
 class Solution {
     public boolean validateStackSequences(int[] pushed, int[] popped) {
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new LinkedList<>();
         int idx = 0;
         for (int num : pushed) {
-            stack.push(num);
-            while (!stack.isEmpty() && stack.peek() == popped[idx]) {
-                stack.pop();
+            stack.add(num);
+            while (!stack.isEmpty() && stack.getLast() == popped[idx]) {
+                stack.removeLast();
                 idx += 1;
             }
         }
@@ -1253,24 +1313,23 @@ class Solution {
 class Solution {
     LinkedList<List<Integer>> ans = new LinkedList<>();
     LinkedList<Integer> path = new LinkedList<>();
+    
     public List<List<Integer>> pathSum(TreeNode root, int target) {
-        recur(root, target);
+        dfs(root, target);
         return ans;
     }
     
-    void recur(TreeNode node, int target) {
+    void dfs(TreeNode node, int target) {
         if (node == null) return;
         path.addLast(node.val);
-        target -= node.val;
-        if (target == 0 && node.left == null && node.right == null) {
+        if (target == node.val && node.left == null && node.right == null) {
             ans.addLast(new LinkedList(path));
         }
-        recur(node.left, target);
-        recur(node.right, target);
+        dfs(node.left, target - node.val);
+        dfs(node.right, target - node.val);
         path.removeLast();
     } 
 }
-
 ```
 
 
@@ -1302,6 +1361,8 @@ class Solution:
         self.recur(node.right, target)
         self.path.pop()
 ```
+
+
 
 
 
@@ -1441,7 +1502,7 @@ class Solution:
 
 
 
-## [剑指 Offer 37. 序列化二叉树(缺java)](https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/)
+## [剑指 Offer 37. 序列化二叉树](https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/)
 
 + 层序遍历序列化
 
@@ -1507,6 +1568,76 @@ class Codec:
         else:
             return TreeNode(int(s))
 
+```
+
+
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if (root == null) return "*";
+        StringBuilder code = new StringBuilder();
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        while (!deque.isEmpty()) {
+            TreeNode top = deque.removeFirst();
+            if (top == null) {
+                code.append("*");
+            }else {
+                code.append(top.val);
+                deque.add(top.left);
+                deque.add(top.right);
+            }
+            code.append("_");
+        }
+        code.deleteCharAt(code.length() - 1);
+        //System.out.println(code.toString());
+        return code.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if (data.equals("*")) return null;
+        String[] seq = data.split("_");
+        // System.out.println(Arrays.toString(seq));
+        TreeNode root = getNode(seq[0]);
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        int i = 1;
+        while (!deque.isEmpty()) {
+            TreeNode top = deque.removeFirst();
+            top.left = getNode(seq[i]);
+            top.right = getNode(seq[i + 1]);
+            i += 2;
+            if (top.left != null) deque.add(top.left);
+            if (top.right != null) deque.add(top.right);
+        }
+        return root;
+    }
+
+    TreeNode getNode(String val) {
+        if (val.equals("*")) {
+            return null;
+        }else {
+            return new TreeNode(Integer.parseInt(val));
+        }
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));
 ```
 
 
@@ -1806,12 +1937,7 @@ class Solution {
             arr[i] = String.valueOf(nums[i]);
         }
         Arrays.sort(arr, comp);
-        StringBuffer str = new StringBuffer();
-        for (String s : arr) {
-            str.append(s);
-        }
-        
-        return str.toString();
+        return String.join("", arr);
     }
 }
 ```
@@ -1933,6 +2059,35 @@ class Solution {
 
 
 
+## [剑指 Offer 47. 礼物的最大价值](https://leetcode-cn.com/problems/li-wu-de-zui-da-jie-zhi-lcof/)
+
+```java
+class Solution {
+    int[][] dp;
+    int row;
+    int column;
+
+    public int maxValue(int[][] grid) {
+        this.dp = grid;
+        this.row = this.dp.length;
+        this.column = this.dp[0].length;
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.column; j++) {
+                this.dp[i][j] += Math.max(this.get(i - 1, j), this.get(i, j - 1));
+            }
+        }
+        return this.dp[row - 1][column - 1];
+
+    }
+    int get(int i, int j) {
+        if (i < 0 || j < 0) return 0;
+        return this.dp[i][j];
+    }
+}
+```
+
+
+
 
 
 ## [剑指 Offer 48. 最长不含重复字符的子字符串](https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/)
@@ -1959,6 +2114,24 @@ class Solution {
 ```
 
 
+
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        hashset = set()
+        i, j = 0, 0
+        n = len(s)
+        length = 0
+        while j < n:
+            while j < n and s[j] not in hashset:
+                hashset.add(s[j])
+                j += 1
+            length = max(length, j - i)
+            while j < n and s[j] in hashset:      
+                hashset.remove(s[i])
+                i += 1
+        return length
+```
 
 
 
@@ -2012,6 +2185,10 @@ class Solution {
     }
 }
 ```
+
+
+
+## here!!!!!!
 
 
 
