@@ -2,6 +2,75 @@
 
 # 2/2022
 
+## 2/13/2022
+
+```python
+class Solution:
+    def maxNumberOfBalloons(self, text: str) -> int:
+        w2idx = dict()
+        idx = 0
+        for w in 'abnlo':
+            w2idx[w] = idx
+            idx += 1
+        cnt = [0] * 5
+        for w in text:
+            if w in w2idx:
+                cnt[w2idx[w]] += 1
+        cnt[w2idx['l']] = cnt[w2idx['l']] // 2
+        cnt[w2idx['o']] = cnt[w2idx['o']] // 2
+        return min(cnt)
+
+```
+
+
+
+## 2/12/2022
+
+[1020. 飞地的数量](https://leetcode-cn.com/problems/number-of-enclaves/)
+
+```java
+class Solution {
+    boolean visited[][];
+
+    public int numEnclaves(int[][] grid) {
+        int cnt = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        visited = new boolean[m][n];
+        for (int j = 0; j < n; j++) {
+            dfs(grid, 0, j, m, n);
+            dfs(grid, m - 1, j, m, n);
+        }
+        for (int i = 1; i < m - 1; i++) {
+            dfs(grid, i, 0, m, n);
+            dfs(grid, i, n - 1, m, n);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1 && !visited[i][j]) {
+                    cnt += 1;
+                }
+            }
+        }
+        return cnt;
+    }
+
+    private void dfs(int[][] grid, int i, int j, int m, int n) {
+        if (i < 0 || j < 0 || i >= m || j >= n) {
+            return;
+        }
+        if (visited[i][j] || grid[i][j] == 0) return;
+        visited[i][j] = true;
+        dfs(grid, i - 1, j, m, n);
+        dfs(grid, i + 1, j, m, n);
+        dfs(grid, i, j - 1, m, n);
+        dfs(grid, i, j + 1, m, n);
+    }
+}
+```
+
+
+
 ## 2/11/2022
 
 [1984. 学生分数的最小差值](https://leetcode-cn.com/problems/minimum-difference-between-highest-and-lowest-of-k-scores/)
