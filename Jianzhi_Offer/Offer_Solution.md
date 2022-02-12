@@ -2188,10 +2188,6 @@ class Solution {
 
 
 
-## here!!!!!!
-
-
-
 ## [剑指 Offer 50. 第一个只出现一次的字符](https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/)
 
 ```java
@@ -2342,6 +2338,33 @@ class Solution {
 
 
 ## [剑指 Offer 53 - I. 在排序数组中查找数字 I](https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int end = bi_right(nums, target);
+        int start = bi_right(nums, target - 1);
+        Arrays.binarySearch()
+        return end - start;
+    }
+
+    private int bi_right(int[] nums, int target) {
+        int lo = 0;
+        int hi = nums.length;
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (nums[mid] <= target) {
+                lo = mid + 1;
+            }else {
+                hi = mid;
+            }
+        }
+        return lo;
+    }
+}
+```
+
+
 
 ```python
 class Solution:
@@ -2831,6 +2854,18 @@ class Solution:
 
 
 
+## [剑指 Offer 58 - II. 左旋转字符串](https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/)
+
+```java
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        return s.substring(n, s.length()) + s.substring(0, n);
+    }
+}
+```
+
+
+
 ## [剑指 Offer 59 - I. 滑动窗口的最大值](https://leetcode-cn.com/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/)
 
 + 单调队列
@@ -2949,6 +2984,30 @@ class MaxQueue {
 
 ![image-20211226220535085](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20211226220535085.png)
 
+```java
+class Solution {
+    public double[] dicesProbability(int n) {
+        double[] pre = new double[6];
+        Arrays.fill(pre, 1.0/6);
+        int[] dose = {1, 2, 3, 4, 5, 6};
+        for (int k = 2; k <= n; k++) {
+            double[] cur = new double[5 * k + 1];
+            for (int idx = 0; idx < cur.length; idx++) {
+                int x = k + idx;
+                for (int i : dose) {
+                    if (x - i < k - 1) break;
+                    if (x - i <= 6 * (k - 1)) {
+                        cur[idx] += pre[x - i - k + 1] / 6; 
+                    }
+                }
+            }
+            pre = cur;
+        }
+        return pre;
+     }
+}
+```
+
 
 
 ```python
@@ -3030,6 +3089,8 @@ class Solution {
 ```
 
 
+
+# HER
 
 ## [剑指 Offer 63. 股票的最大利润](https://leetcode-cn.com/problems/gu-piao-de-zui-da-li-run-lcof/)
 
