@@ -112,6 +112,27 @@ class Solution {
 }
 ```
 
+```java
+class Solution {
+    public int singleNumber(int[] nums) {
+        int ans = 0;
+        int[] bits = new int[32];
+        for (int num : nums) {
+            for (int i = 31; i >= 0; i--) {
+                bits[i] += (num & 1);
+                bits[i] %= 3;
+                num >>= 1;
+            }
+        }
+        for (int i = 0; i < 32; i++) {
+            ans <<= 1;
+            ans = ans | bits[i];
+        }
+        return ans;
+    }
+}
+```
+
 
 
 ## [剑指 Offer II 005. 单词长度的最大乘积](https://leetcode-cn.com/problems/aseY1I/)
