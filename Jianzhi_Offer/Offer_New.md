@@ -267,30 +267,32 @@ class Solution {
 
 
 
-## [剑指 Offer II 009. 乘积小于 K 的子数组(!!!!)](https://leetcode-cn.com/problems/ZVAVXX/)
+## [剑指 Offer II 009. 乘积小于 K 的子数组](https://leetcode-cn.com/problems/ZVAVXX/)
 
-+ 晕了
++ 固定每个i
++ 向右找j，若向后仍能小于k则 j + 1
++ 始终保持 i - j 为 mul小于k的子数组
++ 双指针，利用mul递增的原理
 
 ```java
 class Solution {
     public int numSubarrayProductLessThanK(int[] nums, int k) {
-        if (k == 0) return 0;
-        int i = 0, j = 0;
+        if (k <= 1) return 0;
+        int i = 0, j = -1;
         int mul = 1;
         int n = nums.length;
         int cnt = 0;
         while (i < n) {
-            while (j < n && mul < k) {
-                mul *= nums[j];
+            if (j != n - 1 && mul * nums[j + 1] < k) {
                 j += 1;
-            }
-            if (mul >= k) {
-                cnt += Math.max(0, j - i - 1);
+                mul *= nums[j];
             }else {
-                cnt += Math.max(0, j - i);
+                // System.out.println(i);
+                // System.out.println(j);
+                cnt += j - i + 1;
+                mul /= nums[i];
+                i += 1;
             }
-            mul /= nums[i];
-            i += 1;
         }
         return cnt;
     }
@@ -445,6 +447,8 @@ class NumMatrix {
 ```
 
 
+
+# HERE
 
 ## [剑指 Offer II 014. 字符串中的变位词](https://leetcode-cn.com/problems/MPnaiL/)
 
