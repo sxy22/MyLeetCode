@@ -2,7 +2,56 @@
 
 # 2/2022
 
+## 2/15/2022
+
+[1380. 矩阵中的幸运数](https://leetcode-cn.com/problems/lucky-numbers-in-a-matrix/)
+
+```java
+class Solution {
+    public List<Integer> luckyNumbers (int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        List<Integer> ans = new ArrayList<>();
+        int[] row_min_idx = new int[m];
+        int[] col_max = new int[n];
+        for (int i = 0; i < m; i++) {
+            int min_idx = -1;
+            int min = Integer.MAX_VALUE;
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] < min) {
+                    min_idx = j;
+                    min = matrix[i][j];
+                }
+            }
+            row_min_idx[i] = min_idx;
+        }
+        for (int i = 0; i < m; i++) {
+            int col = row_min_idx[i];
+            int val = matrix[i][col];
+            if (col_max[col] == 0) {
+                col_max[col] = getColMax(matrix, col, m);
+            }
+            if (val == col_max[col]) {
+                ans.add(val);
+            }
+        }
+        return ans;
+    }
+
+    int getColMax(int[][] matrix, int col, int m) {
+        int max = -1;
+        for (int i = 0; i < m; i++) {
+            max = Math.max(max, matrix[i][col]);
+        }
+        return max;
+    }
+}
+```
+
+
+
 ## 2/13/2022
+
+[1189. “气球” 的最大数量](https://leetcode-cn.com/problems/maximum-number-of-balloons/)
 
 ```python
 class Solution:
