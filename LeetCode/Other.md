@@ -406,3 +406,26 @@ class Solution:
         return [frac.x, frac.y]
 ```
 
+
+
+## [面试题 08.06. 汉诺塔问题](https://leetcode-cn.com/problems/hanota-lcci/)
+
+```java
+class Solution {
+    public void hanota(List<Integer> A, List<Integer> B, List<Integer> C) {
+        int n = A.size();
+        move(A, B, C, n);
+    }  
+    
+    private void move(List<Integer> A, List<Integer> B, List<Integer> C, int n) {
+        if (n == 1) {
+            C.add(A.remove(A.size() - 1));
+        }else {
+            move(A, C, B, n - 1);
+            C.add(A.remove(A.size() - 1));
+            move(B, A, C, n - 1);
+        }
+    }
+}
+```
+
