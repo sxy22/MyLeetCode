@@ -2,6 +2,61 @@
 
 # 2/2022
 
+## 2/18/2022
+
+```java
+class Solution {
+    public int findCenter(int[][] edges) {
+        int cand1 = edges[0][0];
+        int cand2 = edges[0][1];
+        int cand3 = edges[1][0];
+        int cand4 = edges[1][1];
+        if (cand1 == cand3 || cand1 == cand4) {
+            return cand1;
+        }
+        return cand2;
+    }
+}
+```
+
+
+
+## 2/17/2022
+
+[688. 骑士在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/)
+
+```java
+class Solution {
+    public double knightProbability(int n, int k, int row, int column) {
+        if (k == 0) return 1.0;
+        double prob[][][] = new double[k + 1][n][n];
+        int[][] dire = {{-1, 2}, {-1, -2}, {1, 2}, {1, -2}, {-2, 1}, {-2, -1}, {2, -1}, {2, 1}};
+        for (int step = 0; step <= k; step++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (step == 0) {
+                        prob[step][i][j] = 1.0;
+                        continue;
+                    }
+                    for (int[] d : dire) {
+                        int di = d[0], dj = d[1];
+                        prob[step][i][j] += get(prob, step - 1, i + di, j + dj, n) / 8;
+                    }
+                }
+            }
+        }
+        return prob[k][row][column];
+    }
+
+    private double get(double prob[][][], int step, int i, int j, int n) {
+        if (i < 0 || j < 0 || i >= n || j >= n) return 0.0;
+        return prob[step][i][j];
+    }
+}
+```
+
+
+
 ## 2/15/2022
 
 [1380. 矩阵中的幸运数](https://leetcode-cn.com/problems/lucky-numbers-in-a-matrix/)
