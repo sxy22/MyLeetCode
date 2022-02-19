@@ -1236,7 +1236,7 @@ class Solution {
 
 
 
-# HERE!!
+
 
 ## [剑指 Offer II 030. 插入、删除和随机访问都是 O(1) 的容器](https://leetcode-cn.com/problems/FortPu/)
 
@@ -1631,8 +1631,6 @@ class Solution {
 
 
 
-
-
 ## [剑指 Offer II 036. 后缀表达式](https://leetcode-cn.com/problems/8Zf90G/)
 
 逆波兰表达式是一种后缀表达式，所谓后缀就是指算符写在后面。
@@ -1898,7 +1896,7 @@ class Solution {
 
 
 
-
+# HERE!!!
 
 ## [剑指 Offer II 041. 滑动窗口的平均值](https://leetcode-cn.com/problems/qIsx9U/)
 
@@ -1995,7 +1993,7 @@ class RecentCounter {
 
 ## [剑指 Offer II 043. 往完全二叉树添加节点](https://leetcode-cn.com/problems/NaqhDT/)
 
-+ 先深度优先遍历将子节点没填满的node按顺序插入deque
++ 先广度优先遍历将子节点没填满的node按顺序插入deque
 + 将新节点作为deque第一个元素的子节点
 + 若填满则removefirst
 
@@ -2409,6 +2407,8 @@ class Solution {
 ```
 
 
+
+# here!!!!
 
 ## [剑指 Offer II 050. 向下的路径节点之和](https://leetcode-cn.com/problems/6eUYwP/)
 
