@@ -2,6 +2,69 @@
 
 # 2/2022
 
+## 2/20/2022
+
+[717. 1比特与2比特字符](https://leetcode-cn.com/problems/1-bit-and-2-bit-characters/)
+
+```java
+class Solution {
+    public boolean isOneBitCharacter(int[] bits) {
+        int n = bits.length;
+        int i = 0;
+        while (i < n - 1) {
+            if (bits[i] == 1) i += 1;
+            i += 1;
+        }
+        return i == n - 1;
+    }
+}
+```
+
+
+
+## 2/19/2022
+
+[969. 煎饼排序](https://leetcode-cn.com/problems/pancake-sorting/)
+
+```java
+class Solution {
+    public List<Integer> pancakeSort(int[] arr) {
+        List<Integer> ans = new ArrayList<>();
+        int n = arr.length;
+        for (int last_idx = n - 1; last_idx > 0; last_idx--) {
+            int idx = last_idx;
+            int max = arr[last_idx];
+            for (int i = 0; i < last_idx; i++) {
+                if (arr[i] > max) {
+                    max = arr[i];
+                    idx = i;
+                }
+            }
+            if (idx == last_idx) continue;
+            reverse(arr, idx);
+            reverse(arr, last_idx);
+            ans.add(idx + 1);
+            ans.add(last_idx + 1);
+        }
+        return ans;
+
+    }
+
+    private void reverse(int[] arr, int idx) {
+        int i = 0, j = idx;
+        while (i < j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i += 1;
+            j -= 1;
+        }
+    }
+}
+```
+
+
+
 ## 2/18/2022
 
 ```java
