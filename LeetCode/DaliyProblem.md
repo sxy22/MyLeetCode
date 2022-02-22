@@ -2,6 +2,69 @@
 
 # 2/2022
 
+## 2/23/2022
+
+```python
+class Solution:
+    def reverseOnlyLetters(self, s: str) -> str:
+        ans = [x for x in s]
+        i, j = 0, len(s) - 1
+        while i < j:
+            while i < j and not s[i].isalpha():
+                i += 1
+            while i < j and not s[j].isalpha():
+                j -= 1
+            ans[i], ans[j] = ans[j], ans[i]
+            i += 1
+            j -= 1
+        return ''.join(ans)
+```
+
+
+
+## 2/21/2022
+
+[838. 推多米诺](https://leetcode-cn.com/problems/push-dominoes/)
+
+```java
+class Solution:
+    def pushDominoes(self, dominoes: str) -> str:
+        n = len(dominoes)
+        ans = [d for d in dominoes]
+        status = dict()
+        deque = collections.deque()
+        for i in range(n):
+            s = dominoes[i]
+            if s == 'L':
+                deque.append((i, -1))
+            if s == 'R':
+                deque.append((i, 1))
+        
+        while deque:
+            status.clear()
+            for i in range(len(deque)):
+                idx, dirc = deque.popleft()
+                if dirc == -1 and idx - 1 >= 0 and ans[idx - 1] == '.':
+                    if idx - 1 not in status:
+                        status[idx - 1] = 0
+                    status[idx - 1] -= 1
+                if dirc == 1 and idx + 1 < n and ans[idx + 1] == '.':
+                    if idx + 1 not in status:
+                        status[idx + 1] = 0
+                    status[idx + 1] += 1
+            # print(status)
+            for idx in status:
+                if status[idx] == -1:
+                    ans[idx] = 'L'
+                    deque.append((idx, -1))
+                if status[idx] == 1:
+                    ans[idx] = 'R'
+                    deque.append((idx, 1))
+        return ''.join(ans)
+```
+
+
+
 ## 2/20/2022
 
 [717. 1比特与2比特字符](https://leetcode-cn.com/problems/1-bit-and-2-bit-characters/)
