@@ -375,6 +375,44 @@ class Solution:
 
 
 
+```java
+class Solution {
+    boolean ans;
+
+    public boolean exist(char[][] board, String word) {
+        ans = false;
+        int m = board.length;
+        int n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dfs(board, word, i, j, 0, m, n);
+            } 
+        }
+        return ans;
+    }
+
+    private void dfs(char[][] board, String word, int i, int j, int idx, int m, int n) {
+        if (ans) return;
+        if (idx == word.length()) {
+            ans = true;
+            return;
+        }
+        if (i < 0 || j < 0 || i > m - 1 || j > n - 1 || board[i][j] != word.charAt(idx)) {
+            return;
+        }
+        char temp = word.charAt(idx);
+        board[i][j] = '#';
+        dfs(board, word, i - 1, j, idx + 1, m, n);
+        dfs(board, word, i + 1, j, idx + 1, m, n);
+        dfs(board, word, i, j - 1, idx + 1, m, n);
+        dfs(board, word, i, j + 1, idx + 1, m, n);
+        board[i][j] = temp;
+    }
+}
+```
+
+
+
 ## [剑指 Offer 13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
 
 + DFS
@@ -551,7 +589,7 @@ class Solution {
 
 
 
-
+# HERE
 
 ## [剑指 Offer 18. 删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
 
