@@ -2408,7 +2408,7 @@ class Solution {
 
 
 
-# here!!!!
+
 
 ## [剑指 Offer II 050. 向下的路径节点之和](https://leetcode-cn.com/problems/6eUYwP/)
 
@@ -2498,6 +2498,29 @@ class Solution {
 ```
 
 
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.ans = -2222
+        self.dfs(root)
+        return self.ans
+
+
+    def dfs(self, node: TreeNode):
+        if node is None:
+            return 0
+        left = max(self.dfs(node.left), 0)
+        right = max(self.dfs(node.right), 0)
+        self.ans = max(self.ans, node.val + left + right)
+        return node.val + max(left, right)
+```
 
 
 
@@ -3082,6 +3105,8 @@ class Trie {
 
 
 
+
+
 ## [剑指 Offer II 063. 替换单词](https://leetcode-cn.com/problems/UhWRSj/)
 
 + 建立前缀树加入词根
@@ -3265,6 +3290,8 @@ class Solution {
     }
 }
 ```
+
+
 
 
 
@@ -4411,6 +4438,8 @@ class Solution {
 
 
 
+
+
 ## [剑指 Offer II 087. 复原 IP ](https://leetcode-cn.com/problems/0on3uN/)
 
 + dfs_backtrack
@@ -4951,6 +4980,8 @@ class Solution:
 
 
 
+
+
 ## [剑指 Offer II 098. 路径的数目](https://leetcode-cn.com/problems/2AoeFn/)
 
 + 动态规划
@@ -5145,6 +5176,26 @@ class Solution:
 
 
 
+```python
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if (s & 1) == 1:
+            return False
+        target = s // 2
+        dp = [False] * (target + 1)
+        dp[0] = True
+        for num in nums:
+            for j in range(target, -1, -1):
+                if j >= num:
+                    dp[j] = dp[j] or dp[j - num]
+        return dp[-1] 
+```
+
+
+
+
+
 ## [剑指 Offer II 102. 加减的目标值](https://leetcode-cn.com/problems/YaVDxD/)
 
 ![image-20220128175414482](https://raw.githubusercontent.com/sxy22/notes_pic/main/image-20220128175414482.png)
@@ -5194,17 +5245,13 @@ class Solution:
             return 0 
         negsum = diff // 2
         n = len(nums)
-        pre = [0] * (negsum + 1)
-        pre[0] = 1
-        cur = [0] * (negsum + 1)
-        for i in range(n):
-            num = nums[i]
-            for j in range(negsum + 1):
-                cur[j] = pre[j]
+        dp = [0] * (negsum + 1)
+        dp[0] = 1
+        for num in nums:
+            for j in range(negsum, -1, -1):
                 if j >= num:
-                    cur[j] += pre[j - num]
-            pre, cur = cur, pre 
-        return pre[-1]
+                    dp[j] += dp[j - num]
+        return dp[-1]
 ```
 
 
@@ -5258,17 +5305,23 @@ class Solution {
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
         int[] dp = new int[amount + 1];
-        Arrays.fill(dp, INF);
+        Arrays.fill(dp, -1);
         dp[0] = 0;
         for (int coin : coins) {
             // System.out.println(Arrays.toString(dp));
             for (int j = coin; j < amount + 1; j++) {
-                if (dp[j - coin] != INF) {
-                    dp[j] = Math.min(dp[j], dp[j - coin] + 1);
+                if (dp[j] == -1) {
+                    if (dp[j - coin] != -1) {
+                        dp[j] = 1 + dp[j - coin];
+                    }
+                }else {
+                    if (dp[j - coin] != -1) {
+                        dp[j] = Math.min(dp[j], 1 + dp[j - coin]);
+                    }
                 }
             }
         }
-        return dp[amount] == INF ? -1 : dp[amount];
+        return dp[amount];
     }
 }
 ```
@@ -5295,6 +5348,8 @@ class Solution {
     }
 }
 ```
+
+
 
 
 
@@ -5728,6 +5783,8 @@ class Solution {
 
 
 
+# HERE
+
 ## [剑指 Offer II 112. 最长递增路径](https://leetcode-cn.com/problems/fpTFWP/)
 
 + dfs
@@ -6126,4 +6183,8 @@ class Solution {
     }
 }
 ```
+
+
+
+
 
