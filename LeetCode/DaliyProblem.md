@@ -1,6 +1,130 @@
 # Leetcode每日一题
 
+# 3/2022
+
+## 3/8/2022
+
+[2055. 蜡烛之间的盘子](https://leetcode-cn.com/problems/plates-between-candles/)
+
+```java
+class Solution {
+    public int[] platesBetweenCandles(String s, int[][] queries) {
+        int n = s.length();
+        int[] pre_sum = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        int sum = 0;
+        int l = -1;
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '|') {
+                l = i;
+                pre_sum[i] = sum;
+            }else {
+                sum += 1;
+            }
+            left[i] = l;
+        }
+        int r = n;
+        for (int i = n - 1; i >= 0; i--) {
+            if (s.charAt(i) == '|') {
+                r = i;
+            }
+            right[i] = r;
+        }
+
+        int m = queries.length;
+        int[] ans = new int[m];
+        for (int i = 0; i < m; i++) {
+            int le = right[queries[i][0]];
+            int ri = left[queries[i][1]];
+            int cnt = 0;
+            if (le <= ri) {
+                cnt = pre_sum[ri] - pre_sum[le];
+            }
+            ans[i] = cnt;
+        }
+        return ans;
+    }
+}
+```
+
+
+
+
+
+## 3/6/2022
+
+[2100. 适合打劫银行的日子](https://leetcode-cn.com/problems/find-good-days-to-rob-the-bank/)
+
+```python
+class Solution:
+    def goodDaysToRobBank(self, security: List[int], time: int) -> List[int]:
+        if time == 0:
+            return [i for i in range(len(security))]
+        n = len(security)
+        left = [1] * n
+        for i in range(1, n):
+            if security[i - 1] >= security[i]:
+                left[i] = 1 + left[i - 1]
+        right = [1] * n
+        for i in range(n - 2, -1, -1):
+            if security[i + 1] >= security[i]:
+                right[i] = 1 + right[i + 1]
+        ans = []
+        # print(left)
+        # print(right)
+        for i in range(n):
+            if left[i] - 1 >= time and right[i] - 1 >= time:
+                ans.append(i)
+        return ans 
+```
+
+
+
+
+
 # 2/2022
+
+## 2/25/2022
+
+[2016. 增量元素之间的最大差值](https://leetcode-cn.com/problems/maximum-difference-between-increasing-elements/)
+
+```java
+class Solution {
+    public int maximumDifference(int[] nums) {
+        int ans = -1;
+        int min = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (num > min) {
+                ans = Math.max(ans, num - min);
+            }else {
+                min = num;
+            }
+        }
+        return ans;
+    }
+}
+```
+
+
+
+## 2/25/2022
+
+[537. 复数乘法](https://leetcode-cn.com/problems/complex-number-multiplication/)
+
+```python
+class Solution:
+    def complexNumberMultiply(self, num1: str, num2: str) -> str:
+        s1 = num1.split('+')
+        s2 = num2.split('+')
+        a1, b1 = int(s1[0]), int(s1[1][:-1])
+        a2, b2 = int(s2[0]), int(s2[1][:-1])
+        c1 = a1 * a2 - b1 * b2
+        c2 = a1 * b2 + a2 * b1
+        return '{}+{}i'.format(c1, c2)
+```
+
+
 
 ## 2/24/2022
 
