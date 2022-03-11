@@ -2,6 +2,86 @@
 
 # 3/2022
 
+## 3/12/2022
+
+[590. N 叉树的后序遍历](https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/)
+
+```java
+class Solution {
+    List<Integer> ans;
+
+    public List<Integer> postorder(Node root) {
+        ans = new ArrayList<>();
+        if (root == null) return ans;
+        dfs(root);
+        return ans;   
+    }
+
+    private void dfs(Node root) {
+        if (root.children != null) {
+            for (Node node : root.children) {
+                dfs(node);
+            }
+        }
+        ans.add(root.val);
+    }
+}
+```
+
+
+
+## 3/11/2022
+
+[2049. 统计最高分的节点数目](https://leetcode-cn.com/problems/count-nodes-with-the-highest-score/)
+
+```python
+class Solution:
+    def countHighestScoreNodes(self, parents: List[int]) -> int:
+        n = len(parents)
+        parent2child = collections.defaultdict(list)
+        for i in range(1, n):
+            p = parents[i]
+            parent2child[p].append(i)
+        self.cnt = [-1] * n
+        self.dfs(0, parent2child)
+
+        max_mul = -1
+        cnt = -1
+        for i in range(n):
+            mul = self.get_mul(i, parent2child, n)
+            if mul > max_mul:
+                max_mul = mul
+                cnt = 1
+            elif mul == max_mul:
+                cnt += 1
+        return cnt 
+
+
+    def dfs(self, node, parent2child):
+        cnt = 1
+        for child in parent2child[node]:
+            cnt += self.dfs(child, parent2child)
+        self.cnt[node] = cnt
+        return cnt 
+
+    def get_mul(self, node, parent2child, n):
+        mul = 1
+        if len(parent2child[node]) == 0:
+            mul *= n - 1
+        elif len(parent2child[node]) == 1:
+            l_cnt = self.cnt[parent2child[node][0]]
+            mul *= l_cnt
+            mul *= max(1, n - 1 - l_cnt) 
+        else:
+            l_cnt = self.cnt[parent2child[node][0]]
+            r_cnt = self.cnt[parent2child[node][1]]
+            mul *= l_cnt * r_cnt
+            mul *= max(1, n - 1 - l_cnt - r_cnt) 
+        return mul  
+```
+
+
+
 ## 3/8/2022
 
 [2055. 蜡烛之间的盘子](https://leetcode-cn.com/problems/plates-between-candles/)
