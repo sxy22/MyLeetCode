@@ -429,3 +429,125 @@ class Solution {
 }
 ```
 
+
+
+## [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
++ 贪心 + 二分
+
+```java
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] min_tail = new int[n];
+        min_tail[0] = nums[0];
+        int len = 1;
+        for (int i = 1; i < n; i++) {
+            int num = nums[i];
+            if (num > min_tail[len - 1]) {
+                min_tail[len] = num;
+                len += 1;
+            }else if (num < min_tail[len - 1]) {
+                int idx = bisect(min_tail, num, len);
+                min_tail[idx] = num;
+            }
+        }
+        return len;
+
+    }
+
+    private int bisect(int[] nums, int x, int j) {
+        int i = 0;
+        while (i < j) {
+            int mid = (i + j) / 2;
+            if (nums[mid] < x) {
+                i = mid + 1;
+            }else {
+                j = mid;
+            }
+        }
+        return i;
+    }
+}
+```
+
+
+
+## [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
+
++ 约瑟夫环
+
+![image-20210422155709170](https://gitee.com/sxy22/note_images/raw/master/image-20210422155709170.png)
+
+```python
+class Solution:
+    def lastRemaining(self, n: int, m: int) -> int:
+        prev = 0
+        cur = 0
+        for k in range(2, n + 1):
+            t = m % k
+            cur = (prev + t) % k
+            prev = cur 
+        
+        return cur
+```
+
+
+
+```java
+class Solution {
+    public int lastRemaining(int n, int m) {
+        int pre = 0, cur = 0;
+        for (int k = 2; k <= n; k++) {
+            int t = (m - 1) % k;
+            cur = pre + t + 1;
+            if (cur > k - 1) {
+                cur -= k;
+            }
+            pre = cur;
+        }
+        return cur;
+    }
+}
+```
+
+
+
+## [440. 字典序的第K小数字](https://leetcode-cn.com/problems/k-th-smallest-in-lexicographical-order/)
+
++ long
+
+```java
+class Solution {
+    public int findKthNumber(int n, int k) {
+        int cur = 1;
+        k -= 1;
+        while (k > 0) {
+            int cnt = cnt(cur, n);
+            if (cnt <= k) {
+                k -= cnt;
+                cur += 1;
+            }else {
+                k -= 1;
+                cur = cur * 10;
+            }
+        }
+        return cur;
+    }
+
+    private int cnt(int cur, long n) {
+        int cnt = 0;
+        long first = cur;
+        long last = cur;
+        while (first <= n) {
+            cnt += Math.min(last, n) - first + 1;
+            first = first * 10;
+            last = last * 10 + 9;
+        }
+        return cnt;
+    }
+}
+```
+
+
+

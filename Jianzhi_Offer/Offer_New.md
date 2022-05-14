@@ -267,6 +267,8 @@ class Solution {
 
 
 
+# HERE
+
 ## [剑指 Offer II 009. 乘积小于 K 的子数组](https://leetcode-cn.com/problems/ZVAVXX/)
 
 + 固定每个i
@@ -553,6 +555,8 @@ class Solution {
 
 
 
+
+
 ## [剑指 Offer II 016. 不含重复字符的最长子字符串](https://leetcode-cn.com/problems/wtcaE1/)
 
 + 滑动窗口
@@ -639,6 +643,8 @@ class Solution {
 ```
 
 
+
+# 
 
 ## [剑指 Offer II 018. 有效的回文](https://leetcode-cn.com/problems/XltzEq/)
 
@@ -874,6 +880,8 @@ public class Solution {
 ```
 
 
+
+# HERR
 
 ## [剑指 Offer II 024. 反转链表](https://leetcode-cn.com/problems/UHnkqh/)
 
@@ -1343,7 +1351,7 @@ class RandomizedSet:
 
 
 
-## [剑指 Offer II 031. 最近最少使用缓存](https://leetcode-cn.com/problems/OrIXps/)
+## [剑指 Offer II 031. 最近最少使用缓存(LRU)](https://leetcode-cn.com/problems/OrIXps/)
 
 + 定长双向链表+哈希表
 + 需要四个方法
@@ -3688,7 +3696,7 @@ class Solution:
 
 
 
-## [剑指 Offer II 075. 数组相对排序](https://leetcode-cn.com/problems/0H97ZC/)
+## [剑指 Offer II 075. 数组相对排序(自定义排序)](https://leetcode-cn.com/problems/0H97ZC/)
 
 + 自定义排序
 + 注意java中Integer 不能对int 进行排序
@@ -4434,6 +4442,11 @@ class Solution {
     }
 
 }
+```
+
+
+
+```python
 ```
 
 
@@ -5194,6 +5207,29 @@ class Solution:
 
 
 
+```java
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if ((sum & 1) == 1) return false;
+        int target = sum / 2;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
+        for (int num : nums) {
+            for (int j = target; j >= num; j--) {
+                dp[j] = dp[j] || dp[j - num];
+            }
+        }
+        return dp[target];
+    }   
+}
+```
+
+
+
 
 
 ## [剑指 Offer II 102. 加减的目标值](https://leetcode-cn.com/problems/YaVDxD/)
@@ -5783,7 +5819,7 @@ class Solution {
 
 
 
-# HERE
+
 
 ## [剑指 Offer II 112. 最长递增路径](https://leetcode-cn.com/problems/fpTFWP/)
 

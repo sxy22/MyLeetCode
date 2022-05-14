@@ -2,6 +2,78 @@
 
 # 3/2022
 
+## 3/22/2022
+
+[440. 字典序的第K小数字](https://leetcode-cn.com/problems/k-th-smallest-in-lexicographical-order/)
+
++ long
+
+```java
+class Solution {
+    public int findKthNumber(int n, int k) {
+        int cur = 1;
+        k -= 1;
+        while (k > 0) {
+            int cnt = cnt(cur, n);
+            if (cnt <= k) {
+                k -= cnt;
+                cur += 1;
+            }else {
+                k -= 1;
+                cur = cur * 10;
+            }
+        }
+        return cur;
+    }
+
+    private int cnt(int cur, long n) {
+        int cnt = 0;
+        long first = cur;
+        long last = cur;
+        while (first <= n) {
+            cnt += Math.min(last, n) - first + 1;
+            first = first * 10;
+            last = last * 10 + 9;
+        }
+        return cnt;
+    }
+}
+```
+
+
+
+## 3/15/2022
+
+[2044. 统计按位或能得到最大值的子集数目](https://leetcode-cn.com/problems/count-number-of-maximum-bitwise-or-subsets/)
+
+```java
+class Solution {
+    int cnt = 0;
+    int max_or = -1;
+
+    public int countMaxOrSubsets(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            dfs(nums, i, nums[i]);
+        }
+        return cnt;
+    }
+
+    private void dfs(int[] nums, int cur_idx, int cur_or) {
+        if (cur_or > max_or) {
+            max_or = cur_or;
+            cnt = 1;
+        }else if (cur_or == max_or) {
+            cnt += 1;
+        }
+        for (int next_idx = cur_idx + 1; next_idx < nums.length; next_idx++) {
+            dfs(nums, next_idx, cur_or | nums[next_idx]);
+        }
+    }
+}
+```
+
+
+
 ## 3/12/2022
 
 [590. N 叉树的后序遍历](https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/)

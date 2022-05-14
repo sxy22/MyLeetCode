@@ -589,7 +589,7 @@ class Solution {
 
 
 
-# HERE
+
 
 ## [剑指 Offer 18. 删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
 
@@ -1680,7 +1680,7 @@ public class Codec {
 
 
 
-## [剑指 Offer 38. 字符串的排列(缺java)](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)
+## [剑指 Offer 38. 字符串的排列(缺](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)
 
 ```python
 class Solution:
@@ -1717,6 +1717,42 @@ class Solution:
 **Java**
 
 ```java
+class Solution {
+    List<String> ans;
+    StringBuilder track;
+    Map<Character, Integer> cnt;
+    int n;
+
+    public String[] permutation(String s) {
+        ans = new ArrayList<>();
+        track = new StringBuilder();
+        cnt = new HashMap<>();
+        n = s.length();
+        for (int i = 0; i < n; i++) {
+            char w = s.charAt(i);
+            cnt.put(w, 1 + cnt.getOrDefault(w, 0));
+        }
+        dfs();
+        return ans.toArray(new String[ans.size()]);
+
+    }
+
+    private void dfs() {
+        if (track.length() == n) {
+            ans.add(track.toString());
+            return;
+        }
+        for (char w : cnt.keySet()) {
+            if (cnt.get(w) > 0) {
+                cnt.put(w, cnt.get(w) - 1);
+                track.append(w);
+                dfs();
+                track.deleteCharAt(track.length() - 1);
+                cnt.put(w, cnt.get(w) + 1);
+            }
+        }
+    }
+}
 ```
 
 
@@ -2223,6 +2259,8 @@ class Solution {
     }
 }
 ```
+
+
 
 
 
@@ -3015,6 +3053,8 @@ class MaxQueue {
     }
 }
 ```
+
+
 
 
 
