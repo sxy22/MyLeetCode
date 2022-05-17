@@ -283,6 +283,30 @@ class Solution:
         return b
 ```
 
+**Java**
+
+```java
+class Solution {
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        int x1 = 0;
+        int x2 = 1;
+        int max_int = 1000000007;
+        while (n > 1) {
+            n -= 1;
+            int temp = x2;
+            x2 = (x1 + x2) % max_int;
+            x1 = temp;
+        }
+        return x2;
+    }
+}
+```
+
+
+
 
 
 ## [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
@@ -330,6 +354,32 @@ class Solution:
             else:
                 j -= 1
         return numbers[i]
+```
+
+
+
+**Java**
+
+```java
+class Solution {
+    public int minArray(int[] numbers) {
+        int i = 0, j = numbers.length - 1;
+        while (i < j) {
+            if (numbers[i] < numbers[j]) {
+                return numbers[i];
+            }
+            int mid = (i + j) / 2;
+            if (numbers[mid] < numbers[j]) {
+                j = mid;
+            }else if (numbers[mid] > numbers[j]) {
+                i = mid + 1;
+            }else {
+                j -= 1;
+            }
+        }
+        return numbers[i];
+    }
+}
 ```
 
 
@@ -418,7 +468,7 @@ class Solution {
 + DFS
 + 如到达已搜索过的点，可以直接return，因为其他路径会从该店出发
 
-
+**python**
 
 ```python
 class Solution:
@@ -450,6 +500,48 @@ class Solution:
             x = x // 10
         return ans 
 
+```
+
+
+
+**Java**
+
+```java
+class Solution {
+    int ans;
+    int[][] visited;
+    
+    public int movingCount(int m, int n, int k) {
+        ans = 0;
+        visited = new int[m][n];
+        dfs(0, 0, m, n, k);
+        return ans;
+    }
+
+    private void dfs(int i, int j, int m, int n, int k) {
+        if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j] == 1) {
+            return;
+        } 
+        if (bitsum(i) + bitsum(j) > k) {
+            return;
+        }
+        visited[i][j] = 1;
+        ans += 1;
+        dfs(i - 1, j, m, n, k);
+        dfs(i + 1, j, m, n, k);
+        dfs(i, j - 1, m, n, k);
+        dfs(i, j + 1, m, n, k);
+    }
+
+    private int bitsum(int x) {
+        int sum = 0;
+        while (x > 0) {
+            sum += x % 10;
+            x = x / 10;
+        }
+        return sum;
+    }
+}
 ```
 
 
@@ -635,6 +727,8 @@ class Solution {
 ```
 
 
+
+# HERE
 
 ## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 
