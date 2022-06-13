@@ -728,7 +728,7 @@ class Solution {
 
 
 
-# HERE
+
 
 ## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 
@@ -863,15 +863,13 @@ class Solution {
         ListNode prehead = new ListNode(-1);
         ListNode ans = prehead;
         while (l1 != null && l2 != null) {
-            ListNode next_node;
             if (l1.val <= l2.val) {
-                next_node = l1;
+                prehead.next = l1;
                 l1 = l1.next;
             }else {
-                next_node = l2;
+                prehead.next = l2;
                 l2 = l2.next;
             }
-            prehead.next = next_node;
             prehead = prehead.next;
         }
 
@@ -950,6 +948,8 @@ class Solution {
     }
 }
 ```
+
+
 
 
 
@@ -1250,6 +1250,8 @@ class Solution {
 
 
 
+
+
 ## [剑指 Offer 32 - I. 从上到下打印二叉树](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)
 
 + 广度优先遍历
@@ -1396,6 +1398,38 @@ class Solution {
 
 ## [剑指 Offer 33. 二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
 
++ 后续遍历最后一个元素是head
++ 分成左右子树，递归判断
+
+
+
+**Python**
+
+```python
+class Solution:
+    def verifyPostorder(self, postorder: List[int]) -> bool:
+        return self.recur(postorder, 0, len(postorder) - 1)
+
+    def recur(self, postorder, i, j):
+        if i >= j:
+            return True 
+        head_val = postorder[j]
+        right = i
+        while postorder[right] < head_val:
+            right += 1
+        for k in range(right, j):
+            if postorder[k] < head_val:
+                return False 
+        return self.recur(postorder, i, right - 1) and self.recur(postorder, right, j - 1)
+
+```
+
+
+
+
+
+**Java**
+
 ```java
 class Solution {
     public boolean verifyPostorder(int[] postorder) {
@@ -1501,6 +1535,47 @@ class Solution:
 ## [剑指 Offer 35. 复杂链表的复制](https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/)
 
 + 利用哈希表的查询特点，考虑构建 **原链表节点** 和 **新链表对应节点** 的键值对映射关系
+
+**Python**
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if head is None:
+            return head 
+        hmap = dict()
+        pre_head = Node(-1, None, None)
+        pre_head_copy = pre_head 
+        head_copy = head 
+        while head is not None:
+            node = Node(head.val, None, None)
+            hmap[head] = node 
+            pre_head.next = node
+            head = head.next
+            pre_head = pre_head.next
+
+        cur = head_copy 
+        while cur is not None:
+            # cur.random 可能是null
+            if cur.random is not None:
+                hmap[cur].random = hmap[cur.random]
+            cur = cur.next 
+        return pre_head_copy.next
+
+
+```
+
+
+
+**Java**
 
 ```java
 /*
@@ -1631,6 +1706,10 @@ class Solution:
         self.dfs(root.right)
         return
 ```
+
+
+
+
 
 
 
@@ -1812,22 +1891,23 @@ class Solution:
 
 ```java
 class Solution {
-    List<String> ans;
-    StringBuilder track;
     Map<Character, Integer> cnt;
+    ArrayList<String> ans;
+    StringBuilder track;
     int n;
 
     public String[] permutation(String s) {
+        cnt = new HashMap<>();
         ans = new ArrayList<>();
         track = new StringBuilder();
-        cnt = new HashMap<>();
         n = s.length();
-        for (int i = 0; i < n; i++) {
-            char w = s.charAt(i);
-            cnt.put(w, 1 + cnt.getOrDefault(w, 0));
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            cnt.put(ch, 1 + cnt.getOrDefault(ch, 0));
         }
         dfs();
         return ans.toArray(new String[ans.size()]);
+
 
     }
 
@@ -1836,13 +1916,14 @@ class Solution {
             ans.add(track.toString());
             return;
         }
-        for (char w : cnt.keySet()) {
-            if (cnt.get(w) > 0) {
-                cnt.put(w, cnt.get(w) - 1);
-                track.append(w);
+        for (Character ch : cnt.keySet()) {
+            int ch_cnt = cnt.get(ch);
+            if (ch_cnt != 0) {
+                track.append(ch);
+                cnt.put(ch, ch_cnt - 1);
                 dfs();
                 track.deleteCharAt(track.length() - 1);
-                cnt.put(w, cnt.get(w) + 1);
+                cnt.put(ch, ch_cnt);
             }
         }
     }
@@ -2085,6 +2166,8 @@ class Solution {
 
 
 
+
+
 ## [剑指 Offer 45. 把数组排成最小的数](https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/)
 
 ```java
@@ -2252,6 +2335,25 @@ class Solution {
         return this.dp[i][j];
     }
 }
+```
+
+
+
+```python
+class Solution:
+    def maxValue(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        dp = [[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                dp[i][j] = max(self.get(dp, i - 1, j), self.get(dp, i, j - 1)) + grid[i][j]
+        
+        return dp[m - 1][n - 1]
+    def get(self, grid, i, j):
+        if i < 0 or j < 0:
+            return 0
+        return grid[i][j]
 ```
 
 
@@ -2692,6 +2794,8 @@ class Solution {
 ```
 
 
+
+# HERE
 
 ## [剑指 Offer 55 - I. 二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
 

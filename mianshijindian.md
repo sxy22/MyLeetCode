@@ -117,7 +117,162 @@ class Solution {
 
 
 
-【】[]【】
+## [面试题 02.03. 删除中间节点](https://leetcode.cn/problems/delete-middle-node-lcci/)
+
++ 将后一个结点的值替换到node
++ 删除后一个结点
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
+```
+
+
+
+## [面试题 02.05. 链表求和](https://leetcode.cn/problems/sum-lists-lcci/)
+
+**Java**
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int carry = 0;
+        ListNode pre = new ListNode(-1);
+        ListNode node = pre;
+        while (l1 != null || l2 != null) {
+            int x = 0, y = 0;
+            if (l1 != null) {
+                x = l1.val;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                y = l2.val;
+                l2 = l2.next;
+            }
+            int sum = x + y + carry;
+            carry = sum / 10;
+            node.next = new ListNode(sum % 10);
+            node = node.next;
+        }
+        if (carry != 0) {
+            node.next = new ListNode(carry);
+        }
+        return pre.next;
+    }
+}
+```
+
+
+
+
+
+## [面试题 02.06. 回文链表](https://leetcode.cn/problems/palindrome-linked-list-lcci/)
+
++ 找到链表中点后翻转后半部分链表
++ 比较是否相同
+
+
+
+```java
+    logo
+    学习
+    题库
+    讨论
+    竞赛
+    求职
+
+商店
+1
+回文链表
+提交记录
+26 / 26 个通过测试用例
+状态：通过
+执行用时: 1 ms
+内存消耗: 43.8 MB
+提交时间：3 个月前
+执行用时分布图表
+执行消耗内存分布图表
+邀请好友来挑战 回文链表
+提交的代码： 3 个月前
+
+语言： java
+
+添加备注
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) return true;
+        // 找中点
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode l1 = head;
+        ListNode l2 = reverse(slow.next);
+        while (l2 != null) {
+            if (l1.val != l2.val) return false;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        return true;
+    }
+
+    ListNode reverse(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+        ListNode next = null;
+        while (cur != null) {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+```
+
+
+
+
+
+
+
+2.08
+
+
+
+
 
 
 
