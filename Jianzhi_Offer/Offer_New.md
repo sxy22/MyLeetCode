@@ -245,29 +245,32 @@ class Solution {
 ```java
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
-        int i = 0, j = -1;
         int n = nums.length;
-        int min_len = nums.length + 1;
+        int i = 0;
+        int j = 0;
         int sum = 0;
-        while (j < n) {
-            if (sum < target) {
+        int min_len = n + 1;
+        while (i < n) {
+            while (j < n && sum < target) {
+                sum += nums[j];
                 j += 1;
-                if (j < n) sum += nums[j];
-            }else {
-                min_len = Math.min(min_len, j - i + 1);
-                sum -= nums[i];
-                i += 1;
             }
+            if (sum >= target) {
+                min_len = Math.min(min_len, j - i);
+            }
+            sum -= nums[i];
+            i += 1;
         }
-        if (min_len == n + 1) return 0;
-        return min_len;
+        return min_len <= n ? min_len : 0;
     }
 }
 ```
 
 
 
-# HERE
+
+
+
 
 ## [剑指 Offer II 009. 乘积小于 K 的子数组](https://leetcode-cn.com/problems/ZVAVXX/)
 
@@ -295,6 +298,27 @@ class Solution {
                 mul /= nums[i];
                 i += 1;
             }
+        }
+        return cnt;
+    }
+}
+
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if (k <= 1) return 0;
+        int cnt = 0;
+        int i = 0;
+        int j = 0;
+        int n = nums.length;
+        int mul = 1;
+        while (i < n) {
+            while (j < n && mul * nums[j] < k) {
+                mul *= nums[j];
+                j += 1;
+            }
+            cnt += j - i;
+            mul /= nums[i];
+            i += 1;
         }
         return cnt;
     }
@@ -354,6 +378,8 @@ class Solution {
     }
 }
 ```
+
+# HERE
 
 
 
@@ -881,7 +907,7 @@ public class Solution {
 
 
 
-# HERR
+
 
 ## [剑指 Offer II 024. 反转链表](https://leetcode-cn.com/problems/UHnkqh/)
 
