@@ -379,7 +379,7 @@ class Solution {
 }
 ```
 
-# HERE
+
 
 
 
@@ -536,6 +536,72 @@ class Solution {
 
 
 
+```java
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) return false;
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int[] cnt = new int[26];
+        int diff = 0;
+        
+        for (int i = 0; i < n1; i++) {
+            int status = remove(cnt, s1.charAt(i));
+            if (status == 1) {
+                diff += 1;
+            }
+        }
+
+        for (int i = 0; i < n1; i++) {
+            int st = add(cnt, s2.charAt(i));
+            if (st == 0) {
+                diff -= 1;
+            }else if (st == -1) {
+                diff += 1;
+            }
+        }
+
+        if (diff == 0) return true;
+        int i = 0;
+        int j = n1 - 1;
+        while (j < n2 - 1) {
+            int st = add(cnt, s2.charAt(j + 1));
+            if (st == 0) {
+                diff -= 1;
+            }else if (st == -1) {
+                diff += 1;
+            }
+            st = remove(cnt, s2.charAt(i));
+            if (st == 0) {
+                diff -= 1;
+            }else if (st == 1) {
+                diff += 1;
+            }
+            i += 1;
+            j += 1;
+            if (diff == 0) return true; 
+        }
+
+        return false;
+
+    }
+
+    private int add(int[] cnt, char ch) {
+        cnt[ch - 'a'] -= 1;
+        return cnt[ch - 'a'];
+    }
+
+    private int remove(int[] cnt, char ch) {
+        cnt[ch - 'a'] += 1;
+        return cnt[ch - 'a'];
+    }
+}
+```
+
+
+
+
+
 ## [剑指 Offer II 015. 字符串中的所有变位词](https://leetcode-cn.com/problems/VabMRr/)
 
 ```java
@@ -582,6 +648,8 @@ class Solution {
 
 
 
+
+# 
 
 ## [剑指 Offer II 016. 不含重复字符的最长子字符串](https://leetcode-cn.com/problems/wtcaE1/)
 
@@ -881,6 +949,34 @@ public class Solution {
         return slow;
     }
 }
+```
+
+
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        pre_node = ListNode(-1)
+        pre_node.next = head 
+        slow, fast = pre_node, pre_node 
+        while fast is not None:
+            if fast.next is None or fast.next.next is None:
+                return None 
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                break 
+        while pre_node != slow:
+            pre_node = pre_node.next
+            slow = slow.next
+        return slow 
+
 ```
 
 
@@ -1266,6 +1362,49 @@ class Solution {
         newnode.next = next;
     }
 }
+```
+
+
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, next=None):
+        self.val = val
+        self.next = next
+"""
+
+class Solution:
+    def insert(self, head: 'Node', insertVal: int) -> 'Node':
+        insert_node = Node(val=insertVal)
+        if head is None:
+            insert_node.next = insert_node
+            return insert_node
+        cur = head
+        nxt = head.next
+        while (1):
+            if cur.val <= nxt.val:
+                if cur.val <= insertVal <= nxt.val:
+                    self.insert_after(cur, insert_node)
+                    return head
+            else:
+                if cur.val < insertVal or nxt.val > insertVal:
+                    self.insert_after(cur, insert_node)
+                    return head
+            cur = cur.next
+            nxt = nxt.next 
+            if cur == head:
+                break 
+        self.insert_after(head, insert_node)
+        return head
+            
+        
+
+    def insert_after(self, node, insert_node):
+        copy = node.next
+        node.next = insert_node
+        insert_node.next = copy 
 ```
 
 
