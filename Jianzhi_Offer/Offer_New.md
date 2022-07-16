@@ -1614,6 +1614,67 @@ class LRUCache {
 
 
 
+```python
+class LinkedNode():
+    def __init__(self, key, val) -> None:
+        self.key = key
+        self.val = val
+        self.prev = None
+        self.next = None
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.size = 0
+        self.head = LinkedNode(-1, -1)
+        self.tail = LinkedNode(-1, -1)
+        self.head.next = self.tail
+        self.tail.next = self.head 
+        self.key_to_node = dict()
+
+    def get(self, key: int) -> int:
+        if key not in self.key_to_node:
+            return -1 
+        node = self.key_to_node[key]
+        self.move_to_head(node)
+        return node.val 
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.key_to_node:
+            node = self.key_to_node[key]
+            node.val = value 
+            self.move_to_head(node)
+        else:
+            node = LinkedNode(key, value)
+            self.add_to_head(node)
+            self.key_to_node[key] = node 
+            self.size += 1
+        if self.size > self.capacity:
+            self.size -= 1
+            del_node = self.remove_tail()
+            self.key_to_node.pop(del_node.key)
+
+
+    def remove_node(self, node: 'LinkedNode'):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        return node 
+    
+    def add_to_head(self, node: 'LinkedNode'):
+        node.next = self.head.next
+        node.next.prev = node 
+        self.head.next = node
+        node.prev = self.head 
+    
+    def move_to_head(self, node: 'LinkedNode'):
+        self.remove_node(node)
+        self.add_to_head(node)
+    
+    def remove_tail(self):
+        return self.remove_node(self.tail.prev)
+```
+
 
 
 ## [剑指 Offer II 032. 有效的变位词](https://leetcode-cn.com/problems/dKk3P7/)
@@ -2224,6 +2285,51 @@ class CBTInserter {
 
 
 
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class CBTInserter:
+
+    def __init__(self, root: TreeNode):
+        self.root = root 
+        self.deque = collections.deque()
+        self.bfs_root(root)
+
+
+    def insert(self, v: int) -> int:
+        parent = self.deque[0]
+        child = TreeNode(v)
+        if parent.left is None:
+            parent.left = child
+        else:
+            parent.right = child
+        self.deque.append(child)
+        if parent.right is not None:
+            self.deque.popleft()
+        return parent.val
+
+    def get_root(self) -> TreeNode:
+        return self.root 
+
+    def bfs_root(self, root):
+        deque = collections.deque()
+        deque.append(root)
+        while deque:
+            node = deque.popleft()
+            if node.left is not None:
+                deque.append(node.left)
+            if node.right is not None:
+                deque.append(node.right)
+            if node.right is None:
+                self.deque.append(node)
+```
+
+
+
 ## [剑指 Offer II 044. 二叉树每层的最大值](https://leetcode-cn.com/problems/hPov7L/)
 
 + 分层BFS
@@ -2298,6 +2404,8 @@ class Solution:
 ```
 
 
+
+# HERE
 
 ## [剑指 Offer II 045. 二叉树最底层最左边的值](https://leetcode-cn.com/problems/LwUNpT/)
 
