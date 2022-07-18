@@ -2509,7 +2509,7 @@ class Solution:
 
 
 
-# HERE
+
 
 ## [剑指 Offer II 045. 二叉树最底层最左边的值](https://leetcode-cn.com/problems/LwUNpT/)
 
@@ -2843,6 +2843,40 @@ class Solution {
     }
 }
 ```
+
+
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: TreeNode, targetSum: int) -> int:
+        self.targetSum = targetSum
+        self.presum = collections.defaultdict(int)
+        self.presum[0] += 1
+        self.ans = 0
+        self.dfs(root, 0)
+        return self.ans 
+
+    def dfs(self, root, cur_sum):
+        if root is None:
+            return 
+        cur_sum += root.val 
+        self.ans += self.presum[cur_sum - self.targetSum]
+        self.presum[cur_sum] += 1
+        self.dfs(root.left, cur_sum)
+        self.dfs(root.right, cur_sum)
+        self.presum[cur_sum] -= 1
+    
+
+        
+```
+
+
 
 
 
