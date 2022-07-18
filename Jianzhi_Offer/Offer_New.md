@@ -1642,6 +1642,23 @@ class Solution {
 
 
 
+```python
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t) or s == t:
+            return False
+        ch_cnt = [0] *26
+        for ch in s:
+            ch_cnt[ord(ch) - ord('a')] += 1
+        for ch in t:
+            ch_cnt[ord(ch) - ord('a')] -= 1
+            if ch_cnt[ord(ch) - ord('a')] < 0:
+                return False 
+        return True 
+```
+
+
+
 ## [剑指 Offer II 033. 变位词组](https://leetcode-cn.com/problems/sfvd7V/)
 
 + 暴力遍历, 判断是否是变位词
@@ -1726,6 +1743,26 @@ class Solution:
 
 
 
++ 计数
++ 用26数组记录出现次数
+
+```python
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        hmap = collections.defaultdict(list)
+        for word in strs:
+            cnt = [0] * 26
+            for ch in word:
+                cnt[ord(ch) - ord('a')] += 1
+            s = '_'.join([str(x) for x in cnt])
+            hmap[s].append(word) 
+        
+        ans = [v for v in hmap.values()]
+        return ans 
+```
+
+
+
 ## [剑指 Offer II 034. 外星语言是否排序](https://leetcode-cn.com/problems/lwyVBB/)
 
 ```java
@@ -1756,6 +1793,34 @@ class Solution {
         return s1.length() <= s2.length();
     }
 }
+```
+
+
+
+```python
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        order_map = dict()
+        for i in range(len(order)):
+            order_map[order[i]] = i 
+        
+        for i in range(len(words) - 1):
+            s1 = words[i]
+            s2 = words[i + 1]
+            if self.compare(s1, s2, order_map) != -1:
+                return False 
+        return True 
+
+    def compare(self, s1, s2, order_map):
+        len_s1, len_s2 = len(s1), len(s2)
+        for i in range(min(len_s1, len_s2)):
+            if order_map[s1[i]] < order_map[s2[i]]:
+                return -1 
+            if order_map[s1[i]] > order_map[s2[i]]:
+                return 1 
+        if len_s1 <= len_s2:
+            return -1
+        return 1
 ```
 
 
@@ -1922,6 +1987,22 @@ class Solution {
 
 
 
+```python
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        mono_stack = []
+        ans = [0] * len(temperatures)
+        for i in range(len(temperatures)):
+            temp = temperatures[i]
+            while len(mono_stack) > 0 and temperatures[mono_stack[-1]] < temp:
+                idx = mono_stack.pop()
+                ans[idx] = i - idx 
+            mono_stack.append(i)
+        return ans 
+```
+
+
+
 ## [剑指 Offer II 039. 直方图最大矩形面积](https://leetcode-cn.com/problems/0ynMMM/)
 
 + 需要从每个位置向左找到第一个更小的index
@@ -2006,6 +2087,29 @@ class Solution {
         return max_area;
     }
 }
+```
+
+
+
+```python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        n = len(heights)
+        left = [-1] * n 
+        right = [n] * n 
+        mono_stack = []
+        for i in range(n):
+            h = heights[i]
+            while mono_stack and heights[mono_stack[-1]] > h:
+                idx = mono_stack.pop()
+                right[idx] = i 
+            if mono_stack:
+                left[i] = mono_stack[-1]
+            mono_stack.append(i)
+        max_area = 0
+        for i in range(n):
+            max_area = max(max_area, heights[i] * (right[i] - left[i] - 1))
+        return max_area 
 ```
 
 
