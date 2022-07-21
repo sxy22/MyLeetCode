@@ -1,3 +1,7 @@
+treeset treemap 有序集合 57 58
+
+
+
 # 剑指 Offer（专项突击版）
 
 ## [剑指 Offer II 001. 整数除法](https://leetcode-cn.com/problems/xoh6Oh/)
@@ -3175,6 +3179,10 @@ class BSTIterator {
 
 
 
+
+
+
+
 ## [剑指 Offer II 056. 二叉搜索树中两个节点之和](https://leetcode-cn.com/problems/opLdQZ/)
 
 ```java
@@ -3215,6 +3223,8 @@ class Solution {
     }
 }
 ```
+
+
 
 
 
@@ -3315,6 +3325,31 @@ class KthLargest {
 }
 ```
 
+```python
+import heapq
+
+class KthLargest:
+
+    def __init__(self, k: int, nums: List[int]):
+        self.max_size = k
+        self.pq = [] 
+        # xiao gen 
+        for num in nums:
+            self.insert(num)
+
+    def add(self, val: int) -> int:
+        self.insert(val)
+        return self.pq[0]
+
+    def insert(self, val):
+        if len(self.pq) < self.max_size:
+            heapq.heappush(self.pq, val)
+        else:
+            if val > self.pq[0]:
+                heapq.heappop(self.pq)
+                heapq.heappush(self.pq, val)
+```
+
 
 
 ## [剑指 Offer II 060. 出现频率最高的 k 个数字](https://leetcode-cn.com/problems/g5c51o/)
@@ -3371,6 +3406,36 @@ class Solution {
 
 
 
+
+
+```python
+import heapq
+class FreqPair():
+    def __init__(self, num, cnt) -> None:
+        self.num = num 
+        self.cnt = cnt 
+    
+    def __lt__(self, other):
+        return self.cnt < other.cnt
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        cnt = collections.defaultdict(int)
+        for num in nums:
+            cnt[num] += 1
+        pq = []
+        for num in cnt:
+            pair = FreqPair(num, cnt[num])
+            heapq.heappush(pq, pair)
+            if len(pq) > k:
+                heapq.heappop(pq)
+        return [pair.num for pair in pq]
+```
+
+
+
+# HERE
+
 ## [剑指 Offer II 061. 和最小的 k 个数对](https://leetcode-cn.com/problems/qn8gGX/)
 
 ```java
@@ -3399,6 +3464,29 @@ class Solution {
         return ans;
     }
 }
+```
+
+
+
+```python
+import heapq
+
+class Solution:
+    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+        pq = []
+        ans = []
+        n1 = len(nums1)
+        n2 = len(nums2)
+        for i in range(min(k, n1)):
+            heapq.heappush(pq, (nums1[i] + nums2[0], i, 0))
+        for _ in range(k):
+            if len(pq) == 0:
+                break
+            _, i, j = heapq.heappop(pq)
+            ans.append([nums1[i], nums2[j]])
+            if j + 1 < n2:
+                heapq.heappush(pq, (nums1[i] + nums2[j + 1], i, j + 1))
+        return ans 
 ```
 
 

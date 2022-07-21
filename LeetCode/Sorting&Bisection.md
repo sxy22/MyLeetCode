@@ -6,7 +6,17 @@
 
 2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。
 
-3．再对左右区间重复第二步，直到各区间只有一个数。  
+3．再对左右区间重复第二步，直到各区间只有一个数。
+
+快速排序的一些**改进方案**：
+
+![[公式]](https://www.zhihu.com/equation?tex=%281%29) 将快速排序的递归执行改为非递归执行
+
+![[公式]](https://www.zhihu.com/equation?tex=%282%29) 当问题规模 ![[公式]](https://www.zhihu.com/equation?tex=n) 较小时 ![[公式]](https://www.zhihu.com/equation?tex=%28n+%5Cle+16%29)  ,采用直接插入排序求解
+
+![[公式]](https://www.zhihu.com/equation?tex=%283%29) 每次选取 ![[公式]](https://www.zhihu.com/equation?tex=prior) 前将数组打乱
+
+![[公式]](https://www.zhihu.com/equation?tex=%284%29) 每次选取 ![[公式]](https://www.zhihu.com/equation?tex=%5Cfrac%7BE%5Bfirst%5D%2BE%5BLast%5D%7D%7B2%7D) 或 ![[公式]](https://www.zhihu.com/equation?tex=%5Cfrac%7BE%5Bfirst%5D%2BE%5Blast%5D%2BE%5B%28first%2Blast%29%2F2%5D%7D%7B3%7D) 作为 ![[公式]](https://www.zhihu.com/equation?tex=prior)   
 
 ```python
 def quick(lst,left, right):
