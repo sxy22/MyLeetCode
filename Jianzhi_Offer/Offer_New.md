@@ -1,5 +1,7 @@
 treeset treemap 有序集合 57 58
 
+字典树 62， 63， 64， 65， 66
+
 
 
 # 剑指 Offer（专项突击版）
@@ -3434,7 +3436,7 @@ class Solution:
 
 
 
-# HERE
+
 
 ## [剑指 Offer II 061. 和最小的 k 个数对](https://leetcode-cn.com/problems/qn8gGX/)
 
@@ -4042,6 +4044,30 @@ class Solution {
 }
 ```
 
+```python
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        i = 0
+        j = len(nums) - 1
+        while i < j:
+            mid = (i + j) // 2
+            if nums[mid] == nums[mid - 1]:
+                left = mid - 1 - i 
+                if (left & 1) == 1:
+                    j = mid - 2
+                else:
+                    i = mid + 1
+            elif nums[mid] == nums[mid + 1]:
+                left = mid - i 
+                if (left & 1) == 1:
+                    j = mid - 1
+                else:
+                    i = mid + 2
+            else:
+                return nums[mid]
+        return nums[i]
+```
+
 
 
 
@@ -4250,6 +4276,10 @@ class Solution:
         arr1 = sorted(arr1, key=cmp_to_key(comp))
         return arr1
 ```
+
+
+
+# HERE
 
 
 

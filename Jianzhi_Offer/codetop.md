@@ -151,3 +151,45 @@ class Solution:
 
 
 
+
+
+## [15. 三数之和](https://leetcode.cn/problems/3sum/)
+
+```python
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        if len(nums) < 3:
+            return []
+        ans = []
+        nums = sorted(nums)
+        for i in range(len(nums) - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue 
+            a = nums[i]
+            if a > 0:
+                break 
+            j = i + 1
+            k = len(nums) - 1
+            while j < k:
+                b = nums[j]
+                c = nums[k]
+                if a + b + c < 0:
+                    j += 1
+                elif a + b + c > 0:
+                    k -= 1
+                else:
+                    ans.append([a, b, c])
+                    while j < k and nums[j] == b:
+                        j += 1
+                    while j < k and nums[k] == c:
+                        k -= 1
+        return ans 
+
+```
+
+
+
+## [53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray/)
+
+
+
