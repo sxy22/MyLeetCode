@@ -191,5 +191,60 @@ class Solution:
 
 ## [53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray/)
 
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        n = len(nums)
+        max_sum = nums[0]
+        for i in range(1, n):
+            if nums[i - 1] > 0:
+                nums[i] += nums[i - 1]
+            max_sum = max(max_sum, nums[i])
+        return max_sum
+```
 
+
+
+## [25. K 个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        dummy_node = ListNode(-1)
+        dummy_node.next = head
+        pre = dummy_node
+        tail = dummy_node
+        while tail is not None:
+            step = k
+            while step > 0 and tail is not None:
+                step -= 1
+                tail = tail.next
+            if tail is None:
+                break 
+            r_head, r_tail = self.reverse_k(pre.next, tail)
+            pre.next = r_head 
+            pre = r_tail 
+            tail = r_tail
+        return dummy_node.next
+
+
+    
+    def reverse_k(self, head, tail):
+        tail_next_node = tail.next
+        pre = None
+        cur = head
+        while pre != tail:
+            nxt = cur.next
+            cur.next = pre 
+            pre = cur 
+            cur = nxt 
+        head.next = tail_next_node
+        return tail, head 
+
+```
 

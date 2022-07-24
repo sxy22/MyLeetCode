@@ -4573,7 +4573,32 @@ class Solution:
 
 + dfs回溯
 + sum超出时停止
-+ 控制track中元素递增来保证唯一性
++ 控制track中元素idx递增来保证唯一性
+
+
+
+```python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        self.ans = []
+        self.path = []
+        self.dfs_backtrack(candidates, target, 0)
+        return self.ans 
+
+    def dfs_backtrack(self, candidates, target, idx):
+        if target < 0:
+            return 
+        if target == 0:
+            self.ans.append(self.path.copy())
+            return 
+        for next_idx in range(idx, len(candidates)):
+            next_num = candidates[next_idx]
+            self.path.append(next_num)
+            self.dfs_backtrack(candidates, target - next_num, next_idx)
+            self.path.pop()
+```
+
+
 
 ```java
 class Solution {
@@ -4723,6 +4748,39 @@ class Solution {
 
 
 
++ 不需要排序，按原数组出现顺序也可以去重
+
+```python
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        self.cnt = collections.defaultdict(int)
+        for num in candidates:
+            self.cnt[num] += 1
+        unique_nums = [x for x in self.cnt]
+        self.path = []
+        self.ans = [] 
+        self.dfs(unique_nums, target, 0)
+        return self.ans 
+        
+    def dfs(self, nums, target, idx):
+        if target < 0:
+            return 
+        if target == 0:
+            self.ans.append(self.path.copy())
+            return 
+        for nxt_idx in range(idx, len(nums)):
+            nxt_num = nums[nxt_idx]
+            if self.cnt[nxt_num] == 0:
+                continue 
+            self.cnt[nxt_num] -= 1
+            self.path.append(nxt_num)
+            self.dfs(nums, target - nxt_num, nxt_idx)
+            self.path.pop()
+            self.cnt[nxt_num] += 1
+```
+
+
+
 ## [剑指 Offer II 083. 没有重复元素集合的全排列](https://leetcode-cn.com/problems/VvJkup/)
 
 + 无重复元素的全排列
@@ -4857,6 +4915,10 @@ class Solution:
                 self.track.pop()
                 self.cnt[num] += 1
 ```
+
+
+
+# HERE
 
 
 
@@ -5340,6 +5402,31 @@ class Solution {
 
 
 
+```python
+class Solution:
+    def lenLongestFibSubseq(self, arr: List[int]) -> int:
+        n = len(arr)
+        max_len = 2
+        dp = [[0] * n for _ in range(n)]
+        val2idx = dict()
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                pre_val = arr[j] - arr[i]
+                pre_idx = val2idx.get(pre_val, -1)
+                if pre_idx == -1:
+                    dp[i][j] = 2
+                else:
+                    dp[i][j] = 1 + dp[pre_idx][i]
+                max_len = max(max_len, dp[i][j])
+            val2idx[arr[i]] = i
+
+        if max_len == 2:
+            return 0 
+        else:
+            return max_len  
+```
+
 
 
 
@@ -5437,7 +5524,7 @@ class Solution:
         return dp[-1][-1]
 ```
 
-
+# HERE
 
 ## [剑指 Offer II 096. 字符串交织](https://leetcode-cn.com/problems/IY6buf/)
 

@@ -2132,7 +2132,43 @@ class Solution {
 
 
 
-## [剑指 Offer 41. 数据流中的中位数(没做)](https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/)
+## [剑指 Offer 41. 数据流中的中位数](https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/)
+
++ 两个堆
+
+```python
+import heapq
+
+class MedianFinder:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.small = [] # 大根堆
+        self.large = [] # 小根堆
+        self.small_size = 0
+        self.large_size = 0
+
+    def addNum(self, num: int) -> None:
+        if self.small_size == self.large_size:
+            # 应该放在small
+            # 先放进large, 再pop出一个放入small
+            heapq.heappush(self.large, num)
+            heapq.heappush(self.small, -heapq.heappop(self.large))
+            self.small_size += 1
+        else:
+            # 应该放在large
+            heapq.heappush(self.small, -num)
+            heapq.heappush(self.large, -heapq.heappop(self.small))
+            self.large_size += 1
+
+    def findMedian(self) -> float:
+        if self.small_size == self.large_size:
+            return (-self.small[0] + self.large[0]) / 2
+        else:
+            return -self.small[0]
+```
 
 
 
