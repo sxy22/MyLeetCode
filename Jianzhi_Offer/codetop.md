@@ -248,3 +248,102 @@ class Solution:
 
 ```
 
+
+
+## [21. 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/)
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(-1)
+        cur = dummy
+        while list1 is not None and list2 is not None:
+            if list1.val <= list2.val:
+                cur.next = list1
+                list1 = list1.next
+            else:
+                cur.next = list2  
+                list2 = list2.next
+            cur = cur.next 
+        if list1 is None:
+            cur.next = list2
+        if list2 is None:
+            cur.next = list1 
+        return dummy.next
+   
+```
+
+
+
+## [1. 两数之和](https://leetcode.cn/problems/two-sum/)
+
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        val2idx = dict()
+        for i in range(len(nums)):
+            val = nums[i]
+            if target - val in val2idx:
+                return [val2idx[target - val], i]
+            else:
+                val2idx[val] = i
+        return []
+            
+```
+
+
+
+## [102. 二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
+
+```python
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if root is None:
+            return []
+        ans = []
+        deque = collections.deque()
+        deque.append(root)
+        while deque:
+            layer = []
+            for _ in range(len(deque)):
+                node = deque.popleft()
+                layer.append(node.val)
+                if node.left is not None:
+                    deque.append(node.left)
+                if node.right is not None:
+                    deque.append(node.right)
+            ans.append(layer)
+        return ans 
+```
+
+
+
+## [236. 二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if root is None or root == p or root == q:
+            return root 
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if left is not None and right is not None:
+            return root 
+        if left is None:
+            return right 
+        else:
+            return left 
+```
+
