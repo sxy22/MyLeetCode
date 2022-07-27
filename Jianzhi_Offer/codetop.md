@@ -347,3 +347,81 @@ class Solution:
             return left 
 ```
 
+
+
+## [160. 相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists/)
+
+```python
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        node_a, node_b = headA, headB
+        while node_a != node_b:
+            if node_a is None:
+                node_a = headB
+            else:
+                node_a = node_a.next
+            if node_b is None:
+                node_b = headA 
+            else:
+                node_b = node_b.next
+        return node_b
+```
+
+## [46. 全排列](https://leetcode.cn/problems/permutations/)
+
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        self.visited = [False] * n
+        self.path = []
+        self.ans = [] 
+        self.dfs(nums)
+        return self.ans 
+    
+    def dfs(self, nums):
+        if len(self.path) == len(nums):
+            self.ans.append(self.path.copy())
+            return 
+        
+        for i in range(len(nums)):
+            if not self.visited[i]:
+                self.visited[i] = True 
+                self.path.append(nums[i])
+                self.dfs(nums)
+                self.path.pop()
+                self.visited[i] = False 
+
+```
+
+
+
+## [142. 环形链表 II](https://leetcode.cn/problems/linked-list-cycle-ii/)
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        if head is None:
+            return None
+        slow = head 
+        fast = head 
+        while fast.next is not None and fast.next.next is not None:
+            slow = slow.next
+            fast = fast.next.next 
+            if slow == fast:
+                break 
+        if fast.next is None or fast.next.next is None:
+            return None 
+        
+        while head != slow:
+            head = head.next
+            slow = slow.next
+        return head
+```
+
