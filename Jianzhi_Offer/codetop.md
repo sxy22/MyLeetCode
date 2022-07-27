@@ -456,3 +456,35 @@ class Solution:
 	
 ```
 
+
+
+## [92. 反转链表 II](https://leetcode.cn/problems/reverse-linked-list-ii/)
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseBetween(self, head: ListNode, left: int, right: int) -> ListNode:
+        dummy = ListNode(-1)
+        dummy.next = head 
+        pre = dummy
+        while left - 1 > 0:
+            pre = pre.next
+            left -= 1
+            right -= 1
+        cur = pre.next 
+        pre_copy = pre 
+        while right > 0:
+            right -= 1
+            nxt = cur.next 
+            cur.next = pre 
+            pre = cur 
+            cur = nxt 
+        pre_copy.next.next = cur 
+        pre_copy.next = pre 
+        return dummy.next
+```
+
