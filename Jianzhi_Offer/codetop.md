@@ -347,3 +347,33 @@ class Solution:
             return left 
 ```
 
+
+
+## [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
+
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        if len(nums) == 0:
+            return -1 
+        left = 0
+        right = len(nums) - 1
+        #寻找相对有序的分段
+        #判断mid是在前半段升序，还是后半段降序
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:#情况一：nums[mid]就是target
+                return mid
+            if nums[left] <= nums[mid]:#情况二：[left, mid]这个区间是升序的
+               if nums[left] <= target < nums[mid]:#如果target在这一段中，所以这段（升序）可以用二分查找
+                   right = mid - 1
+               else:#如果target不在这一段升序中，说明left要右移到mid+1（等于mid的话有单独的if判断，所以不需要包括）
+                   left = mid + 1
+            else:#情况三：[left, mid]先升后降，[mid, right]是降序
+                if nums[mid] < target <= nums[right]:#如果target在[mid, right]这个降序区间内，则可以用二分查找
+                    left = mid + 1
+                else:#如果不在降序区间内，right移动到mid左边
+                    right = mid - 1
+        return -1 
+```
+
