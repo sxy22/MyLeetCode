@@ -488,3 +488,148 @@ class Solution:
         return dummy.next
 ```
 
+
+
+## [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
+
+```
+解法二：动态规划 + 二分查找
+解题思路：
+
+    降低复杂度切入点： 解法一中，遍历计算 dpdpdp 列表需 O(N)O(N)O(N)，计算每个 dp[k]dp[k]dp[k] 需 O(N)O(N)O(N)。
+        动态规划中，通过线性遍历来计算 dpdpdp 的复杂度无法降低；
+        每轮计算中，需要通过线性遍历 [0,k)[0,k)[0,k) 区间元素来得到 dp[k]dp[k]dp[k] 。我们考虑：是否可以通过重新设计状态定义，使整个 dpdpdp 为一个排序列表；这样在计算每个 dp[k]dp[k]dp[k] 时，就可以通过二分法遍历 [0,k)[0,k)[0,k) 区间元素，将此部分复杂度由 O(N)O(N)O(N) 降至 O(logN)O(logN)O(logN)。
+
+    设计思路：
+        新的状态定义：
+            我们考虑维护一个列表 tails，其中每个元素 tails[k] 的值代表 长度为 k+1 的子序列尾部元素的值。
+            如 [1,4,6] 序列，长度为 1,2,3 的子序列尾部元素值分别为 tails=[1,4,6]。
+
+
+```
+
+
+
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        min_tail = [0] * n 
+        min_tail[0] = nums[0]
+        size = 1
+        for num in nums:
+            if num > min_tail[size - 1]:
+                min_tail[size] = num 
+                size += 1
+            else:
+                idx = self.bi_right(min_tail, num, size)
+                min_tail[idx] = num 
+        # print(min_tail)
+        return size 
+
+
+    def bi_right(self, nums, value, size):
+        i = 0
+        j = size - 1
+        while i < j:
+            mid = (i + j) // 2
+            if nums[mid] < value:
+                i = mid + 1
+            else:
+                j = mid
+        return i 
+        
+```
+
+
+
+
+
+```java
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] min_tail = new int[n];
+        min_tail[0] = nums[0];
+        int len = 1;
+        for (int i = 1; i < n; i++) {
+            int num = nums[i];
+            if (num > min_tail[len - 1]) {
+                min_tail[len] = num;
+                len += 1;
+            }else if (num < min_tail[len - 1]) {
+                int idx = bisect(min_tail, num, len);
+                min_tail[idx] = num;
+            }
+        }
+        return len;
+
+    }
+
+    private int bisect(int[] nums, int x, int j) {
+        int i = 0;
+        while (i < j) {
+            int mid = (i + j) / 2;
+            if (nums[mid] < x) {
+                i = mid + 1;
+            }else {
+                j = mid;
+            }
+        }
+        return i;
+    }
+}
+```
+
+
+
+## [143. 重排链表](https://leetcode.cn/problems/reorder-list/)
+
++ 找链表中间点
++ 后半部分reverse
++ 交叉连接
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reorderList(self, head: ListNode) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        slow = head 
+        fast = head 
+        while fast.next is not None and fast.next.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+
+        l1 = head
+        l2 = self.reverse(slow.next)
+        slow.next = None  # 要断开，否则链表有环
+        dummy = ListNode(-1)
+        pre = dummy
+        while l2 is not None:
+            l1_next = l1.next
+            # l2_next = l2.next
+            l1.next = l2 
+            pre.next = l1 
+            pre = l2 
+            l1 = l1_next
+            l2 = l2.next
+
+        pre.next = l1
+
+    def reverse(self, head):
+        pre = None 
+        cur = head 
+        while cur != None:
+            nxt = cur.next
+            cur.next = pre 
+            pre = cur 
+            cur = nxt 
+        return pre
+```
+
