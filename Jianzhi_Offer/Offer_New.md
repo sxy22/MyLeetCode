@@ -3742,6 +3742,68 @@ class MagicDictionary {
 }
 ```
 
++ 字典树
+
+```python
+class Trie:
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.children = dict()
+        self.is_end = False 
+
+    def insert(self, word: str) -> None:
+        """
+        Inserts a word into the trie.
+        """
+        node = self 
+        for ch in word:
+            node = node.children.setdefault(ch, Trie())
+        node.is_end = True 
+            
+
+class MagicDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.trie = Trie()
+
+
+    def buildDict(self, dictionary: List[str]) -> None:
+        for word in dictionary:
+            self.trie.insert(word)
+
+    def search(self, searchWord: str) -> bool:
+        return self.search_dfs(self.trie, searchWord, 0, 0)
+
+    
+    def search_dfs(self, node, word, idx, diff):
+        if diff > 1:
+            return False 
+        if idx == len(word):
+            return diff == 1 and node.is_end
+        ch = word[idx]
+        for child in node.children:
+            if child == ch:
+                if self.search_dfs(node.children[child], word, idx + 1, diff):
+                    return True 
+            else:
+                if self.search_dfs(node.children[child], word, idx + 1, diff + 1):
+                    return True 
+        return False
+
+
+
+
+# Your MagicDictionary object will be instantiated and called as such:
+# obj = MagicDictionary()
+# obj.buildDict(dictionary)
+# param_2 = obj.search(searchWord)
+```
+
 
 
 ## [剑指 Offer II 065. 最短的单词编码](https://leetcode-cn.com/problems/iSwD2y/)
