@@ -2238,6 +2238,47 @@ class Solution {
 }
 ```
 
+```python
+class Solution:
+    def maximalRectangle(self, matrix: List[str]) -> int:
+        if len(matrix) == 0:
+            return 0
+        n = len(matrix[0])
+        heights = [0] * n   
+        max_area = 0
+        for row in matrix:
+            for i in range(n):
+                if row[i] == '1':
+                    heights[i] += 1
+                else:
+                    heights[i] = 0
+            area = self.largestRectangleArea(heights)
+            max_area = max(max_area, area)
+        return max_area
+
+
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        n = len(heights)
+        left = [-1] * n
+        right = [n] * n   
+        stack = []
+        for i in range(n):
+            h = heights[i]
+            while len(stack) > 0 and heights[stack[-1]] >= h:
+                pop_idx = stack.pop() 
+                right[pop_idx] = i 
+
+            if len(stack) > 0:
+                left[i] = stack[-1]
+            stack.append(i)
+
+        max_area = -1 
+        for i in range(n):
+            area = heights[i] * (right[i] - left[i] - 1)
+            max_area = max(max_area, area)
+        return max_area
+```
+
 
 
 
