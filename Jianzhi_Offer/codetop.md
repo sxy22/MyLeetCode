@@ -633,3 +633,73 @@ class Solution:
         return pre
 ```
 
+
+
+## [124. 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
+
+```python
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        self.max_sum = root.val
+        self.dfs(root)
+        return self.max_sum
+        
+    def dfs(self, node):
+        if node is None:
+            return 0 
+        left_max = max(self.dfs(node.left), 0)
+        right_max = max(self.dfs(node.right), 0)
+        self.max_sum = max(self.max_sum, node.val + left_max + right_max)
+        return node.val + max(left_max, right_max)
+```
+
+
+
+## [148. 排序链表](https://leetcode.cn/problems/sort-list/)
+
++ 中间拆分
++ merge sort
+
+```python
+class Solution:
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head is None or head.next is None:
+            return head 
+        return self.merge_sort_list(head)
+
+    def merge_sort_list(self, head):
+        if head.next is None:
+            return head 
+        l1, l2 = self.split(head)
+        sort_l1 = self.merge_sort_list(l1)
+        sort_l2 = self.merge_sort_list(l2)
+        return self.merge(sort_l1, sort_l2)
+
+    def merge(self, l1, l2):
+        dummy = ListNode(-1)
+        pre = dummy
+        while l1 is not None and l2 is not None:
+            if l1.val <= l2.val:
+                pre.next = l1 
+                l1 = l1.next
+            else:
+                pre.next = l2 
+                l2 = l2.next
+            pre = pre.next
+        if l1 is not None:
+            pre.next = l1 
+        elif l2 is not None:
+            pre.next = l2
+        return dummy.next
+
+    def split(self, head):
+        slow = head 
+        fast = head 
+        while fast.next is not None and fast.next.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+        tmp = slow.next
+        slow.next = None
+        return head, tmp 
+```
+
