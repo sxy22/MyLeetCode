@@ -703,3 +703,81 @@ class Solution:
         return head, tmp 
 ```
 
+
+
+## [82. 删除排序链表中的重复元素 II](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/)
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head is None:
+            return None 
+        dummy = ListNode(-1)
+        dummy.next = head  
+        pre = dummy
+        cnt = 0
+        val = -1
+        while pre.next is not None:
+            val = pre.next.val 
+            cnt = 0 
+            cur = pre
+            while cur.next is not None and cur.next.val == val:
+                cur = cur.next
+                cnt += 1
+            if cnt > 1:
+                pre.next = cur.next 
+            else:
+                pre = pre.next
+        
+        return dummy.next
+
+```
+
+
+
+## [31. 下一个排列](https://leetcode.cn/problems/next-permutation/)
+
+```python
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        i = n - 1
+        while i > 0:
+            if nums[i] > nums[i - 1]:
+                break 
+            i -= 1 
+        if i == 0:
+            self.reverse(nums, 0, n - 1)
+            return 
+        idx = i - 1 
+        bi_idx = self.bisect_right(nums, i, n - 1, nums[idx])
+        nums[idx], nums[bi_idx] = nums[bi_idx], nums[idx] 
+        self.reverse(nums, idx + 1, n - 1)
+
+
+
+    def reverse(self, nums, i, j):
+        while i < j:
+            nums[i], nums[j] = nums[j], nums[i]
+            i += 1
+            j -= 1 
+    
+    def bisect_right(self, nums, i, j, target):
+        # nums 是倒序的
+        while i < j:
+            mid = (i + j) // 2 + 1
+            if nums[mid] <= target:
+                j = mid - 1
+            else:
+                i = mid
+        return i 
+```
+
