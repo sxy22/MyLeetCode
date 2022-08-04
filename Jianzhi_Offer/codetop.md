@@ -781,3 +781,52 @@ class Solution:
         return i 
 ```
 
+
+
+## [1143. 最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)
+
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        l1 = len(text1)
+        l2 = len(text2)
+        dp = [[0] * (l2 + 1) for _ in range(l1 + 1)]
+        for i in range(1, l1 + 1):
+            for j in range(1, l2 + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+        return dp[l1][l2]
+        
+```
+
+
+
+## [144. 二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/)
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root is None:
+            return [] 
+        ans = [] 
+        stack = [root]
+        while len(stack) > 0:
+            node = stack.pop()
+            while node is not None:
+                ans.append(node.val)
+                if node.right is not None:
+                    stack.append(node.right)
+                node = node.left 
+        return ans 
+
+
+```
+
