@@ -830,6 +830,60 @@ class Solution:
 
 ```
 
+## [22. 括号生成](https://leetcode.cn/problems/generate-parentheses/)
+
+```python
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        self.path = []
+        self.ans = [] 
+        self.dfs(0, 0, n)
+        return self.ans 
+
+    
+    def dfs(self, left, right, n):
+        if left == n and right == n:
+            self.ans.append(''.join(self.path))
+            return 
+        if left < n:
+            self.path.append('(')
+            self.dfs(left + 1, right, n)
+            self.path.pop() 
+        if left > right:
+            self.path.append(')')
+            self.dfs(left, right + 1, n)
+            self.path.pop() 
+```
+
+
+
+## [72. 编辑距离](https://leetcode.cn/problems/edit-distance/)
+
+```python
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        n1, n2 = len(word1), len(word2)
+        if n1 == 0:
+            return n2 
+        if n2 == 0:
+            return n1 
+        dp = [[0] * (n2 + 1) for _ in range(n1 + 1)]
+        for i in range(n1 + 1):
+            for j in range(n2 + 1):
+                if i == 0:
+                    dp[i][j] = j 
+                    continue
+                if j == 0:
+                    dp[i][j] = i
+                    continue 
+                if word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+        
+        return dp[n1][n2]
+```
+
 
 
 ## [322. 零钱兑换](https://leetcode.cn/problems/coin-change/)
