@@ -830,3 +830,59 @@ class Solution:
 
 ```
 
+
+
+## [322. 零钱兑换](https://leetcode.cn/problems/coin-change/)
+
++ 背包问题的空间o n做法
+
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        MAX_VALUE = 2 ** 31 - 1
+        n = len(coins)
+        dp = [0] + [MAX_VALUE] * amount
+        for coin in coins:
+            for j in range(coin, amount + 1):
+                dp[j] = min(dp[j], 1 + dp[j - coin])
+        if dp[amount] == MAX_VALUE:
+            return -1
+        return dp[amount]
+```
+
+
+
+## [93. 复原 IP 地址](https://leetcode.cn/problems/restore-ip-addresses/)
+
+```python
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        self.path = [] 
+        self.ans = []
+        self.dfs(s, 0)
+        return self.ans 
+
+    def dfs(self, s, idx):
+        if idx == len(s) and len(self.path) == 4:
+            self.ans.append('.'.join(self.path))
+            return 
+        if len(self.path) == 4:
+            return 
+        for nxt in range(idx + 1, 1 + min(idx + 3, len(s))):
+            sub = s[idx: nxt]
+            if self.is_valid(sub):
+                self.path.append(sub)
+                self.dfs(s, nxt)
+                self.path.pop() 
+
+
+    def is_valid(self, s):
+        if len(s) == 1:
+            return True 
+        if s[0] == '0':
+            return False 
+        if int(s) <= 255:
+            return True 
+        return False 
+```
+
