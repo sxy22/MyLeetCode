@@ -149,6 +149,39 @@ class Solution:
         self.qsort(nums, i + 1, right)
 ```
 
+堆排序
+
+```python
+import random 
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        
+        def heapify_down(arr, root):
+            left = 2 * root + 1 
+            right = 2 * root + 2
+            smallest = root
+            if left < len(arr) and arr[left] < arr[smallest]:
+                smallest = left 
+            if right < len(arr) and arr[right] < arr[smallest]:
+                smallest = right 
+            
+            if smallest != root:
+                arr[root], arr[smallest] = arr[smallest], arr[root]
+                heapify_down(arr, smallest)
+        
+        def build_heap(arr):
+            for i in range(len(arr) // 2, -1, -1):
+                heapify_down(arr, i)
+
+        build_heap(nums)
+        ans = []
+        for i in range(len(nums) -1, -1, -1):
+            nums[0], nums[i] = nums[i], nums[0]
+            ans.append(nums.pop())
+            heapify_down(nums, 0)
+        return ans 
+```
+
 
 
 
