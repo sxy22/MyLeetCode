@@ -973,3 +973,62 @@ class Solution:
         return False 
 ```
 
+
+
+## [695. 岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island/)
+
+```python
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        self.cnt = 0
+        max_area = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    self.cnt = 0
+                    self.dfs(grid, i, j, m, n)
+                    max_area = max(max_area, self.cnt)
+        return max_area 
+
+    def dfs(self, grid, i, j, m, n):
+        if i < 0 or j < 0 or i >= m or j >= n:
+            return 
+        if grid[i][j] == 0:
+            return 
+        self.cnt += 1
+        grid[i][j] = 0 
+        self.dfs(grid, i - 1, j, m, n)
+        self.dfs(grid, i + 1, j, m, n)
+        self.dfs(grid, i, j - 1, m, n)
+        self.dfs(grid, i, j + 1, m, n)
+```
+
+
+
+## [662. 二叉树最大宽度](https://leetcode.cn/problems/maximum-width-of-binary-tree/)
+
++ 记录非空节点在完全二叉树中的对应的下标
+
+```python
+class Solution:
+    def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        if root is None:
+            return 0
+        max_width = 0
+        deque = collections.deque() 
+        deque.append((root, 0))
+        while deque:
+            idx_lst = []
+            for _ in range(len(deque)):
+                node, idx = deque.popleft()
+                idx_lst.append(idx)
+                if node.left is not None:
+                    deque.append((node.left, 2 * idx + 1))
+                if node.right is not None:
+                    deque.append((node.right, 2 * idx + 2))
+            width = idx_lst[-1] - idx_lst[0] + 1
+            max_width = max(max_width, width)
+        return max_width
+```
+
