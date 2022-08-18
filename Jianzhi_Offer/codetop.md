@@ -459,6 +459,8 @@ class Solution:
         return head
 
 
+	
+```
 
 ## [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
 
@@ -486,10 +488,7 @@ class Solution:
                 else:#如果不在降序区间内，right移动到mid左边
                     right = mid - 1
         return -1 
-	
 ```
-
-
 
 ## [92. 反转链表 II](https://leetcode.cn/problems/reverse-linked-list-ii/)
 
