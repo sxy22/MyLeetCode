@@ -1124,3 +1124,37 @@ class Solution:
         return max_width
 ```
 
+
+
+
+
+## [239. 滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum/)
+
+```python
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        queue = collections.deque()
+        for i in range(k):
+            self.inqueue(queue, nums[i])
+        ans = []
+        # print(queue)
+        i = 0
+        j = k - 1 
+        while j < len(nums):
+            ans.append(queue[0])
+            if j == len(nums) - 1:
+                break 
+            self.inqueue(queue, nums[j + 1])
+            if queue[0] == nums[i]:
+                queue.popleft()  
+            i += 1
+            j += 1
+        return ans   
+
+
+    def inqueue(self, queue, x):
+        while len(queue) > 0 and queue[-1] < x:
+            queue.pop() 
+        queue.append(x)
+```
+
