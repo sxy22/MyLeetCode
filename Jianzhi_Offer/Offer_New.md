@@ -174,6 +174,29 @@ class Solution {
 
 
 
+```python
+class Solution:
+    def maxProduct(self, words: List[str]) -> int:
+        n = len(words)
+        bits = [0] * n   
+        for i in range(n):
+            word = words[i]
+            bit = 0
+            for ch in word:
+                bit = bit | (1 << (ord(ch) - ord('a')))
+            bits[i] = bit   
+        max_len = 0
+        for i in range(n):
+            for j in range(i + 1, n):
+                if bits[i] & bits[j] == 0:
+                    max_len = max(max_len, len(words[i]) * len(words[j]))
+        return max_len
+```
+
+
+
+
+
 ## [剑指 Offer II 006. 排序数组中两个数字之和](https://leetcode-cn.com/problems/kLl5u1/)
 
 ```java
